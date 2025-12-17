@@ -1,0 +1,337 @@
+/* ===================================================
+   1. 基本設定・背景
+=================================================== */
+html {
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 2vw; /* px → 相対単位 */
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #FFFBF8, #FCF8F5);
+    color: #333;
+    font-family: "Noto Sans JP", sans-serif;
+}
+
+/* ===================================================
+   2. ページタイトル
+=================================================== */
+#pageTitle {
+    text-align: center;
+    font-size: clamp(32px, 4vw, 48px); /* 画面幅に応じて伸縮 */
+    font-weight: 900;
+    margin: 0 0 3vh;
+    letter-spacing: 2px;
+    color: #333;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ===================================================
+   3. メインカード
+=================================================== */
+#mainContentCard {
+    max-width: 95%;
+    margin: 2vh auto 5vh;
+    padding: 4vw 5vw;
+    background-color: #FBFBFB;
+    border-radius: 1.5rem;
+    box-shadow: 0 1.5vh 4vh rgba(0,0,0,0.1);
+}
+
+/* ===================================================
+   4. セクション見出し
+=================================================== */
+.section-header {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: bold;
+    margin: 3vh 0 1.5vh;
+    padding-left: 1rem;
+    border-left: 4px solid #8bc34a;
+    color: #333;
+}
+
+/* ===================================================
+   5. 検索エリア
+=================================================== */
+.area-name {
+    font-size: clamp(12px, 1vw, 14px);
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+#townSelect,
+#chomeSelect {
+    font-size: clamp(14px, 1.2vw, 16px);
+    margin-right: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    position: relative;
+    z-index: 10;
+    width: auto;
+    min-width: 150px;
+}
+
+/* ===================================================
+   6. 今日のゴミ
+=================================================== */
+#todayGarbageWrapper {
+  padding: 1vh 0;
+}
+
+#todayGarbageContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  min-height: 10vh;
+}
+
+.gomi-box.today-main {
+    min-width: 140px;
+    padding: 2vh 1vw;
+    font-size: clamp(18px, 2vw, 28px);
+    font-weight: bold;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    border-radius: 1rem;
+}
+
+.gomi-box.today-main.no-collection {
+  background-color: #66CCFF;
+}
+
+.today-placeholder-box {
+  background: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid #eee;
+  box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.05);
+  min-height: 12vh;
+}
+
+/* ===================================================
+   7. 週間カレンダー
+=================================================== */
+/* 週間カレンダー全体 */
+.week-calendar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ← 自動折返し */
+    gap: 30px; /* 列間・行間の余白 */
+    margin-top: 20px;
+    justify-content: center; /* 中央揃え */
+}
+
+/* 各曜日の列 */
+.day-column-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 日付パネル */
+.day-panel {
+    width: 100%;  /* 列幅に合わせる */
+    min-height: 120px;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    background-color: #FEFEFA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s;
+}
+
+/* 曜日ラベル */
+.weekday-label {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    width: 100%; /* パネル幅に合わせる */
+    text-align: center;
+}
+
+
+.day-panel:hover {
+    box-shadow: 0 1vh 2vh rgba(0,0,0,0.15);
+}
+
+.day-panel.today {
+    background-color: #e0f7fa;
+}
+
+.gomi-box {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 1rem;
+    color: #fff;
+    font-size: clamp(10px, 1vw, 14px);
+    max-width: 80%;
+    word-break: break-word;
+    box-shadow: 0 0.2vh 0.4vh rgba(0,0,0,0.2);
+}
+
+/* ===================================================
+   8. 段ボールなどのシンプル枠
+=================================================== */
+.simple-box {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    min-height: 3rem;
+    margin-bottom: 3rem;
+    border-radius: 0.5rem;
+}
+
+/* ===================================================
+   9. ゴミ捨て方法アイコン
+=================================================== */
+.disposal-method-icons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* 小さい画面では折り返す */
+  margin: 3vh 0 6vh 0;
+  width: 100%;
+}
+
+.icon-wrapper {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.icon-button-link {
+  width: clamp(100px, 15vw, 150px);
+  height: clamp(100px, 15vw, 150px);
+  border-radius: 50%;
+  background-color: #75c9de;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.icon-button-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1vh 2vh rgba(0,0,0,0.2);
+}
+
+.custom-icon-img {
+ width: 70%;
+ height: 70%;
+ object-fit: contain;
+}
+
+/* ===================================================
+   10. 大型ごみ・メールリンク
+=================================================== */
+.large-trash-link-section {
+    font-size: clamp(1em, 1.5vw, 1.5em);
+    font-weight: bold;
+    color: #666;
+    padding: 3vh 0;
+    margin-top: 3vh;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.large-trash-capsule-button {
+    display: inline-block;
+    padding: 1rem 3rem;
+    margin: 2vh 0;
+    border-radius: 50px;
+    background-color: #f44336;
+    color: #fff;
+    font-size: clamp(16px, 1.2vw, 18px);
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+
+    width: 100%;          /* 親要素幅いっぱいまで広げる */
+    max-width: 900px;     /* 最大幅を指定 */
+    box-sizing: border-box; /* paddingを含めて幅を計算 */
+    text-align: center;
+}
+
+.large-trash-capsule-button:hover {
+    transform: translateY(-0.5vh);
+    box-shadow: 0 1vh 2vh rgba(0,0,0,0.25);
+}
+
+/* スマホ向け */
+@media (max-width: 600px) {
+    .large-trash-capsule-button {
+        padding: 0.8rem 2rem;
+        font-size: clamp(14px, 4vw, 16px);
+        max-width: 100%; /* 小さい画面では親幅を超えない */
+    }
+}
+
+
+
+.email-link-area {
+    padding: 2vh 0;
+    text-align: center;
+    font-size: clamp(1em, 1vw, 1.2em);
+}
+
+.email-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* 段ボール共通 */
+.gomi-box.cardboard {
+  background-color: #fff6cc;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: clamp(10px, 1vw, 12px);
+  line-height: 1.2;
+}
+
+.cardboard-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+}
+
+.simple-box {
+  background: #fff6cc;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  font-size: clamp(16px, 1.2vw, 20px);
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.simple-box img {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 500px) {
+    .week-calendar {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    }
+    .day-panel {
+        min-height: 100px;
+        padding: 8px;
+    }
+    .weekday-label {
+        font-size: 14px;
+        padding: 4px;
+    }
+}
+

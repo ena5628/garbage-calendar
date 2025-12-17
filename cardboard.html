@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ごみ収集カレンダー・検索</title>
+    <link rel="stylesheet" href="cardboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+<body>
+
+<div id="garbage-app">
+    <header>
+        <h1>ごみ収集地区検索</h1>
+    </header>
+
+    <div class="filter-area">
+        <select id="townSelect">
+            <option value="">町名を選択してください</option>
+        </select>
+        <select id="chomeSelect">
+            <option value="">〇丁目など</option>
+        </select>
+        <button id="searchBtn">検索</button>
+        <button id="allShowBtn" style="display:none;">全件表示に戻す</button>
+    </div>
+
+    <div id="displayContainer"></div>
+
+    <div class="pagination">
+        <button id="prevBtn">前へ</button>
+        <span id="pageInfo">1 / 1</span>
+        <button id="nextBtn">次へ</button>
+    </div>
+</div>
+
+<script src="cardboard.js"></script>
+</body>
+</html>
