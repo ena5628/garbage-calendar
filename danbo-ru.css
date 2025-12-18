@@ -1,0 +1,266 @@
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #F0E6D8;
+
+  /* ページ全体スクロール */
+  overflow-y: auto;
+}
+
+#backButton {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+
+  height: 40px;
+  padding: 0 16px;          /* ← 横に余白 */
+  min-width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  border: 2px solid #888;
+  border-radius: 999px;     /* ← カプセル型 */
+
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#backButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+#backButton:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 4px rgba(0,0,0,0.2);
+}
+
+
+
+/* --- ヘッダー --- */
+#mainHeader {
+  background-color: #F5E8D0;
+  padding: 50px 0 20px;
+  text-align: center;
+}
+
+/* タイトルバナー */
+#pageTitleBanner {
+  display: inline-block;
+  background: #FFD700;
+  color: #333;
+  font-size: 36px;
+  font-weight: 900;
+  padding: 10px 60px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+
+  /* あの独特な形 */
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    90% 50%,
+    100% 100%,
+    0% 100%,
+    10% 50%
+  );
+}
+
+/* =========================
+   検索エリア全体
+========================= */
+#searchArea {
+  max-width: 1000px;
+  margin: 30px auto 40px;
+  padding: 0 20px;
+}
+
+/* ページ用途タイトル */
+#searchPageTitle {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0 0 8px;
+  color: #333;
+}
+
+/* 白い検索フィールド */
+#searchPanel {
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* 市区町村表示 */
+#currentCity {
+  margin: 0 0 16px;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 入力行 */
+#searchRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 入力・セレクト共通 */
+#townInput,
+#chomeSelect {
+  padding: 10px 12px;
+  font-size: 1em;
+  border: 1px solid #999;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* 幅調整 */
+#townInput {
+  flex: 1;
+}
+
+#chomeSelect {
+  width: 120px;
+}
+
+/* 検索ボタン */
+#searchButton {
+  padding: 10px 14px;
+  font-size: 1.2em;
+  border-radius: 6px;
+  border: 1px solid #999;
+  background-color: #E0FFFF;
+  cursor: pointer;
+}
+
+#searchButton:hover {
+  background-color: #d6f5f5;
+}
+
+/* =========================
+   レスポンシブ
+========================= */
+@media (max-width: 600px) {
+  #searchRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #chomeSelect {
+    width: 100%;
+  }
+
+  #searchButton {
+    align-self: flex-end;
+  }
+}
+
+/* =========================
+   検索結果エリア
+========================= */
+#resultArea {
+  max-width: 1000px;
+  margin: 40px auto 60px;
+  padding: 0 20px;
+}
+
+#resultTitle {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+}
+
+/* 結果全体コンテナ */
+#resultContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* =========================
+   町名・丁目単位
+========================= */
+.townResult {
+  background-color: #ffffff;
+  border: 2px solid #bbb;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.townTitle {
+  margin: 0 0 16px;
+  font-size: 1.4em;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+/* =========================
+   戸建て・集合住宅 共通
+========================= */
+.houseSection,
+.apartmentSection {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 16px;
+  background-color: #f9f9f9;
+}
+
+.houseSection h4,
+.apartmentSection h4 {
+  margin: 0 0 10px;
+  font-size: 1.1em;
+}
+
+/* =========================
+   集合住宅 個別
+========================= */
+.apartmentSection {
+  background-color: #eef6ff;
+  border-color: #8bb5e0;
+}
+
+.apartmentBlock {
+  border-top: 1px dashed #8bb5e0;
+  padding-top: 8px;
+  margin-top: 8px;
+}
+
+.apartmentName {
+  font-weight: bold;
+  margin: 0 0 4px;
+}
+
+/* テキスト */
+.townResult p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+/* =========================
+   検索結果スクロールボックス
+========================= */
+#resultScrollBox {
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+
+  /* 高さ制限を撤廃 */
+  max-height: none;
+  overflow: visible;
+}
+

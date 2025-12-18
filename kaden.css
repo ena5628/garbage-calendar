@@ -6,6 +6,45 @@ body {
     margin: 0;
 }
 
+#backButton {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+
+  height: 40px;
+  padding: 0 16px;          /* ← 横に余白 */
+  min-width: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  border: 2px solid #888;
+  border-radius: 999px;     /* ← カプセル型 */
+
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+
+  box-shadow: 0 4px 6px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#backButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+
+#backButton:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 4px rgba(0,0,0,0.2);
+}
+
+
+
 /* --- ヘッダー・バナータイトル --- */
 #mainHeader {
     background-color: #F5E8D0; /* ヘッダーの背景色 */

@@ -38,6 +38,7 @@ body {
     background-color: #FBFBFB;
     border-radius: 1.5rem;
     box-shadow: 0 1.5vh 4vh rgba(0,0,0,0.1);
+    position: relative; /* 絶対配置の基準にする */
 }
 
 /* ===================================================
@@ -73,6 +74,126 @@ body {
     width: auto;
     min-width: 150px;
 }
+
+/* ===================================================
+   5.α. tips
+=================================================== */
+/* 初期状態：右にずらして透明 */
+.tips-box {
+    position: absolute;
+    top: 2vw;
+    right: 2vw;
+    background-color: #cff5b5;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px;
+    max-width: 350px;
+    max-height: 350px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 14px;
+    z-index: 10;
+    opacity: 0;                 /* 初期は透明 */
+    transform: translateX(50px); /* 右にずらしてスタート */
+    transition: transform 0.5s ease, opacity 0.5s ease; /* アニメーション */
+}
+
+/* アクティブ時に右から出す */
+.tips-box.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+.tips-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.tips-box h4 {
+    margin: 0 0 0.5rem 0;   /* 上下余白を調整 */
+    font-size: 16px;        /* タイトルサイズ */
+    font-weight: bold;
+    text-align: left;       /* 左揃え */
+    color: #333;
+    line-height: 1.3;
+}
+
+.tips-box p {
+    margin: 50;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* 閉じるボタン */
+.tips-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.2s;
+    line-height: 1;
+    padding: 0;
+}
+
+.tips-close-btn:hover {
+    color: #333;
+}
+
+.tips-title-panel {
+    display: inline-block; /* 文字周りだけ囲む */
+    background-color: #87be48;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 2px 6px; /* 文字に合わせて小さめに */
+    border-radius: 6px; /* 小さく丸める */
+    margin-bottom: 6px;
+}
+
+.tips-content-panel {
+    display: inline-block; /* 文字周りだけ囲む */
+    background-color: #c8ed9d;
+    color: #3f3e3e;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 2px 6px; /* 文字に合わせて小さめに */
+    border-radius: 6px; /* 小さく丸める */
+    margin-bottom: 6px;
+}
+
+/* スマホ対応：画面が狭くなったら下に回り込む */
+@media (max-width: 900px) {
+    .tips-box {
+        position: static;   /* 自動で流れに従う */
+        margin: 2vh auto;   /* 上下マージン少し余裕を持たせて中央寄せ */
+        max-width: 90%;     /* 画面幅の90%までに制限 */
+        padding: 10px;      /* パディングを少し小さく */
+        font-size: 13px;    /* フォントサイズも小さく */
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* シャドウも控えめ */
+    }
+
+    .tips-title-panel {
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+
+    .tips-content-panel {
+        font-size: 12px;
+        padding: 2px 5px;
+    }
+
+    .tips-close-btn {
+        font-size: 20px;  /* ボタンも少し小さく */
+        top: 4px;
+        right: 4px;
+    }
+}
+
 
 /* ===================================================
    6. 今日のゴミ
@@ -275,16 +396,30 @@ body {
 }
 
 
-
-.email-link-area {
-    padding: 2vh 0;
-    text-align: center;
-    font-size: clamp(1em, 1vw, 1.2em);
+/* 注意書き */
+.explain {
+    margin-top: 4px; /* 上マージンを小さくしてボタンとの間隔を狭める */
+    margin-bottom: 80px; /* 下マージンも必要に応じて調整 */
+    text-align: center; /* 中央揃え */
 }
 
-.email-link {
-    color: #007bff;
-    text-decoration: none;
+.explain h5 {
+    margin: 0; /* h5 のデフォルト余白をリセット */
+    font-size: 13px; /* 必要に応じてフォントサイズも微調整 */
+    font-weight: normal; /* 文字の太さを調整 */
+    color: #555; /* 任意で色を指定 */
+}
+
+/* レスポンシブ対応：画面幅が600px以下の場合 */
+@media (max-width: 600px) {
+    .explain {
+        margin-top: 2px;    /* 上マージンをさらに小さく */
+        margin-bottom: 40px; /* 下マージンを小さく */
+    }
+
+    .explain h5 {
+        font-size: 12px;    /* 文字サイズを少し小さく */
+    }
 }
 
 /* 段ボール共通 */

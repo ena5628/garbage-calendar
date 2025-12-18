@@ -347,3 +347,52 @@ function toggleScheduleVisibility() {
     cardboardBox.textContent = "町名・丁目を選択してください";
   }
 }
+
+
+// スプレッドシートのCSV URL
+const tipsCSVUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBaTNlrgReNS7OcyTcMh_bzGW4YEvb4jUjsfhic5qsJq2gIZWUej2fYSZOGhsrdwIbUZxIc9nzMAyZ/pub?gid=0&single=true&output=csv';
+
+// ページロード時
+window.addEventListener('DOMContentLoaded', () => {
+    const tipsBox = document.querySelector('.tips-box');
+
+    // CSVを読み込む
+    Papa.parse(tipsCSVUrl, {
+        download: true,
+        header: true,
+        complete: function(results) {
+            const tipsList = results.data
+                .filter(row => row.Garbage_contents && row.Garbage_contents.trim() !== '');
+
+            if (tipsList.length > 0) {
+                // ランダムに1件選択
+                const randomTip = tipsList[Math.floor(Math.random() * tipsList.length)];
+
+                // 閉じるボタンもHTMLに追加
+                tipsBox.innerHTML = `
+                    <button class="tips-close-btn">&times;</button>
+                    <div class="tips-title-panel">
+                        ${randomTip.Garbage_title}
+                    </div>
+                    <div class="tips-content-panel">
+                        ${randomTip.Garbage_contents}
+                    </div>
+                `;
+
+
+                // 閉じるボタンのイベント登録
+                const closeBtn = tipsBox.querySelector('.tips-close-btn');
+                closeBtn.addEventListener('click', () => {
+                    tipsBox.classList.remove('show');
+                    setTimeout(() => tipsBox.style.display = 'none', 500);
+                });
+
+                // フェードインアニメーション開始
+                setTimeout(() => tipsBox.classList.add('show'), 100);
+            }
+        },
+        error: function(err) {
+            console.error('Tips読み込み失敗:', err);
+        }
+    });
+});

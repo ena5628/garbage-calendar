@@ -12,27 +12,39 @@
 
 <div id="mainContentCard">
 
-  <!-- 検索エリア -->
-  <div id="searchArea">
-    <h3 class="section-header">ゴミ収集日検索</h3>
-    <div class="area-name">神戸市</div>
+   <!-- 検索エリア -->
+  <div id="searchArea" style="display: flex; align-items: flex-start; gap: 20px;">
 
-    <div>
-      <select id="townSelect">
-        <option>町名を選択してください</option>
-        <option>中山手通</option>
-        <option>加納町</option>
-        <option>二宮町</option>
-        <option>北野町</option>
-        <option>布引町</option>
-        <option>琴ノ緒町</option>
-      </select>
+    <!-- 検索セレクト部分 -->
+    <div class="search-selects">
+      <h3 class="section-header">ゴミ収集日検索</h3>
+      <div class="area-name">神戸市</div>
 
-      <select id="chomeSelect">
-        <option>〇丁目など</option>
-      </select>
+      <div>
+        <select id="townSelect">
+          <option>町名を選択してください</option>
+          <option>中山手通</option>
+          <option>加納町</option>
+          <option>二宮町</option>
+          <option>北野町</option>
+          <option>布引町</option>
+          <option>琴ノ緒町</option>
+        </select>
+
+        <select id="chomeSelect">
+          <option>〇丁目など</option>
+        </select>
+      </div>
+    </div> <!-- search-selects の閉じタグ -->
+
+    <!-- Tips 横に表示 -->
+    <div class="tips-box">
+      <button class="tips-close-btn">&times;</button>
+      <h4>タイトル</h4>
+      <p>内容</p>
     </div>
-  </div>
+
+  </div> <!-- searchArea の閉じタグ -->
 
   <!-- 今日のゴミ -->
   <div id="todayGarbageWrapper">
@@ -40,11 +52,11 @@
     <div id="todayGarbageContent"></div>
   </div>
 
- <!-- 今週のスケジュール -->
-<div id="weekScheduleWrapper">
-  <h3 class="section-header">今週のスケジュール</h3>
-  <div id="weekCalendar" class="week-calendar"></div>
-</div>
+  <!-- 今週のスケジュール -->
+  <div id="weekScheduleWrapper">
+    <h3 class="section-header">今週のスケジュール</h3>
+    <div id="weekCalendar" class="week-calendar"></div>
+  </div>
 
 
   <!-- 段ボール -->
@@ -70,7 +82,7 @@
     </div>
 
     <div class="icon-wrapper">
-      <a href="cardboard.html" class="icon-button-link">
+      <a href="danbo-ru.html" class="icon-button-link">
         <img src="Image/段ボール-Photoroom.png" alt="段ボール" class="custom-icon-img">
       </a>
     </div>
@@ -86,7 +98,7 @@
       </a>
 
     <div class="explain">
-      <h4>※公式サイトにとびます</h4>
+      <h5>※公式サイトに移動します</h5>
     </div>
   </div>
 
