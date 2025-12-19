@@ -1,110 +1,95 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ゴミカレンダー</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゴミカレンダー</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<h1 id="pageTitle">ゴミカレンダー</h1>
+<h1 id="pageTitle">eKOBE</h1>
 
 <div id="mainContentCard">
-
-   <!-- 検索エリア -->
-  <div id="searchArea" style="display: flex; align-items: flex-start; gap: 20px;">
-
-    <!-- 検索セレクト部分 -->
-    <div class="search-selects">
-      <h3 class="section-header">ゴミ収集日検索</h3>
-      <div class="area-name">神戸市</div>
-
-      <div>
-        <select id="townSelect">
-          <option>町名を選択してください</option>
-          <option>中山手通</option>
-          <option>加納町</option>
-          <option>二宮町</option>
-          <option>北野町</option>
-          <option>布引町</option>
-          <option>琴ノ緒町</option>
-        </select>
-
-        <select id="chomeSelect">
-          <option>〇丁目など</option>
-        </select>
+  <div class="dashboard-container">
+    
+    <div class="left-panel">
+      <div id="searchArea">
+        <div class="search-selects">
+          <h3 class="section-header">ゴミ収集日検索</h3>
+          <div class="area-name">神戸市中央区</div>
+          <div>
+            <select id="townSelect">
+              <option>町名を選択してください</option>
+              <option>中山手通</option>
+              <option>加納町</option>
+              <option>二宮町</option>
+              <option>北野町</option>
+              <option>布引町</option>
+              <option>琴ノ緒町</option>
+            </select>
+            <select id="chomeSelect">
+              <option>〇丁目など</option>
+            </select>
+          </div>
+        </div>
       </div>
-    </div> <!-- search-selects の閉じタグ -->
 
-    <!-- Tips 横に表示 -->
-    <div class="tips-box">
-      <button class="tips-close-btn">&times;</button>
-      <h4>タイトル</h4>
-      <p>内容</p>
+      <div id="todayGarbageWrapper">
+        <h3 class="section-header">今日のゴミ</h3>
+        <div id="todayGarbageContent"></div>
+      </div>
+
+      <div id="weekScheduleWrapper">
+        <h3 class="section-header">今週のスケジュール</h3>
+        <div id="weekCalendar" class="week-calendar"></div>
+      </div>
+
+      <h3 class="section-header section-space">段ボール収集スケジュール</h3>
+      <div class="simple-box" id="cardboardScheduleBox">町名・丁目を選択してください</div>
     </div>
 
-  </div> <!-- searchArea の閉じタグ -->
+    <div class="right-panel">
+      <h3 class="section-header">ゴミ捨て方法</h3>
+      <div class="disposal-method-icons">
+        <div class="icon-wrapper">
+          <a href="kaden.html" class="icon-button-link">
+            <img src="Image/new家電-Photoroom.png" alt="家電ゴミ" class="custom-icon-img">
+          </a>
+        </div>
+        <div class="icon-wrapper">
+          <a href="special.html" class="icon-button-link">
+            <img src="Image/特殊-Photoroom.png" alt="特殊ゴミ" class="custom-icon-img">
+          </a>
+        </div>
+        <div class="icon-wrapper">
+          <a href="danbo-ru.html" class="icon-button-link">
+            <img src="Image/段ボール-Photoroom.png" alt="段ボール" class="custom-icon-img">
+          </a>
+        </div>
+      </div>
 
-  <!-- 今日のゴミ -->
-  <div id="todayGarbageWrapper">
-    <h3 class="section-header">今日のゴミ</h3>
-    <div id="todayGarbageContent"></div>
-  </div>
+      <div class="large-trash-link-section">
+        <a href="https://www.ogatagomi.city.kobe.lg.jp/Web/top" 
+           class="large-trash-capsule-button" target="_blank" rel="noopener noreferrer">
+           大型ごみ申し込み
+        </a>
+        <div class="explain"><h5>※公式サイトに移動します</h5></div>
 
-  <!-- 今週のスケジュール -->
-  <div id="weekScheduleWrapper">
-    <h3 class="section-header">今週のスケジュール</h3>
-    <div id="weekCalendar" class="week-calendar"></div>
-  </div>
-
-
-  <!-- 段ボール -->
-  <h3 class="section-header section-space">段ボール収集スケジュール</h3>
-  <div class="simple-box" id="cardboardScheduleBox"></div>
-
-  <!-- ゴミ捨て方法 -->
-  <h3 class="section-header">ゴミ捨て方法</h3>
-  <br>
-  <br>
-
-  <div class="disposal-method-icons">
-    <div class="icon-wrapper">
-      <a href="kaden.html" class="icon-button-link">
-        <img src="Image/new家電-Photoroom.png" alt="家電ゴミ" class="custom-icon-img">
-      </a>
+          <div class="tips-box">
+            <button class="tips-close-btn">&times;</button>
+            <div class="tips-title-panel">豆知識</div>
+            <div class="tips-content-panel">
+            <h4 id="tipTitle">タイトル</h4>
+            <p id="tipContent">内容</p>
+        </div>
+      </div>
+      </div>
+      
     </div>
 
-    <div class="icon-wrapper">
-      <a href="special.html" class="icon-button-link">
-        <img src="Image/特殊-Photoroom.png" alt="特殊ゴミ" class="custom-icon-img">
-      </a>
-    </div>
-
-    <div class="icon-wrapper">
-      <a href="danbo-ru.html" class="icon-button-link">
-        <img src="Image/段ボール-Photoroom.png" alt="段ボール" class="custom-icon-img">
-      </a>
-    </div>
-  </div>
-
-  <!-- 大型ごみ -->
-  <div class="large-trash-link-section">
-      <a href="https://www.ogatagomi.city.kobe.lg.jp/Web/top" 
-        class="large-trash-capsule-button"
-        target="_blank" 
-        rel="noopener noreferrer">
-        大型ごみ申し込み
-      </a>
-
-    <div class="explain">
-      <h5>※公式サイトに移動します</h5>
-    </div>
-  </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  </div> </div> <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

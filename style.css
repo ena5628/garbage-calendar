@@ -1,128 +1,130 @@
 /* ===================================================
-   1. 基本設定・背景
+   1. 基本設定・背景（縮小版）
 =================================================== */
 html {
     min-height: 100%;
     margin: 0;
+    font-size: 14px; /* デフォルト16px → 14pxに縮小 */
 }
-
 body {
     margin: 0;
-    padding: 2vw; /* px → 相対単位 */
+    padding: 1vw; /* 元2vw → 1vwに縮小 */
     overflow-y: auto;
-    background: linear-gradient(to bottom, #FFFBF8, #FCF8F5);
+    background: linear-gradient(to bottom, #faf7f5, #fffefd);
     color: #333;
     font-family: "Noto Sans JP", sans-serif;
 }
 
 /* ===================================================
-   2. ページタイトル
+   2. ページタイトル（縮小版）
 =================================================== */
 #pageTitle {
     text-align: center;
-    font-size: clamp(32px, 4vw, 48px); /* 画面幅に応じて伸縮 */
+    font-size: clamp(32px, 4vw, 56px); /* 元40-68px → 縮小 */
     font-weight: 900;
-    margin: 0 0 3vh;
+    margin: 0 0 2vh; /* 元3vh → 2vh */
     letter-spacing: 2px;
     color: #333;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
 /* ===================================================
-   3. メインカード
+   3. メインカード（左右分割用）
 =================================================== */
 #mainContentCard {
     max-width: 95%;
-    margin: 2vh auto 5vh;
-    padding: 4vw 5vw;
+    margin: 1.5vh auto 3vh;
+    padding: 2vw;
     background-color: #FBFBFB;
     border-radius: 1.5rem;
     box-shadow: 0 1.5vh 4vh rgba(0,0,0,0.1);
-    position: relative; /* 絶対配置の基準にする */
+
+    /* 画面いっぱいに近い高さで表示 */
+    min-height: 80vh;    /* 最低でも画面の80%の高さ */
+    max-height: 100vh;    /* 最大で画面の90%まで */
+    overflow-y: auto;    /* 内部がはみ出る場合スクロール */
+}
+
+
+/* --- 左右分割コンテナ --- */
+.dashboard-container {
+    display: flex;
+    gap: 20px; /* 元40px → 20pxに縮小 */
+    align-items: flex-start;
+}
+.left-panel { flex: 1.6; min-width: 0; }
+.right-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+/* スマホ対応：900px以下で縦並び */
+@media (max-width: 900px) {
+    .dashboard-container { flex-direction: column; gap: 20px; }
+    .left-panel, .right-panel { width: 100%; }
 }
 
 /* ===================================================
-   4. セクション見出し
+   4〜5. セクション・検索エリア（縮小版）
 =================================================== */
 .section-header {
-    font-size: clamp(18px, 2vw, 24px);
+    font-size: clamp(16px, 1.2vw, 20px); /* 元18-22px → 縮小 */
     font-weight: bold;
-    margin: 3vh 0 1.5vh;
+    margin: 2.7vh 0 1vh; /* 元3vh/1.5vh → 2vh/1vh */
     padding-left: 1rem;
     border-left: 4px solid #8bc34a;
     color: #333;
 }
-
-/* ===================================================
-   5. 検索エリア
-=================================================== */
-.area-name {
-    font-size: clamp(12px, 1vw, 14px);
-    color: #555;
-    margin-bottom: 0.5rem;
-}
-
-#townSelect,
-#chomeSelect {
-    font-size: clamp(14px, 1.2vw, 16px);
+.area-name { font-size: 14px; color: #555; margin-bottom: 0.5rem; }
+#townSelect, #chomeSelect {
+    font-size: 14px; /* 元16px → 14px */
     margin-right: 1rem;
-    padding: 0.5rem;
+    padding: 0.4rem; /* 元0.5rem → 0.4rem */
     border-radius: 0.5rem;
     border: 1px solid #ccc;
-    position: relative;
-    z-index: 10;
-    width: auto;
     min-width: 150px;
 }
 
 /* ===================================================
-   5.α. tips
+   5α. Tips（右パネルに収まるよう縮小・レスポンシブ対応）
 =================================================== */
-/* 初期状態：右にずらして透明 */
+/* --- Tipsボックスを通常フローに --- */
 .tips-box {
-    position: absolute;
-    top: 2vw;
-    right: 2vw;
+    position: relative;       /* フロー内に配置 */
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1rem;         /* 大型ゴミボタン下に余白 */
     background-color: #cff5b5;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 15px;
-    max-width: 350px;
-    max-height: 350px;
+    box-sizing: border-box;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    font-size: 14px;
-    z-index: 10;
-    opacity: 0;                 /* 初期は透明 */
-    transform: translateX(50px); /* 右にずらしてスタート */
-    transition: transform 0.5s ease, opacity 0.5s ease; /* アニメーション */
+
+    /* アニメーション用 */
+    opacity: 0;
+    transform: translateX(120%); /* 右から隠れた状態 */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: block;
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
-/* アクティブ時に右から出す */
+/* 表示時 */
 .tips-box.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0);   /* 元の位置に移動 */
 }
 
 
-.tips-box:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
 
-.tips-box h4 {
-    margin: 0 0 0.5rem 0;   /* 上下余白を調整 */
-    font-size: 16px;        /* タイトルサイズ */
+/* タイトルパネル */
+.tips-title-panel {
+    background-color: #87be48;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 12px;
     font-weight: bold;
-    text-align: left;       /* 左揃え */
-    color: #333;
-    line-height: 1.3;
-}
-
-.tips-box p {
-    margin: 50;
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
+    margin-bottom: 8px;
+    display: inline-block;
 }
 
 /* 閉じるボタン */
@@ -130,343 +132,130 @@ body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: transparent;
+    background: none;
     border: none;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     color: #999;
-    transition: color 0.2s;
-    line-height: 1;
-    padding: 0;
 }
 
-.tips-close-btn:hover {
-    color: #333;
-}
-
-.tips-title-panel {
-    display: inline-block; /* 文字周りだけ囲む */
-    background-color: #87be48;
-    color: #fff;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 2px 6px; /* 文字に合わせて小さめに */
-    border-radius: 6px; /* 小さく丸める */
-    margin-bottom: 6px;
-}
-
-.tips-content-panel {
-    display: inline-block; /* 文字周りだけ囲む */
-    background-color: #c8ed9d;
-    color: #3f3e3e;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 2px 6px; /* 文字に合わせて小さめに */
-    border-radius: 6px; /* 小さく丸める */
-    margin-bottom: 6px;
-}
-
-/* スマホ対応：画面が狭くなったら下に回り込む */
-@media (max-width: 900px) {
+/* --- レスポンシブ対応 --- */
+@media (max-width: 600px) {
     .tips-box {
-        position: static;   /* 自動で流れに従う */
-        margin: 2vh auto;   /* 上下マージン少し余裕を持たせて中央寄せ */
-        max-width: 90%;     /* 画面幅の90%までに制限 */
-        padding: 10px;      /* パディングを少し小さく */
-        font-size: 13px;    /* フォントサイズも小さく */
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1); /* シャドウも控えめ */
-    }
-
-    .tips-title-panel {
-        font-size: 12px;
-        padding: 2px 5px;
-    }
-
-    .tips-content-panel {
-        font-size: 12px;
-        padding: 2px 5px;
-    }
-
-    .tips-close-btn {
-        font-size: 20px;  /* ボタンも少し小さく */
-        top: 4px;
-        right: 4px;
+        top: 120px; /* タイトル+検索バーの下に移動 */
+        right: 5vw;
+        width: 90vw;
+        max-height: 60vh;
+        padding: 10px;
     }
 }
+
+
 
 
 /* ===================================================
    6. 今日のゴミ
 =================================================== */
-#todayGarbageWrapper {
-  padding: 1vh 0;
-}
-
 #todayGarbageContent {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
-  min-height: 10vh;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem; /* 元1rem → 0.8rem */
 }
-
 .gomi-box.today-main {
-    min-width: 140px;
-    padding: 2vh 1vw;
-    font-size: clamp(18px, 2vw, 28px);
+    padding: 12px; /* 元15px → 12px */
+    font-size: 18px; /* 元20px → 18px */
     font-weight: bold;
     text-align: center;
-    white-space: normal;
-    word-break: break-word;
-    border-radius: 1rem;
+    border-radius: 12px;
+    color: #fff;
 }
-
-.gomi-box.today-main.no-collection {
-  background-color: #66CCFF;
-}
-
-.today-placeholder-box {
-  background: #fff;
-  border-radius: 0.75rem;
-  border: 1px solid #eee;
-  box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.05);
-  min-height: 12vh;
-}
+.no-collection { background-color: #66CCFF !important; }
 
 /* ===================================================
    7. 週間カレンダー
 =================================================== */
-/* 週間カレンダー全体 */
 .week-calendar {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ← 自動折返し */
-    gap: 30px; /* 列間・行間の余白 */
-    margin-top: 20px;
-    justify-content: center; /* 中央揃え */
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px; /* 元10px → 8px */
+    margin-top: 12px; /* 元15px → 12px */
 }
-
-/* 各曜日の列 */
-.day-column-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+@media (max-width: 600px) {
+    .week-calendar { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
 }
-
-/* 日付パネル */
 .day-panel {
-    width: 100%;  /* 列幅に合わせる */
-    min-height: 120px;
-    padding: 12px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    background-color: #FEFEFA;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: box-shadow 0.2s;
+    background: #fff;
+    border-radius: 10px;
+    padding: 8px 4px; /* 元10px/5px → 8px/4px */
+    min-height: 80px; /* 元100px → 80px */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; align-items: center;
 }
-
-/* 曜日ラベル */
+.day-panel.today { background-color: #e0f7fa; border: 1px solid #4dd0e1; }
+/* 日付の数字部分 */
 .weekday-label {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 11px;
+    color: #888;
     margin-bottom: 8px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    width: 100%; /* パネル幅に合わせる */
+    width: 100%;
     text-align: center;
 }
 
-
-.day-panel:hover {
-    box-shadow: 0 1vh 2vh rgba(0,0,0,0.15);
-}
-
-.day-panel.today {
-    background-color: #e0f7fa;
-}
-
-.gomi-box {
-    margin-top: 0.5rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 1rem;
-    color: #fff;
-    font-size: clamp(10px, 1vw, 14px);
-    max-width: 80%;
-    word-break: break-word;
-    box-shadow: 0 0.2vh 0.4vh rgba(0,0,0,0.2);
+/* ゴミの種類を表示するラベルの共通設定 */
+.gomi-label {
+    font-size: 10px;        /* 文字サイズを少し小さく */
+    font-weight: bold;
+    line-height: 1.2;
+    padding: 3px 6px;      /* 内側の余白を作ってバッジらしく */
+    margin: 2px 0;         /* ラベル同士の上下の隙間 */
+    border-radius: 4px;    /* 少し角を丸く */
+    width: 90%;            /* パネルの幅に合わせつつ、左右に余白を残す */
+    text-align: center;
+    color: #333;           /* 文字色は濃いグレーで読みやすく */
+    box-sizing: border-box;
 }
 
 /* ===================================================
-   8. 段ボールなどのシンプル枠
+   8. 段ボール・ゴミ捨て方法・大型ゴミ
 =================================================== */
 .simple-box {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    min-height: 3rem;
-    margin-bottom: 3rem;
-    border-radius: 0.5rem;
-}
-
-/* ===================================================
-   9. ゴミ捨て方法アイコン
-=================================================== */
-.disposal-method-icons {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap; /* 小さい画面では折り返す */
-  margin: 3vh 0 6vh 0;
-  width: 100%;
-}
-
-.icon-wrapper {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.icon-button-link {
-  width: clamp(100px, 15vw, 150px);
-  height: clamp(100px, 15vw, 150px);
-  border-radius: 50%;
-  background-color: #75c9de;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.icon-button-link:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 1vh 2vh rgba(0,0,0,0.2);
-}
-
-.custom-icon-img {
- width: 70%;
- height: 70%;
- object-fit: contain;
-}
-
-/* ===================================================
-   10. 大型ごみ・メールリンク
-=================================================== */
-.large-trash-link-section {
-    font-size: clamp(1em, 1.5vw, 1.5em);
+    background: #fff6cc;
+    border-radius: 12px;
+    padding: 12px; /* 元15px → 12px */
+    display: flex; align-items: center; gap: 10px; /* 元15px → 10px */
     font-weight: bold;
-    color: #666;
-    padding: 3vh 0;
-    margin-top: 3vh;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
+    margin-top: 8px; /* 元10px → 8px */
 }
+.simple-box img { width: 50px; height: 50px; } /* 元45px → 35px */
+
+.disposal-method-icons {
+    display: flex;
+    justify-content: space-around;
+    gap: 8px; /* 元10px → 8px */
+    margin: 3vh 0 5vh 3vh; /* 上余白を3vhに増やす */
+}
+.icon-button-link {
+    width: 80px; height: 80px; /* 元85px → 70px */
+    background-color: #75c9de;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+.icon-button-link:hover { transform: translateY(-5px); }
+.custom-icon-img { width: 55%; height: 55%; } /* 元60% → 55% */
 
 .large-trash-capsule-button {
-    display: inline-block;
-    padding: 1rem 3rem;
-    margin: 2vh 0;
-    border-radius: 50px;
+    display: block;
     background-color: #f44336;
     color: #fff;
-    font-size: clamp(16px, 1.2vw, 18px);
-    font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
-
-    width: 100%;          /* 親要素幅いっぱいまで広げる */
-    max-width: 900px;     /* 最大幅を指定 */
-    box-sizing: border-box; /* paddingを含めて幅を計算 */
     text-align: center;
+    padding: 12px; /* 元15px → 12px */
+    border-radius: 40px; /* 元50px → 40px */
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(244,67,54,0.3);
+    margin-top: 16px; /* 元20px → 16px */
 }
-
-.large-trash-capsule-button:hover {
-    transform: translateY(-0.5vh);
-    box-shadow: 0 1vh 2vh rgba(0,0,0,0.25);
-}
-
-/* スマホ向け */
-@media (max-width: 600px) {
-    .large-trash-capsule-button {
-        padding: 0.8rem 2rem;
-        font-size: clamp(14px, 4vw, 16px);
-        max-width: 100%; /* 小さい画面では親幅を超えない */
-    }
-}
-
-
-/* 注意書き */
-.explain {
-    margin-top: 4px; /* 上マージンを小さくしてボタンとの間隔を狭める */
-    margin-bottom: 80px; /* 下マージンも必要に応じて調整 */
-    text-align: center; /* 中央揃え */
-}
-
-.explain h5 {
-    margin: 0; /* h5 のデフォルト余白をリセット */
-    font-size: 13px; /* 必要に応じてフォントサイズも微調整 */
-    font-weight: normal; /* 文字の太さを調整 */
-    color: #555; /* 任意で色を指定 */
-}
-
-/* レスポンシブ対応：画面幅が600px以下の場合 */
-@media (max-width: 600px) {
-    .explain {
-        margin-top: 2px;    /* 上マージンをさらに小さく */
-        margin-bottom: 40px; /* 下マージンを小さく */
-    }
-
-    .explain h5 {
-        font-size: 12px;    /* 文字サイズを少し小さく */
-    }
-}
-
-/* 段ボール共通 */
-.gomi-box.cardboard {
-  background-color: #fff6cc;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: clamp(10px, 1vw, 12px);
-  line-height: 1.2;
-}
-
-.cardboard-icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  flex-shrink: 0;
-}
-
-.simple-box {
-  background: #fff6cc;
-  border-radius: 0.75rem;
-  padding: 0.75rem;
-  font-size: clamp(16px, 1.2vw, 20px);
-  line-height: 1.5;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.simple-box img {
-  width: 3rem;
-  height: 3rem;
-  flex-shrink: 0;
-}
-
-@media (max-width: 500px) {
-    .week-calendar {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-    }
-    .day-panel {
-        min-height: 100px;
-        padding: 8px;
-    }
-    .weekday-label {
-        font-size: 14px;
-        padding: 4px;
-    }
-}
-
+.explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */

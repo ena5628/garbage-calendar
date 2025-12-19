@@ -245,27 +245,42 @@ function renderItems() {
 function normalizeText(text) {
   if (!text) return "";
 
-  // 1. 全角→半角、NFKC正規化
+  // 1. 全角→半角
   text = text.normalize("NFKC");
 
-  // 2. カタカナをひらがなに統一
-  text = text.replace(/[\u30A1-\u30F6]/g, function(ch) {
-    return String.fromCharCode(ch.charCodeAt(0) - 0x60);
-  });
+  // 2. カタカナ → ひらがな
+  text = text.replace(/[\u30A1-\u30F6]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) - 0x60)
+  );
 
-  // 3. 濁音・半濁音を分解（ガ -> か + ゛）
+  // 3. 濁点除去
   text = text.normalize("NFKD").replace(/[\u3099\u309A]/g, "");
+
+  // ⭐ 追加：長音・記号・空白を除去
+  text = text.replace(/[ー－‐-–—~〜\s]/g, "");
 
   // 4. 小文字化
   return text.toLowerCase();
 }
 
-// ==================== 検索 ====================
+
+function stripLeadingAlphabet(text) {
+  if (!text) return "";
+
+  // 全角→半角に正規化
+  text = text.normalize("NFKC");
+
+  // 先頭の英字を除去
+  return text.replace(/^[a-zA-Z]+/, "");
+}
+
+
+
 function searchItems() {
   const searchBox = document.getElementById("searchBox");
-  const query = normalizeText(searchBox?.value.trim());
-  
-  if (!query) {
+  const raw = searchBox?.value.trim();
+
+  if (!raw) {
     isSearching = false;
     searchResults = [];
     applyFiltersAndRender();
@@ -274,13 +289,22 @@ function searchItems() {
   }
 
   isSearching = true;
-  // 正規化したタイトルで検索
-  searchResults = allItems.filter(item =>
-    normalizeText(item.title).includes(query)
-  );
+
+  // 🔽 追加：英字を落とした別バージョン
+  const stripped = stripLeadingAlphabet(raw);
+
+  searchResults = allItems.filter(item => {
+    const title = normalizeText(item.title);
+    return (
+      title.includes(normalizeText(raw)) ||
+      title.includes(normalizeText(stripped))
+    );
+  });
+
   renderSearchResults();
   updatePagingButtons();
 }
+
 
 
 function renderSearchResults() {

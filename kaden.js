@@ -242,30 +242,97 @@ function renderItems() {
 }
 
 // ==================== 正規化関数 ====================
+
+function romanToHiragana(input) {
+  if (!input) return "";
+
+  let str = input.toLowerCase();
+
+  const table = {
+    kya:"きゃ", kyu:"きゅ", kyo:"きょ",
+    sha:"しゃ", shu:"しゅ", sho:"しょ",
+    cha:"ちゃ", chu:"ちゅ", cho:"ちょ",
+    nya:"にゃ", nyu:"にゅ", nyo:"にょ",
+    hya:"ひゃ", hyu:"ひゅ", hyo:"ひょ",
+    mya:"みゃ", myu:"みゅ", myo:"みょ",
+    rya:"りゃ", ryu:"りゅ", ryo:"りょ",
+    gya:"ぎゃ", gyu:"ぎゅ", gyo:"ぎょ",
+    bya:"びゃ", byu:"びゅ", byo:"びょ",
+    pya:"ぴゃ", pyu:"ぴゅ", pyo:"ぴょ",
+    ja:"じゃ", ju:"じゅ", jo:"じょ"
+  };
+
+  // 3文字ローマ字
+  for (const k in table) {
+    str = str.replace(new RegExp(k, "g"), table[k]);
+  }
+
+  const table2 = {
+    a:"あ", i:"い", u:"う", e:"え", o:"お",
+    ka:"か", ki:"き", ku:"く", ke:"け", ko:"こ",
+    sa:"さ", shi:"し", su:"す", se:"せ", so:"そ",
+    ta:"た", chi:"ち", tsu:"つ", te:"て", to:"と",
+    na:"な", ni:"に", nu:"ぬ", ne:"ね", no:"の",
+    ha:"は", hi:"ひ", fu:"ふ", he:"へ", ho:"ほ",
+    ma:"ま", mi:"み", mu:"む", me:"め", mo:"も",
+    ya:"や", yu:"ゆ", yo:"よ",
+    ra:"ら", ri:"り", ru:"る", re:"れ", ro:"ろ",
+    wa:"わ", wo:"を", n:"ん",
+    ga:"が", gi:"ぎ", gu:"ぐ", ge:"げ", go:"ご",
+    za:"ざ", ji:"じ", zu:"ず", ze:"ぜ", zo:"ぞ",
+    da:"だ", di:"ぢ", du:"づ", de:"で", do:"ど",
+    ba:"ば", bi:"び", bu:"ぶ", be:"べ", bo:"ぼ",
+    pa:"ぱ", pi:"ぴ", pu:"ぷ", pe:"ぺ", po:"ぽ"
+  };
+
+  // 2文字 → 1文字
+  for (const k in table2) {
+    str = str.replace(new RegExp(k, "g"), table2[k]);
+  }
+
+  return str;
+}
+
+
 function normalizeText(text) {
   if (!text) return "";
 
-  // 1. 全角→半角、NFKC正規化
+  // 1. 全角→半角
   text = text.normalize("NFKC");
 
-  // 2. カタカナをひらがなに統一
-  text = text.replace(/[\u30A1-\u30F6]/g, function(ch) {
-    return String.fromCharCode(ch.charCodeAt(0) - 0x60);
-  });
+  // 2. カタカナ → ひらがな
+  text = text.replace(/[\u30A1-\u30F6]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) - 0x60)
+  );
 
-  // 3. 濁音・半濁音を分解（ガ -> か + ゛）
+  // 3. 濁点除去
   text = text.normalize("NFKD").replace(/[\u3099\u309A]/g, "");
+
+  // ⭐ 追加：長音・記号・空白を除去
+  text = text.replace(/[ー－‐-–—~〜\s]/g, "");
 
   // 4. 小文字化
   return text.toLowerCase();
 }
 
-// ==================== 検索 ====================
+
+function stripLeadingAlphabet(text) {
+  if (!text) return "";
+
+  // 全角→半角に正規化
+  text = text.normalize("NFKC");
+
+  // 先頭の英字を除去
+  return text.replace(/^[a-zA-Z]+/, "");
+}
+
+
+
 function searchItems() {
   const searchBox = document.getElementById("searchBox");
-  const query = normalizeText(searchBox?.value.trim());
-  
-  if (!query) {
+  const raw = searchBox?.value.trim();
+
+  if (!raw) {
     isSearching = false;
     searchResults = [];
     applyFiltersAndRender();
@@ -274,13 +341,29 @@ function searchItems() {
   }
 
   isSearching = true;
-  // 正規化したタイトルで検索
-  searchResults = allItems.filter(item =>
-    normalizeText(item.title).includes(query)
-  );
+
+  const rawNorm = normalizeText(raw);
+  const strippedNorm = normalizeText(stripLeadingAlphabet(raw));
+
+  // 🔽 ローマ字 → ひらがな → 正規化
+  const romanNorm = normalizeText(romanToHiragana(raw));
+
+  searchResults = allItems.filter(item => {
+    const titleNorm = normalizeText(item.title);
+
+    return (
+      titleNorm.includes(rawNorm) ||        // USB / ACアダプター
+      (strippedNorm && titleNorm.includes(strippedNorm)) || // アダプタ
+      (romanNorm && titleNorm.includes(romanNorm)) // adaputa
+    );
+  });
+
   renderSearchResults();
   updatePagingButtons();
 }
+
+
+
 
 
 function renderSearchResults() {

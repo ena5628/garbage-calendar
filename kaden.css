@@ -47,25 +47,42 @@ body {
 
 /* --- ヘッダー・バナータイトル --- */
 #mainHeader {
-    background-color: #F5E8D0; /* ヘッダーの背景色 */
+    background-color: #f5e8d0; /* ヘッダーの背景色 */
     padding: 50px 0 20px 0;
     text-align: center;
     position: relative;
 }
 
-/* ページタイトル (バナー形式) */
+/* ページタイトル（表紙風・だ円） */
 #pageTitleBanner {
     display: inline-block;
-    background: #FFD700; /* 濃い黄色 */
+
+    background: linear-gradient(
+        to bottom,
+        #FFE45C,
+        #FFD700
+    );
+
     color: #333;
-    font-size: 36px;
+    font-size: 48px;
     font-weight: 900;
-    padding: 10px 60px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    /* 吹き出しのようなデザイン */
-    clip-path: polygon(0% 0%, 100% 0%, 90% 50%, 100% 100%, 0% 100%, 10% 50%);
+    letter-spacing: 0.08em;
+
+    /* だ円にするポイント */
+    padding: 20px 90px;
+    border-radius: 9999px;
+
+    /* 表紙感のある縁 */
+    border: 4px solid #C9A800;
+
+    /* 立体感 */
+    box-shadow:
+        0 6px 0 #C9A800,
+        0 12px 22px rgba(0,0,0,0.25);
+
+    text-align: center;
 }
+
 
 #contentContainer {
     max-width: 1000px;

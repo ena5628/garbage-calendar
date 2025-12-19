@@ -1,7 +1,7 @@
 body {
     font-family: "Noto Sans JP", sans-serif;
     /* デザイン画像に合わせた背景色 */
-    background-color: #F0E6D8; 
+    background: linear-gradient(to bottom, #eafdd8, #e6f8ca); 
     padding: 0;
     margin: 0;
 }
@@ -45,25 +45,42 @@ body {
 
 /* --- ヘッダー・バナータイトル --- */
 #mainHeader {
-    background-color: #F5E8D0; /* ヘッダーの背景色 */
+    /*background: linear-gradient(to bottom, #eafdd8, #e6f8ca);*/ 
     padding: 50px 0 20px 0;
     text-align: center;
     position: relative;
 }
 
-/* ページタイトル (バナー形式) */
 #pageTitleBanner {
     display: inline-block;
-    background: #FFD700; /* 濃い黄色 */
-    color: #333;
-    font-size: 36px;
+
+    /* 背景に馴染む黄緑グラデーション */
+    background: linear-gradient(
+        to bottom,
+        #F6FFE9,
+        #DFF5B8
+    );
+
+    color: #2f4f2f;           /* 濃い緑で文字を引き締める */
+    font-size: 48px;
     font-weight: 900;
-    padding: 10px 60px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    /* 吹き出しのようなデザイン */
-    clip-path: polygon(0% 0%, 100% 0%, 90% 50%, 100% 100%, 0% 100%, 10% 50%);
+    letter-spacing: 0.08em;
+
+    padding: 20px 90px;
+    border-radius: 9999px;
+
+    /* 枠も背景系統色に */
+    border: 4px solid #9FCB6E;
+
+    /* 表紙っぽい立体感（主張しすぎない） */
+    box-shadow:
+        0 5px 0 #9FCB6E,
+        0 10px 18px rgba(0,0,0,0.2);
+
+    text-align: center;
 }
+
+
 
 #contentContainer {
     max-width: 1000px;
