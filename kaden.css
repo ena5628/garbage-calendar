@@ -1,7 +1,18 @@
+/* ===================================================
+   0. 初期背景色（CSS読み込み前でも見えるように）
+=================================================== */
+html, body {
+    background-color: #fffbe0; /* 薄い黄色ベース */
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
 body {
     font-family: "Noto Sans JP", sans-serif;
     /* デザイン画像に合わせた背景色 */
-    background-color: #F0E6D8; 
+    background: linear-gradient(to bottom, #fffbe0, #fff1b8); /* 薄い黄色ベースで柔らかく */
     padding: 0;
     margin: 0;
 }
@@ -12,8 +23,8 @@ body {
   left: 14px;
   z-index: 1000;
 
-  height: 40px;
-  padding: 0 16px;          /* ← 横に余白 */
+  height: clamp(30px, 5vw, 40px);      /* 高さを可変 */
+  padding: 0 clamp(8px, 2vw, 16px);    /* 横パディングを可変 */
   min-width: 40px;
 
   display: flex;
@@ -22,9 +33,9 @@ body {
 
   background-color: #ffffff;
   border: 2px solid #888;
-  border-radius: 999px;     /* ← カプセル型 */
+  border-radius: 999px;                /* カプセル型 */
 
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);   /* フォントサイズも可変 */
   font-weight: bold;
   color: #333;
   text-decoration: none;
@@ -32,6 +43,13 @@ body {
   box-shadow: 0 4px 6px rgba(0,0,0,0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+
+/* ホバーで少し浮かせる場合 */
+#backButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+}
+
 
 #backButton:hover {
   transform: translateY(-1px);
@@ -47,7 +65,6 @@ body {
 
 /* --- ヘッダー・バナータイトル --- */
 #mainHeader {
-    background-color: #f5e8d0; /* ヘッダーの背景色 */
     padding: 50px 0 20px 0;
     text-align: center;
     position: relative;
@@ -59,17 +76,17 @@ body {
 
     background: linear-gradient(
         to bottom,
-        #FFE45C,
+        #ffec8a,
         #FFD700
     );
 
     color: #333;
-    font-size: 48px;
+     font-size: clamp(30px, 5vw, 40px); /* 最大値を48px→36pxに下げる */
     font-weight: 900;
     letter-spacing: 0.08em;
 
     /* だ円にするポイント */
-    padding: 20px 90px;
+    padding: clamp(5px, 2vw, 10px) clamp(40px, 10vw, 190px); /* 上下・左右のパディングも可変 */
     border-radius: 9999px;
 
     /* 表紙感のある縁 */
@@ -82,6 +99,7 @@ body {
 
     text-align: center;
 }
+
 
 
 #contentContainer {

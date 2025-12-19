@@ -1,3 +1,10 @@
+html, body {
+    background-color: #eafdd8; /* 薄い黄色ベース */
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: "Noto Sans JP", sans-serif;
     /* デザイン画像に合わせた背景色 */
@@ -12,8 +19,8 @@ body {
   left: 14px;
   z-index: 1000;
 
-  height: 40px;
-  padding: 0 16px;          /* ← 横に余白 */
+  height: clamp(30px, 5vw, 40px);      /* 高さを可変 */
+  padding: 0 clamp(8px, 2vw, 16px);    /* 横パディングを可変 */
   min-width: 40px;
 
   display: flex;
@@ -22,9 +29,9 @@ body {
 
   background-color: #ffffff;
   border: 2px solid #888;
-  border-radius: 999px;     /* ← カプセル型 */
+  border-radius: 999px;                /* カプセル型 */
 
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);   /* フォントサイズも可変 */
   font-weight: bold;
   color: #333;
   text-decoration: none;
@@ -51,6 +58,8 @@ body {
     position: relative;
 }
 
+
+
 #pageTitleBanner {
     display: inline-block;
 
@@ -62,11 +71,12 @@ body {
     );
 
     color: #2f4f2f;           /* 濃い緑で文字を引き締める */
-    font-size: 48px;
     font-weight: 900;
     letter-spacing: 0.08em;
 
-    padding: 20px 90px;
+    font-size: clamp(30px, 5vw, 40px); /* 最大値を48px→36pxに下げる */
+    padding: clamp(5px, 2vw, 10px) clamp(40px, 10vw, 190px); /* 上下・左右のパディングも可変 */
+
     border-radius: 9999px;
 
     /* 枠も背景系統色に */
@@ -79,6 +89,7 @@ body {
 
     text-align: center;
 }
+
 
 
 

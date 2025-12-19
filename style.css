@@ -40,9 +40,10 @@ body {
     box-shadow: 0 1.5vh 4vh rgba(0,0,0,0.1);
 
     /* 画面いっぱいに近い高さで表示 */
-    min-height: 80vh;    /* 最低でも画面の80%の高さ */
-    max-height: 100vh;    /* 最大で画面の90%まで */
-    overflow-y: auto;    /* 内部がはみ出る場合スクロール */
+       /* 高さ制御を削除してbodyに任せる */
+    min-height: auto;      /* 元: 80vh */
+    max-height: none;      /* 元: 100vh */
+    overflow-y: hidden;   /* 元: auto */
 }
 
 
@@ -50,13 +51,25 @@ body {
 .dashboard-container {
     display: flex;
     gap: 20px; /* 元40px → 20pxに縮小 */
-    align-items: flex-start;
+    align-items: stretch;
 }
 .left-panel { flex: 1.6; min-width: 0; }
-.right-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.right-panel { flex: 1; min-width: 0; 
+                display: flex; 
+                flex-direction: column;min-width: 0; 
+                border-left: 1px solid #e0e0e0;
+                padding-left: 20px;   /* 線と中身の間隔 */  /* 子がはみ出さないようにする */ }
+
+@media (max-width: 1000px) {
+    .right-panel {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
 
 /* スマホ対応：900px以下で縦並び */
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
     .dashboard-container { flex-direction: column; gap: 20px; }
     .left-panel, .right-panel { width: 100%; }
 }
@@ -85,33 +98,51 @@ body {
 /* ===================================================
    5α. Tips（右パネルに収まるよう縮小・レスポンシブ対応）
 =================================================== */
-/* --- Tipsボックスを通常フローに --- */
+/* Tipsボックス */
 .tips-box {
-    position: relative;       /* フロー内に配置 */
-    width: 100%;
-    max-width: 100%;
-    margin-top: 1rem;         /* 大型ゴミボタン下に余白 */
+    position: relative;
+    width: 100%;           /* 親の幅いっぱいに */
+    max-width: 100%;       /* はみ出さない */
+    box-sizing: border-box;
+    min-width: 0;          /* ← これが超重要 */
+    margin-top: 1rem;
     background-color: #cff5b5;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 15px;
-    box-sizing: border-box;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 
     /* アニメーション用 */
     opacity: 0;
-    transform: translateX(120%); /* 右から隠れた状態 */
+    transform: translateX(120%);
     transition: opacity 0.5s ease, transform 0.5s ease;
     display: block;
     max-height: 70vh;
     overflow-y: auto;
+
+    /* flex内で縮むように */
+    flex-shrink: 1;
 }
+
 
 /* 表示時 */
 .tips-box.show {
     opacity: 1;
-    transform: translateX(0);   /* 元の位置に移動 */
+    transform: translateX(0);
 }
+
+/*スマホ対応*/
+@media (max-width: 900px) {
+    .tips-box {
+        overflow-y: visible; /* 親のスクロールに合わせる */
+        max-height: none;    /* 高さ制限をなくす */
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+
+
 
 
 
@@ -127,6 +158,20 @@ body {
     display: inline-block;
 }
 
+.tips-content-panel {
+    min-width: 0;
+    max-width: 100%;
+    background-color: #cef6b3;
+    color: #434242;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+
 /* 閉じるボタン */
 .tips-close-btn {
     position: absolute;
@@ -139,16 +184,7 @@ body {
     color: #999;
 }
 
-/* --- レスポンシブ対応 --- */
-@media (max-width: 600px) {
-    .tips-box {
-        top: 120px; /* タイトル+検索バーの下に移動 */
-        right: 5vw;
-        width: 90vw;
-        max-height: 60vh;
-        padding: 10px;
-    }
-}
+
 
 
 
@@ -158,7 +194,7 @@ body {
 =================================================== */
 #todayGarbageContent {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 0.8rem; /* 元1rem → 0.8rem */
 }
 .gomi-box.today-main {
@@ -184,14 +220,24 @@ body {
     .week-calendar { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
 }
 .day-panel {
-    background: #fff;
+    background: #fefaf4;
     border-radius: 10px;
     padding: 8px 4px; /* 元10px/5px → 8px/4px */
     min-height: 80px; /* 元100px → 80px */
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     display: flex; flex-direction: column; align-items: center;
+    
+    /* 影だけをなめらかに切り替える */
+    transition: box-shadow 0.2s ease;
+}
+
+.day-panel:hover {
+    box-shadow: 0 5px 12px rgba(0,0,0,0.18);
 }
 .day-panel.today { background-color: #e0f7fa; border: 1px solid #4dd0e1; }
+.day-panel.today:hover {
+    box-shadow: 0 5px 12px rgba(77,208,225,0.45);
+}
 /* 日付の数字部分 */
 .weekday-label {
     font-weight: bold;
@@ -201,6 +247,22 @@ body {
     width: 100%;
     text-align: center;
 }
+
+.gomi-box {
+    display: inline-block;      /* 中身に合わせてサイズ調整 */
+    padding: 4px 8px;           /* 内側の余白を少し増やす */
+    margin: 2px 0;              /* 上下の隙間 */
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;                /* 白文字にする場合 */
+    background-color: #FFF5CC;  
+    border-radius: 12px;        /* 丸くする */
+    min-width: 60px;            /* 必要に応じて幅を揃える */
+    box-sizing: border-box;
+}
+
+.gomi-box.cardboard { background-color: #FFD700; color: #333; } /* 例：段ボール */
 
 /* ゴミの種類を表示するラベルの共通設定 */
 .gomi-label {
@@ -236,7 +298,7 @@ body {
     margin: 3vh 0 5vh 3vh; /* 上余白を3vhに増やす */
 }
 .icon-button-link {
-    width: 80px; height: 80px; /* 元85px → 70px */
+    width: 105px; height: 105px; /* 元85px → 70px */
     background-color: #75c9de;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -257,5 +319,18 @@ body {
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(244,67,54,0.3);
     margin-top: 16px; /* 元20px → 16px */
+
+    /* 追加 */
+    transition: 
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+/* ホバー時 */
+.large-trash-capsule-button:hover {
+    background-color: #e53935;        /* 少し濃く */
+    transform: translateY(-3px);      /* ふわっと浮く */
+    box-shadow: 0 8px 18px rgba(244,67,54,0.4);
 }
 .explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */

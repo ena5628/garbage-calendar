@@ -2,11 +2,11 @@
 // 町名・丁目リスト
 // ================================
 const nakayamateList = ["1丁目","2丁目","3丁目","4丁目","5丁目","6丁目","7丁目","8丁目"];
-const ninomiyaList = ["1丁目","2丁目","3丁目","4丁目"];
-const kanouList = ["1丁目","2丁目","3丁目","4丁目","5丁目","6丁目"];
-const kitanoList = ["1丁目","2丁目","3丁目","4丁目"];
-const nunobikiList = ["1丁目","2丁目","3丁目","4丁目"];
-const kotonoList = ["1丁目","2丁目","3丁目","4丁目","5丁目"];
+const ninomiyaList   = ["1丁目","2丁目","3丁目","4丁目"];
+const kanouList      = ["1丁目","2丁目","3丁目","4丁目","5丁目","6丁目"];
+const kitanoList     = ["1丁目","2丁目","3丁目","4丁目"];
+const nunobikiList   = ["1丁目","2丁目","3丁目","4丁目"];
+const kotonoList     = ["1丁目","2丁目","3丁目","4丁目","5丁目"];
 
 // 町名 → 丁目マップ
 const chomeMap = {
@@ -18,39 +18,51 @@ const chomeMap = {
   "琴ノ緒町": kotonoList
 };
 
-// ページング用
+// ================================
+// 🔹 このページ専用 sessionStorage KEY
+// ================================
+const STORAGE_TOWN  = "special_selectedTown";
+const STORAGE_CHOME = "special_selectedChome";
+
+// ================================
+// ページング
+// ================================
 const PAGE_SIZE = 4;
 let structuredData = [];
 let currentResults = [];
 let currentPage = 1;
 
+// ================================
 // DOM
-const townSelect = document.getElementById("townSelect");
+// ================================
+const townSelect  = document.getElementById("townSelect");
 const chomeSelect = document.getElementById("chomeSelect");
 const resultContainer = document.getElementById("resultContainer");
 
 // ================================
-// ページロード時に保存状態復元
+// ページロード時（保存状態復元）
 // ================================
 document.addEventListener("DOMContentLoaded", () => {
-  const savedTown = sessionStorage.getItem("selectedTown") || "";
-  const savedChome = sessionStorage.getItem("selectedChome") || "";
+  const savedTown  = sessionStorage.getItem(STORAGE_TOWN) || "";
+  const savedChome = sessionStorage.getItem(STORAGE_CHOME) || "";
 
-  /*if (savedTown) {
+  if (savedTown) {
     townSelect.value = savedTown;
     updateChomeSelect(savedTown, savedChome);
   }
 
-  if (savedChome) chomeSelect.value = savedChome;*/
+  if (savedChome) {
+    chomeSelect.value = savedChome;
+  }
 
-  runSearch(); // 初期表示
+  runSearch();
 });
 
 // ================================
 // 丁目セレクト更新
 // ================================
 function updateChomeSelect(townName, preselectChome = "") {
-  chomeSelect.innerHTML = `<option value="">すべての丁</option>`; // 「すべて」を追加
+  chomeSelect.innerHTML = `<option value="">すべての丁</option>`;
   chomeSelect.disabled = true;
 
   const list = chomeMap[townName];
@@ -71,7 +83,7 @@ function updateChomeSelect(townName, preselectChome = "") {
 }
 
 // ================================
-// 選択変更時イベント（自動検索）
+// 選択変更（自動検索）
 // ================================
 townSelect.addEventListener("change", () => {
   updateChomeSelect(townSelect.value);
@@ -85,11 +97,11 @@ chomeSelect.addEventListener("change", () => {
 });
 
 // ================================
-// 選択状態保存
+// 🔹 選択状態保存（完全分離）
 // ================================
 function saveSelection() {
-  sessionStorage.setItem("selectedTown", townSelect.value);
-  sessionStorage.setItem("selectedChome", chomeSelect.value);
+  sessionStorage.setItem(STORAGE_TOWN, townSelect.value);
+  sessionStorage.setItem(STORAGE_CHOME, chomeSelect.value);
 }
 
 // ================================
@@ -103,7 +115,7 @@ fetch(CSV_URL)
   .then(text => {
     const rows = parseCSV(text);
     structuredData = normalizeRows(rows);
-    runSearch(); // 初期表示
+    runSearch();
   });
 
 // CSVパース
@@ -130,17 +142,14 @@ function parseCSV(text) {
   return rows;
 }
 
-// セル整形
 function formatCell(text) {
   return text.replace(/^"+|"+$/g, "").replace(/\n/g, "<br><br>");
 }
 
-// 正規化
 function normalize(str) {
   return str.toLowerCase().replace(/\s|　/g, "");
 }
 
-// 行正規化
 function normalizeRows(rows) {
   let currentTown = "", currentGroup = "";
   const map = new Map();
@@ -175,7 +184,7 @@ function normalizeRows(rows) {
 }
 
 // ================================
-// 検索処理（町名または丁目未選択ならメッセージ表示）
+// 検索処理
 // ================================
 function runSearch() {
   const townKey = normalize(townSelect.value);
@@ -189,12 +198,11 @@ function runSearch() {
 
   let results = structuredData.filter(d => d.key.includes(townKey));
 
-  // 「すべての丁目」の場合はフィルタせず、それ以外なら選択された丁目でフィルタ
   if (chome) {
-    results = results.filter(d => chome === "" || JSON.stringify(d).includes(chome));
+    results = results.filter(d => JSON.stringify(d).includes(chome));
   }
 
-  if (results.length === 0) {
+  if (!results.length) {
     showMessage("該当する情報が見つかりません。");
     return;
   }
@@ -204,11 +212,12 @@ function runSearch() {
   renderPage();
 }
 
+// ================================
 // ページ描画
+// ================================
 function renderPage() {
   const start = (currentPage - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const pageItems = currentResults.slice(start, end);
+  const pageItems = currentResults.slice(start, start + PAGE_SIZE);
 
   resultContainer.innerHTML = "";
   pageItems.forEach(item => {
@@ -219,17 +228,13 @@ function renderPage() {
 
     if (Object.keys(item.normal).length) {
       html += `<div class="houseSection"><h4>戸建て</h4>`;
-      TITLE_ORDER.forEach(t => {
-        item.normal[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`);
-      });
+      TITLE_ORDER.forEach(t => item.normal[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`));
       html += `</div>`;
     }
 
     Object.entries(item.group).forEach(([name, data]) => {
       html += `<div class="apartmentSection"><h4>${name}</h4>`;
-      TITLE_ORDER.forEach(t => {
-        data[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`);
-      });
+      TITLE_ORDER.forEach(t => data[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`));
       html += `</div>`;
     });
 
@@ -240,7 +245,9 @@ function renderPage() {
   renderPager();
 }
 
+// ================================
 // ページャー
+// ================================
 function renderPager() {
   const totalPages = Math.ceil(currentResults.length / PAGE_SIZE);
   if (totalPages <= 1) return;
@@ -259,24 +266,14 @@ function renderPager() {
   next.disabled = currentPage === totalPages;
   next.onclick = () => { currentPage++; renderPage(); scrollToResult(); };
 
-  const info = document.createElement("span");
-  info.textContent = ` ${currentPage} / ${totalPages} `;
-  info.style.margin = "0 12px";
-
-  pager.appendChild(prev);
-  pager.appendChild(info);
-  pager.appendChild(next);
+  pager.append(prev, ` ${currentPage} / ${totalPages} `, next);
   resultContainer.appendChild(pager);
 }
 
-// スクロール
 function scrollToResult() {
-  const resultArea = document.getElementById("resultArea");
-  if (!resultArea) return;
-  resultArea.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("resultArea")?.scrollIntoView({ behavior: "smooth" });
 }
 
-// メッセージ表示
 function showMessage(msg) {
   resultContainer.innerHTML = `<p>${msg}</p>`;
 }

@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
-  background-color: #F0E6D8;
+   background: linear-gradient(to bottom, #FFF8E5, #F5E6C4); /* 薄いクリーム→薄茶 */
 
   /* ページ全体スクロール */
   overflow-y: auto;
@@ -13,8 +13,8 @@ body {
   left: 14px;
   z-index: 1000;
 
-  height: 40px;
-  padding: 0 16px;          /* ← 横に余白 */
+  height: clamp(30px, 5vw, 40px);      /* 高さを可変 */
+  padding: 0 clamp(8px, 2vw, 16px);    /* 横パディングを可変 */
   min-width: 40px;
 
   display: flex;
@@ -23,9 +23,9 @@ body {
 
   background-color: #ffffff;
   border: 2px solid #888;
-  border-radius: 999px;     /* ← カプセル型 */
+  border-radius: 999px;                /* カプセル型 */
 
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);   /* フォントサイズも可変 */
   font-weight: bold;
   color: #333;
   text-decoration: none;
@@ -48,40 +48,42 @@ body {
 
 /* --- ヘッダー --- */
 #mainHeader {
-  background-color: #F5E8D0;
   padding: 50px 0 20px;
   text-align: center;
 }
 
 /* ページタイトル（表紙風・だ円） */
+/* ページタイトル（表紙風・だ円・段ボール色） */
 #pageTitleBanner {
     display: inline-block;
 
+    /* 段ボールをイメージした薄茶色グラデーション */
     background: linear-gradient(
         to bottom,
-        #FFE45C,
-        #FFD700
+        #F5E6C4,  /* 薄い段ボール色 */
+        #E0C68B   /* 少し濃いめの茶色 */
     );
 
-    color: #333;
-    font-size: 48px;
+    color: #5C3A21;           /* 濃い茶色で文字を引き締める */
     font-weight: 900;
     letter-spacing: 0.08em;
 
-    /* だ円にするポイント */
-    padding: 20px 90px;
+    font-size: clamp(30px, 5vw, 40px); /* フォントサイズ可変 */
+    padding: clamp(5px, 2vw, 10px) clamp(40px, 10vw, 190px); /* 上下・左右のパディングも可変 */
+
     border-radius: 9999px;
 
-    /* 表紙感のある縁 */
-    border: 4px solid #C9A800;
+    /* 枠も段ボール系統色に */
+    border: 4px solid #D2A679;
 
-    /* 立体感 */
+    /* 表紙っぽい立体感 */
     box-shadow:
-        0 6px 0 #C9A800,
-        0 12px 22px rgba(0,0,0,0.25);
+        0 6px 0 #D2A679,
+        0 12px 22px rgba(92,58,33,0.25);
 
     text-align: center;
 }
+
 
 
 /* =========================

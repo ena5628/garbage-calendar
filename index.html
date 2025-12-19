@@ -14,6 +14,7 @@
 <div id="mainContentCard">
   <div class="dashboard-container">
     
+    <!-- 左パネル -->
     <div class="left-panel">
       <div id="searchArea">
         <div class="search-selects">
@@ -49,7 +50,9 @@
       <h3 class="section-header section-space">段ボール収集スケジュール</h3>
       <div class="simple-box" id="cardboardScheduleBox">町名・丁目を選択してください</div>
     </div>
+    <!-- /左パネル -->
 
+    <!-- 右パネル -->
     <div class="right-panel">
       <h3 class="section-header">ゴミ捨て方法</h3>
       <div class="disposal-method-icons">
@@ -72,24 +75,29 @@
 
       <div class="large-trash-link-section">
         <a href="https://www.ogatagomi.city.kobe.lg.jp/Web/top" 
-           class="large-trash-capsule-button" target="_blank" rel="noopener noreferrer">
-           大型ごみ申し込み
+          class="large-trash-capsule-button" target="_blank" rel="noopener noreferrer">
+          大型ごみ申し込み
         </a>
         <div class="explain"><h5>※公式サイトに移動します</h5></div>
+      </div>
 
-          <div class="tips-box">
-            <button class="tips-close-btn">&times;</button>
-            <div class="tips-title-panel">豆知識</div>
-            <div class="tips-content-panel">
-            <h4 id="tipTitle">タイトル</h4>
-            <p id="tipContent">内容</p>
+      <div class="tips-box">
+        <button class="tips-close-btn">&times;</button>
+        <div class="tips-title-panel">豆知識</div>
+        <div class="tips-content-panel">
+          <h4 id="tipTitle">タイトル</h4>
+          <p id="tipContent">内容</p>
         </div>
       </div>
-      </div>
-      
     </div>
+    <!-- /右パネル -->
 
-  </div> </div> <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  </div>
+  <!-- /dashboard-container -->
+</div>
+<!-- /mainContentCard -->
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
