@@ -6,7 +6,16 @@
   <link rel="stylesheet" href="danbo-ru.css">
 </head>
 <body>
+<script>
+    (function() {
+      const isDark = localStorage.getItem('darkMode') === 'true';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+</script>
 <a href="index.html" id="backButton">←</a>
+<button id="darkModeToggle" class="dark-mode-btn">ダークモード</button>
 <header id="mainHeader">
   <div id="pageTitleBanner">段ボール</div>
 </header>

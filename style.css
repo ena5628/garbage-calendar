@@ -28,6 +28,39 @@ body {
     text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
+/* ダークモード切替ボタン */
+/* ダークモード切り替えボタンを右上固定 */
+#darkModeToggle {
+    position: fixed;      /* 画面に固定 */
+    top: 10px;            /* 上から10px */
+    right: 10px;          /* 右から10px */
+    z-index: 9999;        /* 他の要素より前面に */
+    padding: 10px 16px;
+    border-radius: 8px;
+    background-color: #70bdd0; /* ライトモード用色 */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* ホバー時 */
+#darkModeToggle:hover {
+    background-color: #4fa3c1;
+    transform: translateY(-2px);
+}
+
+/* ダークモード時 */
+body.dark-mode #darkModeToggle {
+    background-color: #535252; 
+    color: #fff;
+}
+body.dark-mode #darkModeToggle:hover {
+    background-color: #333;
+}
+
 /* ===================================================
    3. メインカード（左右分割用）
 =================================================== */
@@ -334,3 +367,165 @@ body {
     box-shadow: 0 8px 18px rgba(244,67,54,0.4);
 }
 .explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */
+
+
+/* ダークモード切り替え用 */
+body.dark-mode {
+    background: #2c2c2c; /* 少し明るめのダークグレー */
+    color: #e0e0e0;
+}
+
+body.dark-mode #pageTitle {
+    color: #e0e0e0;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* メインカード */
+body.dark-mode #mainContentCard {
+    background-color: #383838;
+    color: #e0e0e0;
+    box-shadow: 0 1.5vh 4vh rgba(0,0,0,0.4);
+}
+
+/* 左右パネル */
+body.dark-mode .left-panel,
+body.dark-mode .right-panel {
+    color: #e0e0e0;
+}
+body.dark-mode .right-panel {
+    border-left: 1px solid #777;
+}
+
+/* 1000px以下で右パネルの線を消す */
+@media (max-width: 1000px) {
+    .right-panel {
+        border-left: none;
+        padding-left: 0;
+    }
+    body.dark-mode .right-panel {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
+/* セクションヘッダー */
+body.dark-mode .section-header {
+    color: #fff;
+    border-left: 4px solid #8bc34a;
+}
+body.dark-mode .area-name {
+    color: #ccc;
+}
+
+/* セレクトボックス */
+body.dark-mode #townSelect,
+body.dark-mode #chomeSelect {
+    background-color: #555;
+    color: #eee;
+    border: 1px solid #888;
+}
+body.dark-mode #townSelect option,
+body.dark-mode #chomeSelect option {
+    background-color: #555;
+    color: #eee;
+}
+
+/* Tipsボックス */
+
+/* Tipsボックス */
+body.dark-mode .tips-box {
+    background-color: #638e56; /* 明るめの落ち着いた緑 */
+    border: 1px solid #777;
+    color: #e0e0e0;
+
+    /* アニメーションをライトモードと同じにする */
+    opacity: 0;
+    transform: translateX(120%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+body.dark-mode .tips-title-panel {
+    background-color: #71a25d; /* 少し明るく鮮やかに */
+    color: #fff;
+}
+body.dark-mode .tips-content-panel {
+    background-color: #7dad65; /* 明るめで差をつける */
+    color: #fff;
+}
+body.dark-mode .tips-close-btn {
+    color: #ddd;
+}
+
+/* ダークモード時の表示時 */
+body.dark-mode .tips-box.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* 今日のゴミ */
+body.dark-mode .gomi-box.today-main {
+    color: #fff;
+}
+body.dark-mode .no-collection {
+    background-color: #42a5f5 !important;
+    color: #fff !important;
+}
+
+/* 週間カレンダー */
+body.dark-mode .day-panel {
+    background: #444; /* 明るめダークグレー */
+    color: #eee;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+body.dark-mode .day-panel.today {
+    background-color: #007c91;
+    border: 1px solid #00bcd4;
+}
+body.dark-mode .weekday-label {
+    color: #ccc;
+}
+body.dark-mode .gomi-box {
+    background-color: #777;
+    color: #fff;
+}
+body.dark-mode .gomi-box.cardboard {
+    background-color: #ffc857; 
+    color: #222;
+}
+
+/* 段ボール・ゴミ捨て方法・大型ゴミ */
+body.dark-mode .simple-box {
+    background: #606060;
+    color: #eee;
+    border: 1px solid #888;
+}
+body.dark-mode .simple-box img {
+    filter: brightness(0.4);
+}
+body.dark-mode .disposal-method-icons .icon-button-link {
+    background-color: #4f83cc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+body.dark-mode .custom-icon-img {
+    filter: brightness(0.4);
+}
+body.dark-mode .large-trash-capsule-button {
+    background-color: #e53935;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+body.dark-mode .large-trash-capsule-button:hover {
+    background-color: #d32f2f;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+}
+body.dark-mode .explain {
+    color: #ccc;
+}
+
+/* アニメーションの滑らかさ */
+#mainContentCard,
+.gomi-box,
+.simple-box,
+.day-panel,
+.tips-box {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}

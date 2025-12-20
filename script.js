@@ -135,14 +135,27 @@ function isSameDate(a, b) {
 }
 
 function getDefaultColor(kind) {
-    switch (kind) {
-        case "燃えるゴミ": return "#FF6666";
-        case "燃えないゴミ": return "#999999";
-        case "容器包装プラスチック": return "#FFCC66";
-        case "缶・ビン・ペットボトル": return "#66CCFF";
-        default: return "#CCCCCC";
+    if (document.body.classList.contains('dark-mode')) {
+        // ダークモード用少し暗めの色
+        switch (kind) {
+            case "燃えるゴミ": return "#CC4444";       // 赤系を暗め
+            case "燃えないゴミ": return "#666666";     // グレーを暗め
+            case "容器包装プラスチック": return "#CC9933"; // 黄色系を暗め
+            case "缶・ビン・ペットボトル": return "#3399CC"; // 青系を暗め
+            default: return "#555555";                 // その他暗め
+        }
+    } else {
+        // ライトモード用（元の色）
+        switch (kind) {
+            case "燃えるゴミ": return "#FF6666";
+            case "燃えないゴミ": return "#999999";
+            case "容器包装プラスチック": return "#FFCC66";
+            case "缶・ビン・ペットボトル": return "#66CCFF";
+            default: return "#CCCCCC";
+        }
     }
 }
+
 
 // ================================
 // 段ボール判定
@@ -398,3 +411,27 @@ function loadTips() {
 // ページ離脱前に状態を保存
 // ================================
 window.addEventListener('beforeunload', saveSelectionToSession);
+
+
+// ダークモード切り替え
+const darkToggleBtn = document.getElementById('darkModeToggle');
+
+darkToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    
+    if(document.body.classList.contains('dark-mode')){
+        darkToggleBtn.textContent = 'ライトモード';
+    } else {
+        darkToggleBtn.textContent = 'ダークモード';
+    }
+
+    // 選択状態を localStorage に保存
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+});
+
+// ページロード時に前回の設定を反映
+if(localStorage.getItem('darkMode') === 'true'){
+    document.body.classList.add('dark-mode');
+    darkToggleBtn.textContent = 'ライトモード';
+}
+

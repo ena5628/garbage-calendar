@@ -277,3 +277,29 @@ function scrollToResult() {
 function showMessage(msg) {
   resultContainer.innerHTML = `<p>${msg}</p>`;
 }
+
+
+// ダークモード切替ボタン
+document.addEventListener('DOMContentLoaded', () => {
+    const darkToggleBtn = document.getElementById('darkModeToggle');
+    if (!darkToggleBtn) return; // 念のためチェック
+
+    // ボタンクリックで切替
+    darkToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        if(document.body.classList.contains('dark-mode')){
+            darkToggleBtn.textContent = 'ライトモード';
+        } else {
+            darkToggleBtn.textContent = 'ダークモード';
+        }
+
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
+    // ページロード時に前回の設定を反映
+    if(localStorage.getItem('darkMode') === 'true'){
+        document.body.classList.add('dark-mode');
+        darkToggleBtn.textContent = 'ライトモード';
+    }
+});

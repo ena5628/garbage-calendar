@@ -1,8 +1,6 @@
-html, body {
-    background-color: #eafdd8; /* 薄い黄色ベース */
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
+/* 修正：htmlの背景を固定しない */
+html {
+    background-color: transparent; 
 }
 
 body {
@@ -11,6 +9,45 @@ body {
     background: linear-gradient(to bottom, #eafdd8, #e6f8ca); 
     padding: 0;
     margin: 0;
+}
+
+/* ダークモード時の背景を最優先にする */
+body.dark-mode {
+    background: #2c2c2c !important; /* グラデーションではなく単色にすると隙間が出にくい */
+    color: #e0e0e0;
+}
+
+/* ダークモード切替ボタン */
+/* ダークモード切り替えボタンを右上固定 */
+#darkModeToggle {
+    position: fixed;      /* 画面に固定 */
+    top: 10px;            /* 上から10px */
+    right: 10px;          /* 右から10px */
+    z-index: 9999;        /* 他の要素より前面に */
+    padding: 10px 16px;
+    border-radius: 8px;
+    background-color: #70bdd0; /* ライトモード用色 */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* ホバー時 */
+#darkModeToggle:hover {
+    background-color: #4fa3c1;
+    transform: translateY(-2px);
+}
+
+/* ダークモード時 */
+body.dark-mode #darkModeToggle {
+    background-color: #535252; 
+    color: #fff;
+}
+body.dark-mode #darkModeToggle:hover {
+    background-color: #333;
 }
 
 #backButton {
@@ -276,6 +313,60 @@ body {
     box-shadow: 0 0 0 #5a6268;
 }
 
+/* --- ライトモード：ボタンやカードのホバー/アクティブ統一 --- */
+
+/* ダークモード用を参考に、ライトモードにも同じ挙動を付与 */
+
+/* 戻るボタン */
+#backButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.3);
+}
+#backButton:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.2);
+}
+
+/* ダークモードボタンと同じ動作をライトモードの検索ボタンに */
+.searchIcon:hover {
+    transform: translateY(-2px);
+}
+.searchIcon:active {
+    transform: translateY(0);
+}
+
+/* イニシャルボタン */
+.initialButton:hover {
+    transform: translateY(-2px);
+}
+.initialButton:active {
+    transform: translateY(3px);
+}
+
+/* 品目カード */
+.itemCard {
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+.itemCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+.itemCard:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ページングボタン */
+#paging button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+#paging button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
 @media (max-width: 600px) {
     /* 検索セクションを横並びにする */
     #searchSection {
@@ -298,4 +389,130 @@ body {
     .searchIcon {
         flex-shrink: 0; /* ボタンが縮まないように */
     }
+}
+
+/*  */
+/* 戻るボタン */
+body.dark-mode #backButton {
+    background-color: #444;
+    border-color: #888;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+}
+body.dark-mode #backButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.5);
+}
+body.dark-mode #backButton:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.3);
+}
+
+/* バナータイトル */
+body.dark-mode #pageTitleBanner {
+    background: linear-gradient(to bottom, #444, #222);
+    color: #e0e0e0;
+    border-color: #666;
+    box-shadow: 0 5px 0 #666, 0 10px 18px rgba(0,0,0,0.5);
+}
+
+/* 検索ボックス */
+body.dark-mode #searchBox {
+    background-color: #555;
+    color: #eee;
+    border-color: #888;
+}
+body.dark-mode .searchIcon {
+    background-color: #777;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+body.dark-mode .searchIcon:hover {
+    background-color: #666; /* ライトモードと同じホバー効果 */
+    transform: translateY(-2px);
+}
+body.dark-mode .searchIcon:active {
+    transform: translateY(0);
+}
+
+/* イニシャルボタン */
+body.dark-mode .initialButton {
+    background-color: #666;
+    color: #fff;
+    box-shadow: 0 3px 0 #444;
+}
+body.dark-mode .initialButton.active {
+    background-color: #444;
+    box-shadow: 0 3px 0 #222;
+}
+body.dark-mode .initialButton:hover {
+    transform: translateY(-2px);
+}
+body.dark-mode .initialButton:active {
+    transform: translateY(3px);
+}
+
+/* 品目カード */
+body.dark-mode .itemCard {
+    background-color: #3e3e3e;
+    border-color: #555;
+    color: #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+body.dark-mode .itemCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+}
+body.dark-mode .itemCard:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+body.dark-mode .itemCard img {
+    filter: brightness(0.8);
+}
+
+/* ダークモード時のリンク色調整 */
+body.dark-mode .itemCard-content a {
+    color: #87CEFA; /* ライトスカイブルー（暗い背景で見やすい） */
+    text-decoration: underline; /* リンクであることを強調 */
+    font-weight: bold;
+}
+
+body.dark-mode .itemCard-content a:hover {
+    color: #B0E2FF; /* ホバー時はさらに明るく */
+    text-decoration: none;
+}
+
+/* ついでにライトモード時のリンクも見やすく調整（必要であれば） */
+.itemCard-content a {
+    color: #0056b3;
+    transition: color 0.2s ease;
+}
+body.dark-mode .itemCard img {
+    filter: brightness(0.8);
+}
+
+/* イニシャルラベル */
+body.dark-mode .initialLabel {
+    color: #e0e0e0;
+    border-color: #555;
+}
+
+/* ページングボタン */
+body.dark-mode #paging button {
+    background-color: #555;
+    border-color: #888;
+    color: #eee;
+}
+body.dark-mode #paging button:disabled {
+    background-color: #444;
+    color: #999;
+}
+body.dark-mode #paging button:hover:not(:disabled) {
+    background-color: #666; /* ライトモードのホバー動作に合わせる */
+    transform: translateY(-2px);
+}
+body.dark-mode #paging button:active:not(:disabled) {
+    transform: translateY(0);
 }

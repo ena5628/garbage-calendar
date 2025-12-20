@@ -1,3 +1,8 @@
+/* 修正：htmlの背景を固定しない */
+html {
+    background-color: transparent; 
+}
+
 body {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
@@ -6,6 +11,46 @@ body {
   /* ページ全体スクロール */
   overflow-y: auto;
 }
+
+/* ダークモード時の背景を最優先にする */
+body.dark-mode {
+    background: #2c2c2c !important; /* グラデーションではなく単色にすると隙間が出にくい */
+    color: #e0e0e0;
+}
+
+/* ダークモード切替ボタン */
+/* ダークモード切り替えボタンを右上固定 */
+#darkModeToggle {
+    position: fixed;      /* 画面に固定 */
+    top: 10px;            /* 上から10px */
+    right: 10px;          /* 右から10px */
+    z-index: 9999;        /* 他の要素より前面に */
+    padding: 10px 16px;
+    border-radius: 8px;
+    background-color: #70bdd0; /* ライトモード用色 */
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* ホバー時 */
+#darkModeToggle:hover {
+    background-color: #4fa3c1;
+    transform: translateY(-2px);
+}
+
+/* ダークモード時 */
+body.dark-mode #darkModeToggle {
+    background-color: #535252; 
+    color: #fff;
+}
+body.dark-mode #darkModeToggle:hover {
+    background-color: #333;
+}
+
 
 #backButton {
   position: absolute;
@@ -288,5 +333,113 @@ body {
   /* 高さ制限を撤廃 */
   max-height: none;
   overflow: visible;
+}
+
+
+/* =========================
+   ダークモード対応
+========================= */
+
+/* 全体背景は既に body.dark-mode で設定済み */
+
+/* ページタイトル（段ボール風） */
+body.dark-mode #pageTitleBanner {
+    background: linear-gradient(to bottom, #444, #222);
+    color: #e0e0e0;
+    border-color: #666;
+    box-shadow: 0 6px 0 #666, 0 12px 22px rgba(0,0,0,0.5);
+}
+
+body.dark-mode #searchPageTitle {
+  color: #e0e0e0;
+}
+
+/* 市区町村表示 */
+body.dark-mode #currentCity {
+  color: #e0e0e0;
+}
+
+/* 検索パネル */
+body.dark-mode #searchPanel {
+    background-color: #3a3a3a;
+    border-color: #666;
+    color: #e0e0e0;
+}
+body.dark-mode #townSelect,
+body.dark-mode #chomeSelect {
+    background-color: #555;
+    color: #eee;
+    border-color: #888;
+}
+body.dark-mode #searchButton {
+    background-color: #777;
+    color: #fff;
+    border-color: #888;
+}
+body.dark-mode #searchButton:hover {
+    background-color: #666;
+    transform: translateY(-2px);
+}
+body.dark-mode #searchButton:active {
+    transform: translateY(0);
+}
+
+/* 検索結果 */
+body.dark-mode #resultArea {
+    background-color: #2c2c2c;
+    border-color: #555;
+    color: #e0e0e0;
+}
+body.dark-mode #resultScrollBox{
+    background-color: #4e4d4d;
+    border-color: #666;
+    color: #e0e0e0;
+}
+body.dark-mode .townResult {
+    background-color: #3a3a3a;
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+body.dark-mode .townTitle {
+    border-color: #666;
+    color: #e0e0e0;
+}
+
+body.dark-mode .houseSection{
+    background-color: #545353;
+    border-color: #e0e0e0;
+    color: #e0e0e0;
+}
+
+body.dark-mode .apartmentSection {
+    background-color: #3a3a3a;
+    border-color: #e0e0e0;
+}
+body.dark-mode .apartmentBlock {
+    border-top-color: #777;
+}
+body.dark-mode .apartmentName {
+    color: #e0e0e0;
+}
+/* テキスト */
+body.dark-mode .townResult p {
+    border-bottom-color: #fff;
+    color: #e0e0e0;
+}
+
+/* 戻るボタンもダークモード */
+body.dark-mode #backButton {
+    background-color: #444;
+    border-color: #888;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+}
+body.dark-mode #backButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.5);
+}
+body.dark-mode #backButton:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 4px rgba(0,0,0,0.3);
 }
 

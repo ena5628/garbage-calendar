@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="ja" style="background: linear-gradient(to bottom, #fffbe0, #fff1b8);">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ゴミ収集品目検索</title>
 <link rel="stylesheet" href="kaden.css">
 </head>
-<body style="background: linear-gradient(to bottom, #fffbe0, #fff1b8);">
-
+<body >
+<script>
+    (function() {
+      const isDark = localStorage.getItem('darkMode') === 'true';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+</script>
 <a href="index.html" id="backButton">←</a>
+<button id="darkModeToggle" class="dark-mode-btn">ダークモード</button>
 <div id="mainHeader">
     <div id="pageTitleBanner">家電</div>
 </div>

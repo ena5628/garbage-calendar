@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html lang="ja" style="background: linear-gradient(to bottom, #eafdd8, #e6f8ca);">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ゴミ収集品目検索</title>
 <link rel="stylesheet" href="special.css">
 </head>
-<body style="background: linear-gradient(to bottom, #eafdd8, #e6f8ca);">
-
+<body>
+<script>
+    (function() {
+      const isDark = localStorage.getItem('darkMode') === 'true';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+      }
+    })();
+</script>
 <a href="index.html" id="backButton">←</a>
+<button id="darkModeToggle" class="dark-mode-btn">ダークモード</button>
 <div id="mainHeader">
     <div id="pageTitleBanner">特殊ごみ</div>
 </div>
