@@ -140,17 +140,17 @@ function getDefaultColor(kind) {
         switch (kind) {
             case "燃えるゴミ": return "#CC4444";       // 赤系を暗め
             case "燃えないゴミ": return "#666666";     // グレーを暗め
-            case "容器包装プラスチック": return "#CC9933"; // 黄色系を暗め
-            case "缶・ビン・ペットボトル": return "#3399CC"; // 青系を暗め
+            case "容器包装プラスチック": return "#e6b24aff"; // 黄色系を暗め
+            case "缶・ビン・ペットボトル": return "#88ce88ff"; // 青系を暗め
             default: return "#555555";                 // その他暗め
         }
     } else {
         // ライトモード用（元の色）
         switch (kind) {
-            case "燃えるゴミ": return "#FF6666";
+            case "燃えるゴミ": return "#fa7070";
             case "燃えないゴミ": return "#999999";
-            case "容器包装プラスチック": return "#FFCC66";
-            case "缶・ビン・ペットボトル": return "#66CCFF";
+            case "容器包装プラスチック": return "#ffce6b";
+            case "缶・ビン・ペットボトル": return "#acf2ac";
             default: return "#CCCCCC";
         }
     }
@@ -244,8 +244,7 @@ function renderWeekCalendar(schedule, today = new Date()) {
         schedule.filter(s => isSameDate(s.date, date)).forEach(s => {
             const box = document.createElement("div");
             box.className = "gomi-box";
-            box.style.backgroundColor = s.color || getDefaultColor(s.gomiKind);
-
+            box.style.backgroundColor = getDefaultColor(s.gomiKind);
             box.textContent = s.gomiKind;
             panel.appendChild(box);
         });
@@ -428,6 +427,10 @@ darkToggleBtn.addEventListener('click', () => {
 
     // 選択状態を localStorage に保存
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+
+        // ★ ここが追加：即再描画
+    updateCalendar();
+    renderCardboardScheduleLabel();
 });
 
 // ページロード時に前回の設定を反映

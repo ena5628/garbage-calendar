@@ -343,12 +343,12 @@ body.dark-mode #darkModeToggle:hover {
 /* 全体背景は既に body.dark-mode で設定済み */
 
 /* ページタイトル（段ボール風） */
-body.dark-mode #pageTitleBanner {
+/*body.dark-mode #pageTitleBanner {
     background: linear-gradient(to bottom, #444, #222);
     color: #e0e0e0;
     border-color: #666;
     box-shadow: 0 6px 0 #666, 0 12px 22px rgba(0,0,0,0.5);
-}
+}*/
 
 body.dark-mode #searchPageTitle {
   color: #e0e0e0;

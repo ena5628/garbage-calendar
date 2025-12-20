@@ -469,6 +469,12 @@ body.dark-mode .day-panel.today {
     background-color: #007c91;
     border: 1px solid #00bcd4;
 }
+body.dark-mode .day-panel.today:hover {
+    box-shadow: 0 5px 12px rgba(77,208,225,0.45);
+}
+body.dark-mode .day-panel:hover {
+    box-shadow: 0 5px 12px rgba(0,0,0,0.7);
+}
 body.dark-mode .weekday-label {
     color: #ccc;
 }
