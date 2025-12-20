@@ -245,6 +245,7 @@ function renderWeekCalendar(schedule, today = new Date()) {
             const box = document.createElement("div");
             box.className = "gomi-box";
             box.style.backgroundColor = s.color || getDefaultColor(s.gomiKind);
+
             box.textContent = s.gomiKind;
             panel.appendChild(box);
         });

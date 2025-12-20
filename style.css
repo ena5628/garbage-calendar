@@ -5,6 +5,7 @@ html {
     min-height: 100%;
     margin: 0;
     font-size: 14px; /* デフォルト16px → 14pxに縮小 */
+     overflow-x: hidden;
 }
 body {
     margin: 0;
@@ -13,6 +14,7 @@ body {
     background: linear-gradient(to bottom, #faf7f5, #fffefd);
     color: #333;
     font-family: "Noto Sans JP", sans-serif;
+     overflow-x: hidden;
 }
 
 /* ===================================================
@@ -157,6 +159,29 @@ body.dark-mode #darkModeToggle:hover {
     flex-shrink: 1;
 }
 
+.tips-title-panel {
+    background-color: #90cf77; /* 明るく鮮やか */
+    color: #ffffff;            /* 白っぽい文字 */
+    border-radius: 12px;     /* 完全に丸く */
+    padding: 6px 12px;         /* 上下左右の余白 */
+    display: inline-block;     /* 文字幅に合わせる */
+    font-weight: bold;
+    margin-bottom: 6px;        /* 下に少し余白 */
+}
+
+.tips-content-panel {
+    background-color: #b1dc94; /* 明るめで差をつける */
+    color: #fcfcfc;            /* 白っぽい文字 */
+    border-radius: 12px;     /* 丸く */
+    padding: 6px 12px;         /* 上下左右の余白 */
+    display: inline-block;     /* 文字幅に合わせる */
+}
+
+.tips-close-btn {
+    color: #ffffff;            /* 白文字 */
+}
+
+
 
 /* 表示時 */
 .tips-box.show {
@@ -173,52 +198,6 @@ body.dark-mode #darkModeToggle:hover {
         padding: 10px;
     }
 }
-
-
-
-
-
-
-/* タイトルパネル */
-.tips-title-panel {
-    background-color: #87be48;
-    color: #fff;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    display: inline-block;
-}
-
-.tips-content-panel {
-    min-width: 0;
-    max-width: 100%;
-    background-color: #cef6b3;
-    color: #434242;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: bold;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-}
-
-
-/* 閉じるボタン */
-.tips-close-btn {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: #999;
-}
-
-
-
 
 
 
@@ -443,23 +422,33 @@ body.dark-mode .tips-box {
     transform: translateX(120%);
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
-body.dark-mode .tips-title-panel {
-    background-color: #71a25d; /* 少し明るく鮮やかに */
-    color: #fff;
-}
-body.dark-mode .tips-content-panel {
-    background-color: #7dad65; /* 明るめで差をつける */
-    color: #fff;
-}
-body.dark-mode .tips-close-btn {
-    color: #ddd;
-}
-
-/* ダークモード時の表示時 */
 body.dark-mode .tips-box.show {
     opacity: 1;
     transform: translateX(0);
 }
+body.dark-mode .tips-title-panel {
+    background-color: #71a25d; /* 明るく鮮やか */
+    color: #ffffff;            /* 白っぽい文字 */
+    border-radius: 12px;     /* 完全に丸く */
+    padding: 6px 12px;         /* 上下左右の余白 */
+    display: inline-block;     /* 文字幅に合わせる */
+    font-weight: bold;
+    margin-bottom: 6px;        /* 下に少し余白 */
+}
+
+body.dark-mode .tips-content-panel {
+    background-color: #7dad65; /* 明るめで差をつける */
+    color: #f0f0f0;            /* 白っぽい文字 */
+    border-radius: 12px;     /* 丸く */
+    padding: 6px 12px;         /* 上下左右の余白 */
+    display: inline-block;     /* 文字幅に合わせる */
+}
+
+body.dark-mode .tips-close-btn {
+    color: #ffffff;            /* 白文字 */
+}
+
+
 
 /* 今日のゴミ */
 body.dark-mode .gomi-box.today-main {
@@ -522,10 +511,4 @@ body.dark-mode .explain {
 }
 
 /* アニメーションの滑らかさ */
-#mainContentCard,
-.gomi-box,
-.simple-box,
-.day-panel,
-.tips-box {
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-}
+
