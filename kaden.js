@@ -371,6 +371,22 @@ function stripLeadingAlphabet(text) {
 }
 
 
+function saveSearchHistory(word) {
+  if (!word) return;
+
+  let history = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+
+  // 重複除去
+  history = history.filter(w => w !== word);
+
+  history.unshift(word); // 先頭に追加
+
+  if (history.length > 10) history.pop();
+
+  localStorage.setItem("searchHistory", JSON.stringify(history));
+}
+
+
 
 function searchItems() {
   const searchBox = document.getElementById("searchBox");
@@ -385,7 +401,7 @@ function searchItems() {
   }
 
   isSearching = true;
-
+  
   const rawNorm = normalizeText(raw);
   const strippedNorm = normalizeText(stripLeadingAlphabet(raw));
 
@@ -515,6 +531,54 @@ function handleInitialFilter(initial) {
   updatePagingButtons();
 }
 
+
+
+
+function showSearchHistory() {
+  const box = document.getElementById("searchHistoryDropdown");
+  if (!box) return;
+
+  const history = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+
+  if (history.length === 0) {
+    box.style.display = "none";
+    return;
+  }
+
+  box.innerHTML = "";
+  history.slice(0, 5).forEach(word => {
+    const div = document.createElement("div");
+    div.textContent = word;
+    div.onclick = () => {
+      document.getElementById("searchBox").value = word;
+      box.style.display = "none";
+      searchItems();
+    };
+    box.appendChild(div);
+  });
+
+  box.style.display = "block";
+}
+
+function handleSearchButton() {
+  const searchBox = document.getElementById("searchBox");
+  const value = searchBox.value.trim();
+  if (!value) return;
+
+  saveSearchHistory(value);  // ★ ボタン押下時のみ保存
+  searchItems();
+}
+
+
+
+function hideSearchHistory() {
+  const box = document.getElementById("searchHistoryDropdown");
+  if (!box) return;
+  box.style.display = "none";
+}
+
+
+
 window.onload = function() {
   loadItemsFromSheet();
 
@@ -525,9 +589,28 @@ window.onload = function() {
   const searchBox = document.getElementById("searchBox");
 
   // Enterキーでの検索（従来どおり）
-  searchBox.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") searchItems();
+  // ✅ keydown（確実に動く）
+  searchBox.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const value = searchBox.value.trim();
+      if (value) {
+        saveSearchHistory(value);   // ★ ここで保存
+        searchItems();
+      }
+    }
   });
+
+
+
+  searchBox.addEventListener("focus", showSearchHistory);
+
+  searchBox.addEventListener("input", showSearchHistory);
+
+  searchBox.addEventListener("blur", () => {
+    setTimeout(hideSearchHistory, 150);
+  });
+
 
   // 入力時に自動検索
   searchBox.addEventListener("input", function() {

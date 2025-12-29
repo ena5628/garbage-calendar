@@ -242,6 +242,59 @@ function renderItems() {
 }
 
 // ==================== 正規化関数 ====================
+
+function romanToHiragana(input) {
+  if (!input) return "";
+
+  let str = input.toLowerCase();
+
+  const table = {
+    kya:"きゃ", kyu:"きゅ", kyo:"きょ",
+    sha:"しゃ", shu:"しゅ", sho:"しょ",
+    cha:"ちゃ", chu:"ちゅ", cho:"ちょ",
+    nya:"にゃ", nyu:"にゅ", nyo:"にょ",
+    hya:"ひゃ", hyu:"ひゅ", hyo:"ひょ",
+    mya:"みゃ", myu:"みゅ", myo:"みょ",
+    rya:"りゃ", ryu:"りゅ", ryo:"りょ",
+    gya:"ぎゃ", gyu:"ぎゅ", gyo:"ぎょ",
+    bya:"びゃ", byu:"びゅ", byo:"びょ",
+    pya:"ぴゃ", pyu:"ぴゅ", pyo:"ぴょ",
+    ja:"じゃ", ju:"じゅ", jo:"じょ"
+  };
+
+  // 3文字ローマ字
+  for (const k in table) {
+    str = str.replace(new RegExp(k, "g"), table[k]);
+  }
+
+  const table2 = {
+    a:"あ", i:"い", u:"う", e:"え", o:"お",
+    ka:"か", ki:"き", ku:"く", ke:"け", ko:"こ",
+    sa:"さ", shi:"し", su:"す", se:"せ", so:"そ",
+    ta:"た", chi:"ち", tsu:"つ", te:"て", to:"と",
+    na:"な", ni:"に", nu:"ぬ", ne:"ね", no:"の",
+    ha:"は", hi:"ひ", fu:"ふ", he:"へ", ho:"ほ",
+    ma:"ま", mi:"み", mu:"む", me:"め", mo:"も",
+    ya:"や", yu:"ゆ", yo:"よ",
+    ra:"ら", ri:"り", ru:"る", re:"れ", ro:"ろ",
+    wa:"わ", wo:"を", n:"ん",
+    ga:"が", gi:"ぎ", gu:"ぐ", ge:"げ", go:"ご",
+    za:"ざ", ji:"じ", zu:"ず", ze:"ぜ", zo:"ぞ",
+    da:"だ", di:"ぢ", du:"づ", de:"で", do:"ど",
+    ba:"ば", bi:"び", bu:"ぶ", be:"べ", bo:"ぼ",
+    pa:"ぱ", pi:"ぴ", pu:"ぷ", pe:"ぺ", po:"ぽ"
+  };
+
+  // 2文字 → 1文字
+  for (const k in table2) {
+    str = str.replace(new RegExp(k, "g"), table2[k]);
+  }
+
+  return str;
+}
+
+
+
 function normalizeText(text) {
   if (!text) return "";
 
@@ -274,6 +327,20 @@ function stripLeadingAlphabet(text) {
   return text.replace(/^[a-zA-Z]+/, "");
 }
 
+function saveSearchHistory(word) {
+  if (!word) return;
+
+  let history = JSON.parse(localStorage.getItem("searchHistory_special") || "[]");
+
+  // 重複除去
+  history = history.filter(w => w !== word);
+
+  history.unshift(word); // 先頭に追加
+
+  if (history.length > 10) history.pop();
+
+  localStorage.setItem("searchHistory_special", JSON.stringify(history));
+}
 
 
 function searchItems() {
@@ -289,15 +356,20 @@ function searchItems() {
   }
 
   isSearching = true;
+  
+  const rawNorm = normalizeText(raw);
+  const strippedNorm = normalizeText(stripLeadingAlphabet(raw));
 
-  // 🔽 追加：英字を落とした別バージョン
-  const stripped = stripLeadingAlphabet(raw);
+  // 🔽 ローマ字 → ひらがな → 正規化
+  const romanNorm = normalizeText(romanToHiragana(raw));
 
   searchResults = allItems.filter(item => {
-    const title = normalizeText(item.title);
+    const titleNorm = normalizeText(item.title);
+
     return (
-      title.includes(normalizeText(raw)) ||
-      title.includes(normalizeText(stripped))
+      titleNorm.includes(rawNorm) ||        // USB / ACアダプター
+      (strippedNorm && titleNorm.includes(strippedNorm)) || // アダプタ
+      (romanNorm && titleNorm.includes(romanNorm)) // adaputa
     );
   });
 
@@ -412,6 +484,53 @@ function handleInitialFilter(initial) {
   updatePagingButtons();
 }
 
+
+
+function showSearchHistory() {
+  const box = document.getElementById("searchHistoryDropdown");
+  if (!box) return;
+
+  const history = JSON.parse(localStorage.getItem("searchHistory_special") || "[]");
+
+  if (history.length === 0) {
+    box.style.display = "none";
+    return;
+  }
+
+  box.innerHTML = "";
+  history.slice(0, 5).forEach(word => {
+    const div = document.createElement("div");
+    div.textContent = word;
+    div.onclick = () => {
+      document.getElementById("searchBox").value = word;
+      box.style.display = "none";
+      searchItems();
+    };
+    box.appendChild(div);
+  });
+
+  box.style.display = "block";
+}
+
+function handleSearchButton() {
+  const searchBox = document.getElementById("searchBox");
+  const value = searchBox.value.trim();
+  if (!value) return;
+
+  saveSearchHistory(value);  // ★ ボタン押下時のみ保存
+  searchItems();
+}
+
+
+
+function hideSearchHistory() {
+  const box = document.getElementById("searchHistoryDropdown");
+  if (!box) return;
+  box.style.display = "none";
+}
+
+
+
 window.onload = function() {
   loadItemsFromSheet();
 
@@ -422,8 +541,26 @@ window.onload = function() {
   const searchBox = document.getElementById("searchBox");
 
   // Enterキーでの検索（従来どおり）
-  searchBox.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") searchItems();
+  // ✅ keydown（確実に動く）
+  searchBox.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const value = searchBox.value.trim();
+      if (value) {
+        saveSearchHistory(value);   // ★ ここで保存
+        searchItems();
+      }
+    }
+  });
+
+
+
+  searchBox.addEventListener("focus", showSearchHistory);
+
+  searchBox.addEventListener("input", showSearchHistory);
+
+  searchBox.addEventListener("blur", () => {
+    setTimeout(hideSearchHistory, 150);
   });
 
   // 入力時に自動検索

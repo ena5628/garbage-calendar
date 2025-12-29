@@ -24,9 +24,14 @@
 <div id="contentContainer">
     <div id="searchSection">
         <label for="searchBox" class="searchLabel">検索BOX</label>
-        <input type="text" id="searchBox" placeholder="品目を入力してください">
-        <button onclick="searchItems()" class="searchIcon">🔍</button>
+
+        <div class="search-wrapper">
+            <input type="text" id="searchBox" placeholder="品目を入力してください" autocomplete="off">
+            <div id="searchHistoryDropdown" class="search-history"></div>
+            <button onclick="handleSearchButton()" class="searchIcon">🔍</button>
+        </div>
     </div>
+
 
     <div id="initialButtonsContainer">
         </div>
