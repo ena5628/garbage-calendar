@@ -38,6 +38,11 @@ body.dark-mode {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
+@media (max-width: 1200px) {
+    #darkModeToggle {
+        position: absolute; 
+    }
+}
 
 /* ホバー時 */
 #darkModeToggle:hover {
@@ -384,7 +389,7 @@ body.dark-mode #backButton:active {
 /* 検索ボックス */
 body.dark-mode #searchBox {
     background-color: #555;
-    color: #eee;
+    color: #fdfdfd;
     border: 1px solid #888;
 }
 body.dark-mode .searchIcon {
@@ -392,6 +397,11 @@ body.dark-mode .searchIcon {
     color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
+
+body.dark-mode #searchBox::placeholder {
+    color: #aaa;
+}
+
 
 /* イニシャルボタン */
 body.dark-mode .initialButton {
@@ -406,13 +416,13 @@ body.dark-mode .initialButton.active {
 
 /* 品目カード */
 body.dark-mode .itemCard {
-    background-color: #3e3e3e;
-    border: 1px solid #555;
+    background-color: #535151;
+    border: 1px solid #3e3e3e;
     color: #e0e0e0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 body.dark-mode .itemCard-content {
-    color: #e0e0e0;
+    color: #e1e0e0;
 }
 /* ダークモード時のリンク色調整 */
 body.dark-mode .itemCard-content a {
