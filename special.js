@@ -540,16 +540,24 @@ window.onload = function() {
 
   const searchBox = document.getElementById("searchBox");
 
+  let isEnterSearch = false;
   // Enterキーでの検索（従来どおり）
   // ✅ keydown（確実に動く）
   searchBox.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       e.preventDefault();
+
       const value = searchBox.value.trim();
-      if (value) {
-        saveSearchHistory(value);   // ★ ここで保存
-        searchItems();
-      }
+      if (!value) return;
+
+      isEnterSearch = true;        // ★ Enter検索開始
+      saveSearchHistory(value);   // ★ 履歴保存
+      searchItems();              // ★ 検索実行
+
+      // inputイベントとの二重発火防止
+      setTimeout(() => {
+        isEnterSearch = false;
+      }, 0);
     }
   });
 
@@ -565,6 +573,7 @@ window.onload = function() {
 
   // 入力時に自動検索
   searchBox.addEventListener("input", function() {
+    if (isEnterSearch) return; // ★ これがないとEnter2回問題が出る
     const query = searchBox.value.trim();
     if (query) {
       searchItems();  // 入力値に応じてリアルタイム検索
