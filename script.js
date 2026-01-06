@@ -263,24 +263,31 @@ function renderTodayGarbage(schedule, today = new Date()) {
 
     if (!isTownAndChomeSelected()) return;
 
-    const todayList = schedule.filter(s => isSameDate(s.date, today));
+    const town  = townSelect.value.trim();
+    const chome = chomeSelect.value.trim();
 
-    if (todayList.length === 0) {
+    const todayList = schedule.filter(s => isSameDate(s.date, today));
+    const cardboard = isCardboardDay(today, town, chome);
+
+    // ▼ どちらも無い場合だけ「ゴミ収集なし」
+    if (todayList.length === 0 && !cardboard) {
         const div = document.createElement("div");
         div.className = "gomi-box today-main no-collection";
         div.textContent = "ゴミ収集なし";
         container.appendChild(div);
-    } else {
-        todayList.forEach(s => {
-            const div = document.createElement("div");
-            div.className = "gomi-box today-main";
-            div.style.backgroundColor = s.color || getDefaultColor(s.gomiKind);
-            div.textContent = s.gomiKind;
-            container.appendChild(div);
-        });
+        return;
     }
 
-    const cardboard = isCardboardDay(today, townSelect.value.trim(), chomeSelect.value.trim());
+    // ▼ 通常ゴミ
+    todayList.forEach(s => {
+        const div = document.createElement("div");
+        div.className = "gomi-box today-main";
+        div.style.backgroundColor = s.color || getDefaultColor(s.gomiKind);
+        div.textContent = s.gomiKind;
+        container.appendChild(div);
+    });
+
+    // ▼ 段ボール
     if (cardboard) {
         const div = document.createElement("div");
         div.className = "gomi-box today-main cardboard";
@@ -288,6 +295,7 @@ function renderTodayGarbage(schedule, today = new Date()) {
         container.appendChild(div);
     }
 }
+
 
 // ================================
 // データ取得
