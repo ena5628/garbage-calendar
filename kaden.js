@@ -21,6 +21,7 @@ const initialList = ["あ", "か", "さ", "た", "な", "は", "ま", "や", "�
 // 漢字 → 読み仮名
 const KanjiToInitial = {
   湯: "ゆ",
+  除: "じょ",
   電: "で",
   金: "きん",
   紙: "かみ",
@@ -192,6 +193,35 @@ function handleInitialFilter(initial) {
 
 // ==================== フィルタ & 描画 ====================
 
+function normalizeForSearch(text) {
+  if (!text) return "";
+
+  // 漢字 → 読み
+  const yomi = kanjiToYomi(text);
+
+  // ローマ字 → ひらがな
+  const hira = romanToHiragana(yomi);
+
+  // 最終正規化
+  return normalizeText(hira);
+}
+
+
+function kanjiToYomi(text) {
+  if (!text) return "";
+
+  let result = text;
+
+  Object.keys(KanjiToInitial)
+    .sort((a, b) => b.length - a.length)
+    .forEach(k => {
+      result = result.replaceAll(k, KanjiToInitial[k]);
+    });
+
+  return result;
+}
+
+
 function applyFiltersAndRender() {
   if (isSearching) {
     renderSearchResults();
@@ -234,8 +264,15 @@ function renderItems() {
     body.innerHTML = `
       <h3>${item.title}</h3>
       <p>種類: ${item.kind}</p>
-      <p>説明<br>${convertTextToHtml(item.content)}</p>
     `;
+
+    // ★ 説明がある場合のみ追加
+    if (item.content) {
+      const desc = document.createElement("p");
+      desc.innerHTML = `説明<br>${convertTextToHtml(item.content)}`;
+      body.appendChild(desc);
+    }
+
     card.appendChild(body);
     container.appendChild(card);
   });
@@ -387,7 +424,6 @@ function saveSearchHistory(word) {
 }
 
 
-
 function searchItems() {
   const searchBox = document.getElementById("searchBox");
   const raw = searchBox?.value.trim();
@@ -401,21 +437,16 @@ function searchItems() {
   }
 
   isSearching = true;
-  
-  const rawNorm = normalizeText(raw);
-  const strippedNorm = normalizeText(stripLeadingAlphabet(raw));
 
-  // 🔽 ローマ字 → ひらがな → 正規化
-  const romanNorm = normalizeText(romanToHiragana(raw));
+  // ★ ここが最大のポイント
+  const queryNorm = normalizeForSearch(raw);
 
   searchResults = allItems.filter(item => {
-    const titleNorm = normalizeText(item.title);
+    if (item.isLabel) return false;
 
-    return (
-      titleNorm.includes(rawNorm) ||        // USB / ACアダプター
-      (strippedNorm && titleNorm.includes(strippedNorm)) || // アダプタ
-      (romanNorm && titleNorm.includes(romanNorm)) // adaputa
-    );
+    const titleNorm = normalizeForSearch(item.title);
+
+    return titleNorm.includes(queryNorm);
   });
 
   renderSearchResults();
@@ -458,8 +489,14 @@ function renderSearchResults() {
     body.innerHTML = `
       <h3>${item.title}</h3>
       <p>種類: ${item.kind}</p>
-      <p>説明<br>${convertTextToHtml(item.content)}</p>
     `;
+
+    // ★ 説明がある場合のみ追加
+    if (item.content) {
+      const desc = document.createElement("p");
+      desc.innerHTML = `説明<br>${convertTextToHtml(item.content)}`;
+      body.appendChild(desc);
+    }
     card.appendChild(body);
     container.appendChild(card);
   });
