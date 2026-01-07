@@ -6,7 +6,7 @@ html {
 body {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
-   background: linear-gradient(to bottom, #FFF8E5, #F5E6C4); /* 薄いクリーム→薄茶 */
+   background: linear-gradient(#F5E6C4); /* 薄茶 */
 
   /* ページ全体スクロール */
   overflow-y: auto;

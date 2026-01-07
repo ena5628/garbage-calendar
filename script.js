@@ -212,7 +212,7 @@ function isCardboardExcluded(date, town, chome) {
 
 function isCardboardDay(date, town, chome) {
 
-        // ★ 町・丁目限定の除外ルール
+        // 町・丁目限定の除外ルール
     if (isCardboardExcluded(date, town, chome)) {
         return null;
     }
