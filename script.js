@@ -9,6 +9,22 @@ const nunobikiList = ["1丁目","2丁目","3丁目","4丁目"];
 const kotonoList = ["1丁目","2丁目","3丁目","4丁目","5丁目"];
 
 // ================================
+// 段ボール回収除外ルール（町・丁目限定）
+// ================================
+const cardboardExcludeRules = [
+    {
+        town: "中山手通",
+        chome: "8丁目",
+        periods: [
+            { from: "12/31", to: "1/4" },   // 年末年始
+            { from: "8/13",  to: "8/16" }   // お盆
+        ]
+    },
+
+];
+
+
+// ================================
 // DOM
 // ================================
 const townSelect  = document.getElementById("townSelect");
@@ -160,7 +176,47 @@ function getDefaultColor(kind) {
 // ================================
 // 段ボール判定
 // ================================
+
+function isDateInPeriod(date, from, to) {
+    const year = date.getFullYear();
+
+    const [fromMonth, fromDay] = from.split('/').map(Number);
+    const [toMonth, toDay]     = to.split('/').map(Number);
+
+    const start = new Date(year, fromMonth - 1, fromDay);
+    let end     = new Date(year, toMonth - 1, toDay);
+
+    // 年をまたぐケース（12/31 → 1/4）
+    if (end < start) {
+        if (date >= start) {
+            end = new Date(year + 1, toMonth - 1, toDay);
+        } else {
+            start.setFullYear(year - 1);
+        }
+    }
+
+    return date >= start && date <= end;
+}
+
+function isCardboardExcluded(date, town, chome) {
+    return cardboardExcludeRules.some(rule => {
+        if (rule.town !== town) return false;
+        if (rule.chome !== chome) return false;
+
+        return rule.periods.some(p =>
+            isDateInPeriod(date, p.from, p.to)
+        );
+    });
+}
+
+
 function isCardboardDay(date, town, chome) {
+
+        // ★ 町・丁目限定の除外ルール
+    if (isCardboardExcluded(date, town, chome)) {
+        return null;
+    }
+
     for (const r of cardboardSchedules) {
         if (r.town !== town) continue;
         if (r.chome !== chome) continue;
@@ -180,6 +236,13 @@ function renderCardboardScheduleLabel() {
 
     if (!isTownAndChomeSelected()) {
         cardboardBox.textContent = "町名・丁目を選択してください";
+        return;
+    }
+
+    // 今日が除外期間なら表示しない
+    const today = new Date();
+    if (isCardboardExcluded(today, town, chome)) {
+        cardboardBox.textContent = "段ボール回収は対象期間外です";
         return;
     }
 
