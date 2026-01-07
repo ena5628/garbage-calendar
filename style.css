@@ -319,7 +319,7 @@ body.dark-mode #darkModeToggle:hover {
     transition: transform 0.2s;
 }
 .icon-button-link:hover { transform: translateY(-5px); }
-.custom-icon-img { width: 70%; height: 70%; } /* 元60% → 55% */
+.custom-icon-img { width: 65%; height: 65%; } /* 元60% → 55% */
 
 .large-trash-capsule-button {
     display: block;

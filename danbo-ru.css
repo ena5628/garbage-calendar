@@ -53,7 +53,7 @@ body.dark-mode #darkModeToggle:hover {
 
 
 #backButton {
-  position: absolute;
+  position: fixed;
   top: 14px;
   left: 14px;
   z-index: 1000;
@@ -444,3 +444,39 @@ body.dark-mode #backButton:active {
     box-shadow: 0 3px 4px rgba(0,0,0,0.3);
 }
 
+/* =========================
+   大画面（PC / 4K）向け 全体スケールアップ
+========================= */
+@media (min-width: 1400px) {
+  html {
+    font-size: 18px; /* 標準16px → 少し大きく */
+  }
+
+  #searchArea,
+  #resultArea {
+    max-width: 1400px; /* 1000px → 広げる */
+  }
+
+  #searchPanel,
+  #resultScrollBox,
+  .townResult {
+    padding: 28px; /* 全体的に余白を増やす */
+  }
+}
+
+
+
+@media (min-width: 1600px) {
+  html {
+    font-size: 20px;
+  }
+
+  #pageTitleBanner {
+    font-size: clamp(40px, 4vw, 56px);
+  }
+
+  #searchPanel,
+  .townResult {
+    border-radius: 16px;
+  }
+}

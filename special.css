@@ -56,7 +56,7 @@ body.dark-mode #darkModeToggle:hover {
 }
 
 #backButton {
-  position: absolute;
+  position: fixed;
   top: 14px;
   left: 14px;
   z-index: 1000;
@@ -606,4 +606,136 @@ body.dark-mode #paging button:hover:not(:disabled) {
 }
 body.dark-mode #paging button:active:not(:disabled) {
     transform: translateY(0);
+}
+
+
+/* ===================================================
+   大型ディスプレイ（WQHD / 4K）対応
+=================================================== */
+@media (min-width: 1440px) {
+
+  /* ---------------------------
+     全体スケール調整
+  --------------------------- */
+  html {
+    font-size: 22px; /* ベース文字サイズを拡大 */
+  }
+
+  body {
+    line-height: 1.6;
+  }
+
+  /* ---------------------------
+     ヘッダー
+  --------------------------- */
+  #mainHeader {
+    padding: 80px 0 40px;
+  }
+
+  #pageTitleBanner {
+    font-size: 46px;
+    padding: 16px 240px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ---------------------------
+     メインコンテンツ幅
+  --------------------------- */
+  #contentContainer {
+    max-width: 1400px; /* 1000 → 拡張 */
+    padding: 40px;
+  }
+
+  #itemsContainer {
+    max-width: 1300px;
+    gap: 30px;
+  }
+
+  /* ---------------------------
+     検索エリア
+  --------------------------- */
+  #searchSection {
+    margin: 40px 0 60px;
+    gap: 16px;
+  }
+
+  .searchLabel {
+    font-size: 1.15em;
+  }
+
+  #searchBox {
+    font-size: 1.1em;
+    padding: 14px;
+  }
+
+  .searchIcon {
+    font-size: 1.05em;
+    padding: 14px 24px;
+  }
+
+  /* ---------------------------
+     イニシャルボタン
+  --------------------------- */
+  #initialButtonsContainer {
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .initialButton {
+    font-size: 1.15em;
+    padding: 14px 28px;
+  }
+
+  /* ---------------------------
+     品目カード
+  --------------------------- */
+  .itemCard {
+    padding: 28px;
+    gap: 28px;
+  }
+
+  .itemCard img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .itemCard h3 {
+    font-size: 1.3em;
+  }
+
+  .itemCard p {
+    font-size: 1.05em;
+  }
+
+  .initialLabel {
+    font-size: 1.7em;
+    margin-top: 40px;
+  }
+
+  /* ---------------------------
+     ページング
+  --------------------------- */
+  #paging {
+    margin: 50px 0;
+    gap: 28px;
+  }
+
+  #paging button {
+    font-size: 1.1em;
+    padding: 12px 30px;
+  }
+
+  /* ---------------------------
+     固定UIボタン
+  --------------------------- */
+  #darkModeToggle {
+    padding: 14px 24px;
+    font-size: 1em;
+  }
+
+  #backButton {
+    height: 48px;
+    font-size: 22px;
+    padding: 0 22px;
+  }
 }

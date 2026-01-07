@@ -63,7 +63,7 @@ body.dark-mode #darkModeToggle:hover {
    戻るボタン
 =================================================== */
 #backButton {
-    position: absolute;
+    position: fixed;
     top: 14px;
     left: 14px;
     z-index: 1000;
@@ -437,6 +437,132 @@ body.dark-mode .search-history div:hover {
         flex-shrink: 0;
     }
 }
+
+/* ===================================================
+   大型ディスプレイ（WQHD / 4K）対応
+=================================================== */
+@media (min-width: 1440px) {
+
+  /* ---------------------------
+     全体スケール
+  --------------------------- */
+  html {
+    font-size: 22px; /* 基準サイズを底上げ */
+  }
+
+  body {
+    line-height: 1.6;
+  }
+
+  /* ---------------------------
+     コンテンツ幅を拡張
+  --------------------------- */
+  #contentContainer {
+    max-width: 1400px;   /* 1000px → 拡張 */
+    padding: 40px;
+  }
+
+  #itemsContainer {
+    max-width: 1300px;
+    gap: 28px;
+  }
+
+  /* ---------------------------
+     ヘッダー・タイトル
+  --------------------------- */
+  #mainHeader {
+    padding: 70px 0 40px;
+  }
+
+  #pageTitleBanner {
+    font-size: 46px; /* clampを上書き */
+    padding: 14px 220px;
+  }
+
+  /* ---------------------------
+     検索エリア
+  --------------------------- */
+  #searchSection {
+    gap: 16px;
+    margin: 40px 0 60px;
+  }
+
+  #searchBox {
+    font-size: 1.1em;
+    padding: 14px;
+  }
+
+  .searchIcon {
+    font-size: 1.05em;
+    padding: 14px 22px;
+  }
+
+  /* ---------------------------
+     イニシャルボタン
+  --------------------------- */
+  .initialButton {
+    font-size: 1.15em;
+    padding: 14px 26px;
+  }
+
+  #initialButtonsContainer {
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  /* ---------------------------
+     品目カード
+  --------------------------- */
+  .itemCard {
+    padding: 28px;
+    gap: 28px;
+  }
+
+  .itemCard img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .itemCard h3 {
+    font-size: 1.3em;
+  }
+
+  .itemCard p {
+    font-size: 1.05em;
+  }
+
+  .initialLabel {
+    font-size: 1.7em;
+    margin-top: 40px;
+  }
+
+  /* ---------------------------
+     ページング
+  --------------------------- */
+  #paging {
+    margin: 50px 0;
+  }
+
+  #paging button {
+    font-size: 1.1em;
+    padding: 12px 28px;
+  }
+
+  /* ---------------------------
+     戻る・ダークモードボタン
+  --------------------------- */
+  #backButton {
+    height: 48px;
+    font-size: 22px;
+    padding: 0 22px;
+  }
+
+  #darkModeToggle {
+    padding: 14px 22px;
+    font-size: 1em;
+  }
+}
+
 
 /* ===================================================
    ダークモード
