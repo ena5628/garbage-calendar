@@ -345,7 +345,10 @@ function renderTodayGarbage(schedule, today = new Date()) {
     todayList.forEach(s => {
         const div = document.createElement("div");
         div.className = "gomi-box today-main";
-        div.style.backgroundColor = s.color || getDefaultColor(s.gomiKind);
+        div.style.backgroundColor =
+            document.body.classList.contains('dark-mode')
+                ? getDefaultColor(s.gomiKind)
+        : (s.color || getDefaultColor(s.gomiKind));
         div.textContent = s.gomiKind;
         container.appendChild(div);
     });

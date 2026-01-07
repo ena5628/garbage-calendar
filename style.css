@@ -4,7 +4,7 @@
 html {
     min-height: 100%;
     margin: 0;
-    font-size: 17px; /* デフォルト16px → 14pxに縮小 */
+    font-size: 15px; /* デフォルト16px → 14pxに縮小 */
      overflow-x: hidden;
 }
 body {
