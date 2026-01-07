@@ -4,7 +4,7 @@
 html {
     min-height: 100%;
     margin: 0;
-    font-size: 14px; /* デフォルト16px → 14pxに縮小 */
+    font-size: 17px; /* デフォルト16px → 14pxに縮小 */
      overflow-x: hidden;
 }
 body {
@@ -15,6 +15,20 @@ body {
     color: #333;
     font-family: "Noto Sans JP", sans-serif;
      overflow-x: hidden;
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 20px; /* 18px → 少し戻す */
+  }
+
+  #mainContentCard {
+    padding: 40px;      /* vw依存をやめる */
+  }
+
+  .dashboard-container {
+    gap: 32px;          /* 間延び防止 */
+  }
 }
 
 /* ===================================================
