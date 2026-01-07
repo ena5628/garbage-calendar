@@ -17,20 +17,6 @@ body {
      overflow-x: hidden;
 }
 
-@media (min-width: 1440px) {
-  html {
-    font-size: 20px; /* 18px → 少し戻す */
-  }
-
-  #mainContentCard {
-    padding: 40px;      /* vw依存をやめる */
-  }
-
-  .dashboard-container {
-    gap: 32px;          /* 間延び防止 */
-  }
-}
-
 /* ===================================================
    2. ページタイトル（縮小版）
 =================================================== */
@@ -325,7 +311,7 @@ body.dark-mode #darkModeToggle:hover {
     margin: 3vh 0 5vh 3vh; /* 上余白を3vhに増やす */
 }
 .icon-button-link {
-    width: 105px; height: 105px; /* 元85px → 70px */
+    width: 115px; height: 115px; /* 元85px → 70px */
     background-color: #75c9de;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
@@ -333,7 +319,7 @@ body.dark-mode #darkModeToggle:hover {
     transition: transform 0.2s;
 }
 .icon-button-link:hover { transform: translateY(-5px); }
-.custom-icon-img { width: 55%; height: 55%; } /* 元60% → 55% */
+.custom-icon-img { width: 70%; height: 70%; } /* 元60% → 55% */
 
 .large-trash-capsule-button {
     display: block;
@@ -361,6 +347,43 @@ body.dark-mode #darkModeToggle:hover {
     box-shadow: 0 8px 18px rgba(244,67,54,0.4);
 }
 .explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */
+
+/* ===============================
+   4K / 大型ディスプレイ対応
+=============================== */
+@media (min-width: 1440px) {
+  html {
+    font-size: 22px;
+  }
+
+  #mainContentCard {
+    max-width: 1400px;
+    padding: 60px;
+  }
+
+  .dashboard-container {
+    gap: 40px;
+  }
+
+  #pageTitle {
+    font-size: 56px;
+  }
+
+  .section-header {
+    font-size: 22px;
+  }
+
+  .gomi-box.today-main {
+    font-size: 22px;
+    padding: 18px;
+  }
+
+  .icon-button-link {
+    width: 130px;
+    height: 130px;
+  }
+}
+
 
 
 /* ダークモード切り替え用 */
