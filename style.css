@@ -382,6 +382,8 @@ body.dark-mode #darkModeToggle:hover {
     width: 130px;
     height: 130px;
   }
+
+  .explain { text-align: center; font-size: 18px; margin-top: 6px; } /* 元12px/8px → 11px/6px */
 }
 
 
