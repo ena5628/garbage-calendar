@@ -22,13 +22,21 @@ body {
 =================================================== */
 #pageTitle {
     text-align: center;
-    font-size: clamp(32px, 4vw, 56px); /* 元40-68px → 縮小 */
-    font-weight: 900;
-    margin: 0 0 2vh; /* 元3vh → 2vh */
-    letter-spacing: 2px;
-    color: #333;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    /* font-size: clamp(32px, 4vw, 56px); ←不要 */
+    /* font-weight: 900; ←不要 */
+    margin: 0 0 2vh;
+    /* letter-spacing: 2px; ←不要 */
+    /* text-shadow: 2px 2px 5px rgba(0,0,0,0.2); ←不要 */
 }
+
+.page-title-img {
+    width: 70%;
+    max-width: 280px;   /* 通常PC */
+    height: auto;
+    display: inline-block;
+}
+
+
 
 /* ダークモード切替ボタン */
 /* ダークモード切り替えボタンを右上固定 */
@@ -542,8 +550,8 @@ body.dark-mode .explain {
     gap: 40px;
   }
 
-  #pageTitle {
-    font-size: 56px;
+   .page-title-img {
+    max-width: 380px;
   }
 
   .section-header {
