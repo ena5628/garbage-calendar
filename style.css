@@ -47,8 +47,8 @@ body {
 .page-icon-img {
     position: absolute;
     left: 20px;
-    top: 80px;
-    width: 68px;
+    top: 50px;
+    width: 110px;
     height: auto;
 }
 
@@ -569,12 +569,6 @@ body.dark-mode .explain {
     .page-title-img {
       width: 80%;          /* 比率は維持 */
       max-width: 360px;    /* 280px → 360px */
-  }
-
-  .page-icon-img {
-      left: 28px;          /* 少し余白を増やす */
-      top: 102px;           /* タイトルに合わせて下げる */
-      width: 88px;         /* 64px → 88px */
   }
 
  .page-header {
