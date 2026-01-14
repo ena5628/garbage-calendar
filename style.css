@@ -20,20 +20,36 @@ body {
 /* ===================================================
    2. ページタイトル（縮小版）
 =================================================== */
+.page-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* タイトルを画面中央へ */
+    padding: 16px 20px;
+}
+
 #pageTitle {
     text-align: center;
     /* font-size: clamp(32px, 4vw, 56px); ←不要 */
     /* font-weight: 900; ←不要 */
-    margin: 0 0 2vh;
+    margin: 0 0 0;
     /* letter-spacing: 2px; ←不要 */
     /* text-shadow: 2px 2px 5px rgba(0,0,0,0.2); ←不要 */
 }
 
 .page-title-img {
-    width: 70%;
+    width: 80%;
     max-width: 280px;   /* 通常PC */
     height: auto;
     display: inline-block;
+}
+
+.page-icon-img {
+    position: absolute;
+    left: 20px;
+    top: 80px;
+    width: 68px;
+    height: auto;
 }
 
 
@@ -550,8 +566,19 @@ body.dark-mode .explain {
     gap: 40px;
   }
 
-   .page-title-img {
-    max-width: 380px;
+    .page-title-img {
+      width: 80%;          /* 比率は維持 */
+      max-width: 360px;    /* 280px → 360px */
+  }
+
+  .page-icon-img {
+      left: 28px;          /* 少し余白を増やす */
+      top: 102px;           /* タイトルに合わせて下げる */
+      width: 88px;         /* 64px → 88px */
+  }
+
+ .page-header {
+  padding: 24px 32px;
   }
 
   .section-header {
