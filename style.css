@@ -52,7 +52,13 @@ body {
     height: auto;
 }
 
-
+@media (max-width: 720px) {
+  .page-icon-img {
+    width: 98px;
+    left: 12px;
+    top: 60px;
+  }
+}
 
 /* ダークモード切替ボタン */
 /* ダークモード切り替えボタンを右上固定 */
