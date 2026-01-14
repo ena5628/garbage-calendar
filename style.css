@@ -571,6 +571,13 @@ body.dark-mode .explain {
       max-width: 360px;    /* 280px → 360px */
   }
 
+  
+  .page-icon-img {
+     width: 140px;
+     left: 40px;
+     top: 70px;
+  }
+
  .page-header {
   padding: 24px 32px;
   }
