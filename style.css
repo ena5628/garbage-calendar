@@ -32,10 +32,33 @@ body {
 .header-logo-link {
   position: fixed;     /* ← absolute ではなく fixed */
   top: 16px;           /* 画面上から */
-  left: 16px;          /* 画面左から */
+  left: 20px;          /* 画面左から */
   z-index: 10000;      /* ヘッダーやカードより前面 */
 }
 
+/* ホバー時に出る文字 */
+.header-logo-link::after {
+  content: "公式ホームページへ";
+  position: absolute;
+  bottom: -18px;           /* ロゴの下に表示 */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 11px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ホバー時に表示 */
+.header-logo-link:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(4px);
+}
 
 /* ロゴ共通 */
 .header-logo {
@@ -67,6 +90,12 @@ body {
   .header-logo-link {
     top: 24px;
     left: 24px;
+  }
+
+  .header-logo-link::after {
+    font-size: 13px;          /* 11px → 13px */
+    bottom: -22px;            /* 大きくした分、少し下へ */
+    padding: 8px 14px;
   }
 }
 
