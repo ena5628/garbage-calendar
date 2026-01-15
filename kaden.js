@@ -13,7 +13,7 @@ const sheetCsvUrl =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcgcKTLcJOUEmZQ4VYFueERLuygVMLE38lJBCnIRAezueNu2PmlXeYhGzd0lxeBvFvwRVEvtiYGTxt/pub?output=csv";
 
 // 画像フォルダ
-const IMAGE_FOLDER = "画像一覧/";
+const IMAGE_FOLDER = "Picture/";
 
 // 行リスト
 const initialList = ["あ", "か", "さ", "た", "な", "は", "ま", "や", "ら", "わ", "他"];

@@ -254,7 +254,7 @@ function renderCardboardScheduleLabel() {
     }
 
     const icon = document.createElement("img");
-    icon.src = "Image/段ボール-Photoroom.png";
+    icon.src = "Image/cardboard-Photoroom.png";
     icon.alt = "段ボール";
 
     const text = document.createElement("span");

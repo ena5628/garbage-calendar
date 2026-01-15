@@ -28,6 +28,49 @@ body {
     padding: 16px 20px;
 }
 
+/* 左上ロゴ（画面基準） */
+.header-logo-link {
+  position: fixed;     /* ← absolute ではなく fixed */
+  top: 16px;           /* 画面上から */
+  left: 16px;          /* 画面左から */
+  z-index: 10000;      /* ヘッダーやカードより前面 */
+}
+
+
+/* ロゴ共通 */
+.header-logo {
+  height: 84px;
+  width: auto;
+
+  animation: floatLogo 3.5s ease-in-out infinite;
+}
+
+
+/* ふわっと上下 */
+@keyframes floatLogo {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+
+.header-logo-link:hover .header-logo {
+  transform: scale(1.08);
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+}
+
+@media (min-width: 1440px) {
+  .header-logo {
+    height: 96px;
+  }
+
+  .header-logo-link {
+    top: 24px;
+    left: 24px;
+  }
+}
+
+
 #pageTitle {
     text-align: center;
     /* font-size: clamp(32px, 4vw, 56px); ←不要 */
@@ -42,22 +85,6 @@ body {
     max-width: 280px;   /* 通常PC */
     height: auto;
     display: inline-block;
-}
-
-.page-icon-img {
-    position: absolute;
-    left: 20px;
-    top: 50px;
-    width: 110px;
-    height: auto;
-}
-
-@media (max-width: 720px) {
-  .page-icon-img {
-    width: 90px;
-    left: 12px;
-    top: 60px;
-  }
 }
 
 /* ダークモード切替ボタン */
@@ -366,7 +393,6 @@ body.dark-mode #darkModeToggle:hover {
 .explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */
 
 
-
 /* ダークモード切り替え用 */
 body.dark-mode {
     background: #2c2c2c; /* 少し明るめのダークグレー */
@@ -376,6 +402,11 @@ body.dark-mode {
 body.dark-mode #pageTitle {
     color: #e0e0e0;
     text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ダークモード時 */
+body.dark-mode .header-logo {
+  filter: brightness(1.4) contrast(1.1);
 }
 
 /* メインカード */
@@ -577,13 +608,20 @@ body.dark-mode .explain {
       max-width: 360px;    /* 280px → 360px */
   }
 
-  
-  .page-icon-img {
-     width: 140px;
-     left: 40px;
-     top: 70px;
+
+  #darkModeToggle {
+    top: 16px;            /* 10 → 16 */
+    right: 16px;
+    padding: 14px 22px;   /* ボタンサイズUP */
+    font-size: 16px;      /* 文字も少し大きく */
+    border-radius: 10px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.25);
   }
 
+  #darkModeToggle:hover {
+    transform: scale(1.05);
+  }
+  
  .page-header {
   padding: 24px 32px;
   }
