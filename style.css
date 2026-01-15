@@ -64,20 +64,22 @@ body {
 @media (max-width: 900px) {
 
   .header-logo {
-    height: 64px;        /* 84px → 64px */
+    height: 52px;          /* 基準サイズ */
   }
 
   .header-logo-link {
-    top: 10px;           /* 16px → 10px */
-    left: 12px;          /* 20px → 12px */
+    top: 8px;              /* 10px → 8px（ロゴ比率に合わせる） */
+    left: 10px;            /* 12px → 10px */
   }
 
   .header-logo-link::after {
-    font-size: 10px;     /* 11px → 10px */
-    padding: 4px 8px;    /* 少しコンパクトに */
-    bottom: -16px;
+    font-size: 8px;        /* ロゴ52pxに対して適正 */
+    padding: 3px 6px;      /* 余白も比例縮小 */
+    bottom: -14px;         /* ロゴに近づける */
+    border-radius: 5px;
   }
 }
+
 
 
 /* ロゴ共通 */
