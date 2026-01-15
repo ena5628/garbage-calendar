@@ -30,7 +30,7 @@ body {
 
 /* 左上ロゴ（画面基準） */
 .header-logo-link {
-  position: fixed;     /* ← absolute ではなく fixed */
+  position: absolute;     /* ← absolute ではなく fixed */
   top: 16px;           /* 画面上から */
   left: 20px;          /* 画面左から */
   z-index: 10000;      /* ヘッダーやカードより前面 */
@@ -59,6 +59,26 @@ body {
   opacity: 1;
   transform: translateX(-50%) translateY(4px);
 }
+
+/* スマホ画面用（900px以下） */
+@media (max-width: 900px) {
+
+  .header-logo {
+    height: 64px;        /* 84px → 64px */
+  }
+
+  .header-logo-link {
+    top: 10px;           /* 16px → 10px */
+    left: 12px;          /* 20px → 12px */
+  }
+
+  .header-logo-link::after {
+    font-size: 10px;     /* 11px → 10px */
+    padding: 4px 8px;    /* 少しコンパクトに */
+    bottom: -16px;
+  }
+}
+
 
 /* ロゴ共通 */
 .header-logo {
@@ -119,7 +139,7 @@ body {
 /* ダークモード切替ボタン */
 /* ダークモード切り替えボタンを右上固定 */
 #darkModeToggle {
-    position: fixed;      /* 画面に固定 */
+    position: absolute;      /* 画面に固定 */
     top: 10px;            /* 上から10px */
     right: 10px;          /* 右から10px */
     z-index: 9999;        /* 他の要素より前面に */
@@ -437,6 +457,8 @@ body.dark-mode #pageTitle {
 body.dark-mode .header-logo {
   filter: brightness(1.4) contrast(1.1);
 }
+
+
 
 /* メインカード */
 body.dark-mode #mainContentCard {
