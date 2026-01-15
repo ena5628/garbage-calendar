@@ -157,6 +157,13 @@ body {
     display: inline-block;
 }
 
+/* 600px以下のとき少し下げる */
+@media (max-width: 600px) {
+    .page-title-img {
+        margin-top: 20px;  /* ← 好みに応じて 16〜32px くらい */
+    }
+}
+
 /* ダークモード切替ボタン */
 /* ダークモード切り替えボタンを右上固定 */
 #darkModeToggle {
