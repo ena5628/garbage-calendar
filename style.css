@@ -80,6 +80,25 @@ body {
   }
 }
 
+@media (max-width: 600px) {
+
+  .header-logo {
+    height: 46px;          /* 基準サイズ */
+  }
+
+  .header-logo-link {
+    top: 7px;              /* 8px → 7px */
+    left: 9px;             /* 10px → 9px */
+  }
+
+  .header-logo-link::after {
+    font-size: 7px;        /* 8px → 7px */
+    padding: 2px 5px;      /* 3x6 → 2x5 */
+    bottom: -12px;         /* 14px → 12px */
+    border-radius: 4px;
+  }
+}
+
 
 
 /* ロゴ共通 */
