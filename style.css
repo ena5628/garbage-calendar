@@ -73,7 +73,7 @@ body {
   }
 
   .header-logo-link::after {
-    font-size: 8px;        /* ロゴ52pxに対して適正 */
+    font-size: 9px;        /* ロゴ52pxに対して適正 */
     padding: 3px 6px;      /* 余白も比例縮小 */
     bottom: -14px;         /* ロゴに近づける */
     border-radius: 5px;
