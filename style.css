@@ -64,12 +64,10 @@ body {
 @media (max-width: 900px) {
 
   .header-logo {
-    width: 70%;
     height: 52px;          /* 基準サイズ */
   }
 
   .header-logo-link {
-    width: 70%;
     top: 8px;              /* 10px → 8px（ロゴ比率に合わせる） */
     left: 10px;            /* 12px → 10px */
   }
@@ -89,7 +87,6 @@ body {
   }
 
   .header-logo-link {
-    width:60%;
     top: 7px;              /* 8px → 7px */
     left: 6px;             /* 10px → 6px */
   }
@@ -163,7 +160,7 @@ body {
 /* 600px以下のとき少し下げる */
 @media (max-width: 600px) {
     .page-title-img {
-        width: 75%;
+        width: 65%;
         margin-top: 24px;  /* ← 好みに応じて 16〜32px くらい */
     }
 }
