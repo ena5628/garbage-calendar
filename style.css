@@ -151,7 +151,7 @@ body {
 }
 
 .page-title-img {
-    width: 80%;
+    width: 100%;
     max-width: 280px;   /* 通常PC */
     height: auto;
     display: inline-block;
@@ -160,7 +160,7 @@ body {
 /* 600px以下のとき少し下げる */
 @media (max-width: 600px) {
     .page-title-img {
-        margin-top: 20px;  /* ← 好みに応じて 16〜32px くらい */
+        margin-top: 24px;  /* ← 好みに応じて 16〜32px くらい */
     }
 }
 
@@ -683,7 +683,7 @@ body.dark-mode .explain {
   }
 
     .page-title-img {
-      width: 80%;          /* 比率は維持 */
+      width: 100%;          /* 比率は維持 */
       max-width: 360px;    /* 280px → 360px */
   }
 
