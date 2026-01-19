@@ -151,7 +151,7 @@ body {
 }
 
 .page-title-img {
-    width: 85%;
+    width: 90%;
     max-width: 280px;   /* 通常PC */
     height: auto;
     display: inline-block;
@@ -469,6 +469,35 @@ body.dark-mode #darkModeToggle:hover {
     box-shadow: 0 8px 18px rgba(244,67,54,0.4);
 }
 .explain { text-align: center; font-size: 11px; margin-top: 6px; } /* 元12px/8px → 11px/6px */
+
+/* 注意書き */
+.disclaimer {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin: 20px 0 10px;
+}
+
+/* ===== 大画面（1440px以上） ===== */
+@media (min-width: 1440px) {
+  .disclaimer {
+    font-size: 14px;   /* 少しだけ大きく */
+    margin: 28px 0 16px;
+  }
+}
+
+/* ===== スマホ（768px以下） ===== */
+@media (max-width: 768px) {
+  .disclaimer {
+    font-size: 11px;   /* 圧迫感を減らす */
+    margin: 16px 0 8px;
+    padding: 0 12px;  /* 端に寄りすぎないように */
+  }
+}
+
+body.dark-mode .disclaimer {
+  color: #aaa;
+}
 
 
 /* ダークモード切り替え用 */
