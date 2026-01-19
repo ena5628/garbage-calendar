@@ -712,10 +712,11 @@ body.dark-mode .explain {
     gap: 40px;
   }
 
-    .page-title-img {
-      width: 80%;          /* 比率は維持 */
-      max-width: 360px;    /* 280px → 360px */
+  .page-title-img {
+      width: 110%;        /* 通常より少しはみ出す */
+      max-width: 460px;   /* 拡大時の上限 */
   }
+
 
 
   #darkModeToggle {
