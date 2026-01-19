@@ -69,6 +69,7 @@ body {
   }
 
   .header-logo-link {
+    width: 70%;
     top: 8px;              /* 10px → 8px（ロゴ比率に合わせる） */
     left: 10px;            /* 12px → 10px */
   }
@@ -88,7 +89,7 @@ body {
   }
 
   .header-logo-link {
-    width:60;
+    width:60%;
     top: 7px;              /* 8px → 7px */
     left: 6px;             /* 10px → 6px */
   }
