@@ -160,7 +160,9 @@ body {
 /* 600px以下のとき少し下げる */
 @media (max-width: 600px) {
     .page-title-img {
-        margin-top: 24px;  /* ← 好みに応じて 16〜32px くらい */
+        width: 85%;          /* ← スマホでは少し小さく */
+        max-width: 220px;    /* ← 上限を強制的に下げる */
+        margin-top: 24px;
     }
 }
 
