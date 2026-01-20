@@ -230,12 +230,52 @@ body.dark-mode #darkModeToggle:hover {
     gap: 20px; /* 元40px → 20pxに縮小 */
     align-items: stretch;
 }
-.left-panel { flex: 1.6; min-width: 0; }
+.left-panel {position: relative; flex: 1.6; min-width: 0; }
 .right-panel { flex: 1; min-width: 0; 
                 display: flex; 
                 flex-direction: column;min-width: 0; 
                 border-left: 1px solid #e0e0e0;
                 padding-left: 20px;   /* 線と中身の間隔 */  /* 子がはみ出さないようにする */ }
+
+
+.loading-indicator {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 12px;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: none;
+  z-index: 10;
+}
+
+@media (max-width: 600px) {
+  .loading-indicator {
+    top: 8px;
+    right: 8px;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+}
+
+
+@media (min-width: 1440px) {
+  .loading-indicator {
+    top: 14px;
+    right: 16px;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+}
+
+
+/* ダークモード対応 */
+.dark-mode .loading-indicator {
+  color: #ddd;
+}
 
 
 /* ===================================================
@@ -351,24 +391,20 @@ body.dark-mode #darkModeToggle:hover {
 /* ===================================================
    7. 週間カレンダー
 =================================================== */
+#todayGarbageWrapper,
+#weekScheduleWrapper {
+    display: none; /* 初期状態で非表示 */
+}
+
+
 .week-calendar {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 8px; /* 元10px → 8px */
-    margin-top: 12px; /* 元15px → 12px */
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* パネル幅100pxを最低にして伸縮 */
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: center; /* 余白を均等にする場合 */
 }
-@media (max-width: 600px) {
-  .week-calendar {
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-  }
-}
-@media (min-width: 1440px) {
-  .week-calendar {
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;        /* 8px → 12px */
-    margin-top: 20px; /* 12px → 20px */
-  }
-}
+
 
 
 .day-panel {
@@ -431,9 +467,411 @@ body.dark-mode #darkModeToggle:hover {
     box-sizing: border-box;
 }
 
+/* 見出し＋ボタン横並び */
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ＋ボタン */
+.plus-btn {
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+.plus-btn:hover {
+  opacity: 0.8;
+}
+
+/* ===== モーダル ===== */
+#weekModalTitle {
+  text-align: center;
+  font-size: 20px !important;                     /* 少し大きめ */
+  font-weight: 600;                     /* 柔らかめ */
+  color: #ff6f61;                       /* ポップなオレンジピンク系 */
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ffb3a7;   /* 柔らかい線、破線で遊び感 */
+  font-family: "Baloo 2", "Noto Sans JP", "Helvetica", sans-serif; /* 丸みのあるポップフォント */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* ほんのり影で立体感 */
+  letter-spacing: 1px;                  /* 少し文字間を広げて明るく */
+}
+
+#weekModalTitle span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff6f61;
+  font-family: "Baloo 2", "Noto Sans JP", "Helvetica", sans-serif;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 20000;
+  padding: 20px 0;
+}
+
+.modal-content {
+  background: linear-gradient(to bottom, #faf7f5, #fffefd);
+  color: #333; 
+  width: 95%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+
+  overflow: auto; /* ← ★ここ重要 */
+}
+
+
+/* 閉じるボタンを右上固定 */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* ===== カレンダー ===== */
+.month-calendar-wrapper {
+  background: #eaeaea;
+  border-radius: 16px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;          /* ★モーダル内で伸びる */
+  overflow: hidden; /* ★中だけスクロールさせる */
+
+    /* 追加部分：枠線・影 */
+  border: 1px solid #d0d0d0;        /* 薄いグレーの枠線 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ふんわり影 */
+}
+
+/* タイトル＋矢印ボタン全体 */
+.month-calendar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;  /* 中央寄せ */
+  margin-bottom: 8px;
+  padding: 0 84px;          
+  gap: 84px;                 
+}
+
+/* 矢印ボタン */
+.month-calendar-nav button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: #75c9de;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+/* ホバー時 */
+.month-calendar-nav button:hover {
+  background-color: #4aa1c1;
+  transform: scale(1.2);
+}
+
+/* タイトル */
+.month-calendar-nav span {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+
+.month-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  padding: 6px 0;
+
+  flex: 1;            /* ★曜日分を引いた残り */
+  overflow-y: auto;  /* ★ここだけスクロール */
+}
+
+
+.month-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+
+  flex-shrink: 0; /* ★潰れない */
+  border: 1px solid #d0d0d0;        /* 薄いグレーの枠線 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ふんわり影 */
+}
+
+
+.month-weekday {
+  height: 36px;
+  background: #ffffff;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: sticky;
+  top: 0;                 /* ★スクロールしても固定 */
+  z-index: 2;
+  border: 1px solid #d0d0d0;        /* 薄いグレーの枠線 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ふんわり影 */
+}
+
+
+/* 月カレンダーの各日パネル */
+.month-day {
+    background: #faf5ed; 
+    border-radius: 12px;
+    padding: 8px;
+    min-height: 100px;       /* 高さを統一 */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;    /* 横幅を揃える */
+    font-size: 13px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #d0d0d0;        /* 薄いグレーの枠線 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ふんわり影 */
+}
+
+body.dark-mode .month-day {
+  background: #f7f0e5;
+}
+
+/* 日付部分 */
+.month-day .date {
+    font-weight: bold;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+/* 月カレンダー今日の日付 */
+.month-day.today {
+    background-color: #e0f7fa;   /* 週間カレンダーと同じ */
+    border: 1px solid #4dd0e1;   /* 枠線も同じ */
+}
+
+/* ゴミ種類ボックス統一 */
+.month-day .types {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;                 /* 空きスペースに伸ばす */
+}
+
+/* ゴミボックス内をアイコン＋文字構造に想定 */
+.month-day .types .gomi-box {
+    flex: 1;                     /* 縦方向に均等に伸ばす */
+    display: flex;                /* 内部をフレックスで揃える */
+    flex-direction: column;       /* アイコンと文字を縦に配置 */
+    align-items: center;          /* 横中央揃え */
+    justify-content: center;      /* 縦中央揃え */
+    border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    min-height: 28px;             /* 高さの最低値 */
+    width: 100%;                  /* パネル幅いっぱい */
+    box-sizing: border-box;
+    padding: 4px 2px;             /* アイコンと文字の間の余白 */
+}
+
+/* ゴミアイコン画像 */
+.month-day .types .gomi-box img {
+    max-height: 24px;             /* 高さを統一 */
+    width: auto;                  /* 横比率維持 */
+    margin-bottom: 4px;           /* アイコンと文字の間隔 */
+}
+
+/* 段ボール専用（文字色・背景色は既存） */
+.month-day .types .cardboard img {
+    max-height: 24px;             /* 他と揃える */
+}
+
+/* ダークモード対応 */
+body.dark-mode .month-day .types .gomi-box img {
+    filter: brightness(1.0);
+}
+
+body.dark-mode .month-day.today {
+    background-color: #d9f0f3;
+    border: 1px solid #00bcd4;
+}
+
+
+/* 種類ごとの色 */
+.month-day .types .burnable { background-color: #f28b82; }
+.month-day .types .non-burnable { background-color: #9e9e9e; }
+.month-day .types .plastic { background-color: #fbbc04; }
+.month-day .types .can-bottle { background-color: #ccff90; }
+.month-day .types .cardboard { background-color: #ffd966; color: #000; }
+
+/* 他月日のトーンダウン */
+.month-day.other-month {
+    background-color: #f2f2f2;
+    color: #999;
+}
+.month-day.other-month .gomi-box {
+    opacity: 0.5;
+}
+
+/* ダークモード対応 */
+body.dark-mode .month-day.other-month {
+    background-color: #f2f0f0;
+    color: #a8a8a8;
+}
+body.dark-mode .month-day.other-month .gomi-box {
+    opacity: 0.4;
+}
+
+
+/* =================== 共通 =================== */
+/* 現状のCSSそのまま */
+
+
+/* =================== レスポンシブ =================== */
+@media (max-width: 1440px) {
+  .month-calendar {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .month-weekdays {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .month-calendar {
+    grid-template-columns: repeat(7, 1fr); /* PCと同じ */
+    gap: 4px;
+  }
+  .month-weekdays {
+    gap: 4px;
+  }
+  .month-day {
+    min-height: 90px; /* 少しコンパクトに */
+    font-size: 12px;
+    padding: 6px;
+  }
+  .month-day .types .gomi-box {
+    min-height: 24px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 600px) {
+  /* カレンダー全体を横スクロール対応に */
+  .month-calendar-wrapper {
+    overflow-x: auto;      
+    -webkit-overflow-scrolling: touch; /* スマホでスムーズスクロール */
+  }
+
+  /* カレンダー本体 */
+  .month-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 100px); /* パネル幅を少し小さく */
+    gap: 6px;
+    padding: 6px 0;
+    width: max-content;   /* 横幅に合わせる */
+  }
+
+  /* 曜日部分 */
+  .month-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 100px); /* パネル幅に合わせる */
+    gap: 6px;
+    margin-bottom: 6px;
+    width: max-content;
+  }
+
+  /* 日パネル */
+  .month-day {
+    min-height: 80px;       /* 高さを少し小さく */
+    padding: 4px;
+    font-size: 11px;        /* 文字を少し縮小 */
+  }
+
+  /* ゴミ箱ボックス */
+  .month-day .types .gomi-box {
+    min-height: 20px;       /* 高さ縮小 */
+    font-size: 10px;        /* 文字も縮小 */
+    padding: 2px 2px;
+  }
+
+  /* ゴミアイコン */
+  .month-day .types .gomi-box img {
+    max-height: 18px;       /* アイコンも縮小 */
+    margin-bottom: 2px;
+  }
+
+  /* モーダルタイトル */
+  #weekModalTitle {
+    font-size: 16px !important;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+
+  /* ナビボタン */
+  .month-calendar-nav {
+    padding: 0 8px;
+    gap: 8px;
+  }
+  .month-calendar-nav button {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  } 
+  .month-calendar-nav span {
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+
 /* ===================================================
    8. 段ボール・ゴミ捨て方法・大型ゴミ
 =================================================== */
+
 .simple-box {
     background: #fff6cc;
     border-radius: 12px;
@@ -503,6 +941,7 @@ body.dark-mode #darkModeToggle:hover {
   color: #666;
   margin: 20px 0 10px;
 }
+
 
 /* ===== 大画面（1440px以上） ===== */
 @media (min-width: 1440px) {
@@ -662,6 +1101,11 @@ body.dark-mode .gomi-box.cardboard {
     color: #222;
 }
 
+/* ===== モーダル ===== */
+body.dark-mode .modal-overlay {
+  background: rgba(0,0,0,0.5); /* オーバーレイだけはOK */
+}
+
 /* 段ボール・ゴミ捨て方法・大型ゴミ */
 body.dark-mode .simple-box {
     background: #606060;
@@ -691,7 +1135,7 @@ body.dark-mode .explain {
     color: #ccc;
 }
 
-/* アニメーションの滑らかさ */
+
 
 /* レスポンシブル対応 */
 

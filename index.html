@@ -30,6 +30,7 @@
     
     <!-- 左パネル -->
     <div class="left-panel">
+      <div id="loadingIndicator" class="loading-indicator">読み込み中…</div>
       <div id="searchArea">
         <div class="search-selects">
           <h3 class="section-header">ゴミ収集日検索</h3>
@@ -57,7 +58,10 @@
       </div>
 
       <div id="weekScheduleWrapper">
-        <h3 class="section-header">今週のスケジュール</h3>
+        <div class="section-header-row">
+          <h3 class="section-header">今週のスケジュール</h3>
+          <button id="openWeekModal" class="plus-btn">＋</button>
+        </div>
         <div id="weekCalendar" class="week-calendar"></div>
       </div>
 
@@ -117,4 +121,12 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="script.js"></script>
 </body>
+<!-- 週間スケジュール モーダル -->
+<div id="weekModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2 id="weekModalTitle"></h2>
+    <button id="closeWeekModal" class="modal-close">×</button>
+    <div id="weekModalContent"></div>
+  </div>
+</div>
 </html>

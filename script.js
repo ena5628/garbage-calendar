@@ -37,15 +37,60 @@ let cardboardSchedules = [];
 // ================================
 // 初期化
 // ================================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+    // 最初は選択不可
+    townSelect.disabled = true;
+    chomeSelect.disabled = true;
+
+    const loadingIndicator = document.getElementById("loadingIndicator");
+    if (loadingIndicator) loadingIndicator.style.display = "block";
+
     restoreSelectionFromSession();
-    loadSchedule();
-    loadCardboardSchedule();
+    // データロードを並列化
+    await Promise.all([
+        loadSchedule(),
+        loadCardboardSchedule()
+    ]);
     toggleScheduleVisibility();
+    // 選択可能にする
+    townSelect.disabled = false;
+    chomeSelect.disabled = false;
     loadTips();
+
+    if (loadingIndicator) loadingIndicator.style.display = "none";
+
 
     townSelect.addEventListener("change", handleSelectionChange);
     chomeSelect.addEventListener("change", handleSelectionChange);
+
+    const openBtn  = document.getElementById("openWeekModal");
+    const closeBtn = document.getElementById("closeWeekModal");
+    const modal    = document.getElementById("weekModal");
+
+    if (openBtn && closeBtn && modal) {
+        openBtn.addEventListener("click", () => {
+        // ▼ sessionStorage から値を復元してセレクトに反映
+        const savedTown  = sessionStorage.getItem('selectedTown');
+        const savedChome = sessionStorage.getItem('selectedChome');
+
+        if (savedTown) townSelect.value = savedTown;
+        if (savedChome) chomeSelect.value = savedChome;
+
+        // ▼ 町名に応じて丁目リストを更新
+        handleSelectionChange(); // これでカレンダーも更新される
+
+        // ▼ モーダル用に月カレンダー描画
+        renderMonthlyCalendarInWeekModal();
+
+        modal.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+}
+
 });
 
 // ================================
@@ -125,13 +170,11 @@ function isTownAndChomeSelected() {
 // 日付・カレンダー関連
 // ================================
 function getThisWeek(today = new Date()) {
-    const start = new Date(today);
-    start.setDate(start.getDate() - 1); // 昨日
-    start.setHours(0, 0, 0, 0);
-
-    return Array.from({ length: 9 }, (_, i) => {
-        const d = new Date(start);
-        d.setDate(start.getDate() + i);
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() - today.getDay());
+    return Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(sunday);
+        d.setDate(sunday.getDate() + i);
         return d;
     });
 }
@@ -174,6 +217,175 @@ function getDefaultColor(kind) {
         }
     }
 }
+
+
+// 今月のカレンダー表示
+function getGarbageTypesForDate(date, town, chome) {
+    const result = [];
+
+    schedules.forEach(s => {
+        if (s.town !== town) return;
+        if (s.chome !== chome) return;
+        if (date.getDay() !== s.collectionDay) return;
+
+        const week = getWeekOfMonth(date, s.collectionDay);
+
+        if (
+            s.frequency === "毎週" ||
+            week === s.week1 ||
+            week === s.week2
+        ) {
+            result.push(s.gomiKind);
+        }
+    });
+
+    return result;
+}
+
+
+// 現在の年月
+const today = new Date();
+let currentYear = today.getFullYear();
+let currentMonth = today.getMonth(); // 0始まり
+
+// 月ごとのカレンダーの表示（年は固定）
+function renderMonthlyCalendarInWeekModal(month) {
+    const content = document.getElementById("weekModalContent");
+    const title   = document.getElementById("weekModalTitle");
+    if (!content || !title) return;
+
+    content.innerHTML = "";
+
+    const town  = sessionStorage.getItem("selectedTown")  || townSelect.value;
+    const chome = sessionStorage.getItem("selectedChome") || chomeSelect.value;
+
+    if (!town || !chome || town === "町名を選択してください" || chome === "〇丁目など") {
+        content.textContent = "町名・丁目を選択してください";
+        return;
+    }
+
+    if (month === undefined) month = today.getMonth();
+
+    currentMonth = month;
+
+    // タイトル + 前後月ボタン
+    const header = document.createElement("div");
+    header.className = "month-calendar-nav";
+
+    const prevBtn = document.createElement("button");
+    prevBtn.innerHTML = "◀";
+    prevBtn.onclick = () => {
+        let m = currentMonth - 1;
+        if (m < 0) m = 11;  // 年は固定
+        renderMonthlyCalendarInWeekModal(m);
+    };
+
+    const nextBtn = document.createElement("button");
+    nextBtn.innerHTML = "▶";
+    nextBtn.onclick = () => {
+        let m = currentMonth + 1;
+        if (m > 11) m = 0;  // 年は固定
+        renderMonthlyCalendarInWeekModal(m);
+    };
+
+    const titleSpan = document.createElement("span");
+    titleSpan.textContent = `${currentYear}年${currentMonth + 1}月のゴミ収集カレンダー`;
+
+    header.appendChild(prevBtn);
+    header.appendChild(titleSpan);
+    header.appendChild(nextBtn);
+
+    title.innerHTML = "";
+    title.appendChild(header);
+
+    // カレンダー作成
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+    const lastDayOfMonth  = new Date(currentYear, currentMonth + 1, 0);
+    const startDayIndex = firstDayOfMonth.getDay();
+
+    const calendar = document.createElement("div");
+    calendar.className = "month-calendar";
+
+    // 曜日
+    ["日","月","火","水","木","金","土"].forEach(day => {
+        const w = document.createElement("div");
+        w.className = "month-weekday";
+        w.textContent = day;
+        calendar.appendChild(w);
+    });
+
+    // 前月末
+    const prevMonthLastDate = new Date(currentYear, currentMonth, 0).getDate();
+    for (let i = startDayIndex - 1; i >= 0; i--) {
+        const box = document.createElement("div");
+        box.className = "month-day other-month";
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "date";
+        dateDiv.textContent = prevMonthLastDate - i;
+        box.appendChild(dateDiv);
+        calendar.appendChild(box);
+    }
+
+    // 今月
+    for (let d = 1; d <= lastDayOfMonth.getDate(); d++) {
+        const date = new Date(currentYear, currentMonth, d);
+        const box = document.createElement("div");
+        box.className = "month-day";
+
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "date";
+        dateDiv.textContent = d;
+        box.appendChild(dateDiv);
+
+        if (date.getFullYear() === today.getFullYear() &&
+            date.getMonth() === today.getMonth() &&
+            date.getDate() === today.getDate()) {
+            box.classList.add("today");
+        }
+
+        const typesContainer = document.createElement("div");
+        typesContainer.className = "types";
+
+        getGarbageTypesForDate(date, town, chome).forEach(kind => {
+            const g = document.createElement("div");
+            g.className = "gomi-box";
+            g.style.backgroundColor = getDefaultColor(kind);
+            g.textContent = kind;
+            typesContainer.appendChild(g);
+        });
+
+        if (isCardboardDay(date, town, chome)) {
+            const g = document.createElement("div");
+            g.className = "gomi-box cardboard";
+            g.innerHTML = `<i class="fa-solid fa-box"></i> 段ボール`;
+            typesContainer.appendChild(g);
+        }
+
+        box.appendChild(typesContainer);
+        calendar.appendChild(box);
+    }
+
+    // 翌月初
+    for (let i = 1; calendar.childNodes.length % 7 !== 0; i++) {
+        const box = document.createElement("div");
+        box.className = "month-day other-month";
+        const dateDiv = document.createElement("div");
+        dateDiv.className = "date";
+        dateDiv.textContent = i;
+        box.appendChild(dateDiv);
+        calendar.appendChild(box);
+    }
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "month-calendar-wrapper";
+    wrapper.appendChild(calendar);
+    content.appendChild(wrapper);
+}
+
+// 初回表示（現在の年・月）
+renderMonthlyCalendarInWeekModal(today.getMonth());
+
+
 
 
 // ================================
@@ -281,6 +493,8 @@ function renderWeekCalendar(schedule, today = new Date()) {
     const week = getThisWeek(today);
     const dayNames = ["日","月","火","水","木","金","土"];
 
+    const baseMonth = today.getMonth(); 
+
     week.forEach(date => {
         const wrapper = document.createElement("div");
         wrapper.className = "day-column-wrapper";
@@ -293,6 +507,10 @@ function renderWeekCalendar(schedule, today = new Date()) {
         const panel = document.createElement("div");
         panel.className = "day-panel";
         if (isSameDate(date, today)) panel.classList.add("today");
+
+        if (date.getMonth() !== baseMonth) {
+            panel.classList.add("other-month");
+        }
 
         const num = document.createElement("div");
         num.className = "day-number";
