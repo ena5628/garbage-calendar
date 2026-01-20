@@ -38,7 +38,7 @@ body {
 
 /* ホバー時に出る文字 */
 .header-logo-link::after {
-  content: "公式ホームページへ";
+  content: "ヨセナベ公式ホームページへ";
   position: absolute;
   bottom: -18px;           /* ロゴの下に表示 */
   left: 50%;
@@ -83,22 +83,28 @@ body {
 @media (max-width: 600px) {
 
   .header-logo {
-    height: 46px;          /* 基準サイズ */
+    height: 40px;          /* 46px → 40px */
   }
 
   .header-logo-link {
-    top: 7px;              /* 8px → 7px */
-    left: 6px;             /* 10px → 6px */
+    top: 5px;              /* 7px → 5px */
+    left: 4px;             /* 6px → 4px */
   }
 
   .header-logo-link::after {
-    font-size: 7px;        /* 8px → 7px */
-    padding: 2px 5px;      /* 3x6 → 2x5 */
-    bottom: -12px;         /* 14px → 12px */
-    border-radius: 4px;
+    font-size: 6px;        /* 7px → 6px */
+    padding: 1px 4px;      /* 2x5 → 1x4 */
+    bottom: -10px;         /* -12px → -10px */
+    border-radius: 3px;    /* 4px → 3px */
   }
 }
 
+
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+    }
+}
 
 
 /* ロゴ共通 */
@@ -159,11 +165,12 @@ body {
 
 /* 600px以下のとき少し下げる */
 @media (max-width: 600px) {
-    .page-title-img {
-        width: 65%;
-        margin-top: 24px;  /* ← 好みに応じて 16〜32px くらい */
-    }
+  .page-title-img {
+    width: 58%;          /* 65% → 58% */
+    margin-top: 20px;   /* 24px → 20px */
+  }
 }
+
 
 /* ダークモード切替ボタン */
 /* ダークモード切り替えボタンを右上固定 */
@@ -351,8 +358,11 @@ body.dark-mode #darkModeToggle:hover {
     margin-top: 12px; /* 元15px → 12px */
 }
 @media (max-width: 600px) {
-    .week-calendar { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
+  .week-calendar {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
 }
+
 .day-panel {
     background: #faf5ed;
     border-radius: 10px;

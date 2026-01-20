@@ -650,7 +650,7 @@ function normalizeText(text) {
   // 3. 濁点除去
   text = text.normalize("NFKD").replace(/[\u3099\u309A]/g, "");
 
-  // ⭐ 追加：長音・記号・空白を除去
+  //  追加：長音・記号・空白を除去
   text = text.replace(/[ー－‐-–—~〜\s]/g, "");
 
   // 4. 小文字化
@@ -717,14 +717,37 @@ function searchItems() {
 
 
 
+function showSearchError(message) {
+  const box = document.getElementById("searchBox");
+  const error = document.getElementById("searchError");
+
+  box.classList.add("error");
+  error.textContent = message;
+  error.style.display = "block";
+}
+
+function clearSearchError() {
+  const box = document.getElementById("searchBox");
+  const error = document.getElementById("searchError");
+
+  box.classList.remove("error");
+  error.textContent = "";
+  error.style.display = "none";
+}
+
+
 
 function renderSearchResults() {
   const container = document.getElementById("itemsContainer");
   container.innerHTML = "";
 
   if (searchResults.length === 0) {
-    container.innerHTML = "<p>該当する品目はありません</p>";
+    container.innerHTML = "<p>該当する品目が見つかりません</p>";
+     showSearchError("該当する品目が見つかりません");
     return;
+  }
+  else {
+    clearSearchError();
   }
 
   searchResults.forEach(item => {
