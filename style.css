@@ -353,7 +353,7 @@ body.dark-mode #darkModeToggle:hover {
 =================================================== */
 .week-calendar {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 8px; /* 元10px → 8px */
     margin-top: 12px; /* 元15px → 12px */
 }
@@ -362,6 +362,14 @@ body.dark-mode #darkModeToggle:hover {
     grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
   }
 }
+@media (min-width: 1440px) {
+  .week-calendar {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;        /* 8px → 12px */
+    margin-top: 20px; /* 12px → 20px */
+  }
+}
+
 
 .day-panel {
     background: #faf5ed;
@@ -450,6 +458,14 @@ body.dark-mode #darkModeToggle:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s;
 }
+
+@media (max-width: 600px) {
+  .icon-button-link {
+    width: 90px;
+    height: 90px;
+  }
+}
+
 .icon-button-link:hover { transform: translateY(-5px); }
 .custom-icon-img { width: 65%; height: 65%; } /* 元60% → 55% */
 

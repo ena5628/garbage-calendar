@@ -125,14 +125,17 @@ function isTownAndChomeSelected() {
 // 日付・カレンダー関連
 // ================================
 function getThisWeek(today = new Date()) {
-    const sunday = new Date(today);
-    sunday.setDate(today.getDate() - today.getDay());
-    return Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(sunday);
-        d.setDate(sunday.getDate() + i);
+    const start = new Date(today);
+    start.setDate(start.getDate() - 1); // 昨日
+    start.setHours(0, 0, 0, 0);
+
+    return Array.from({ length: 9 }, (_, i) => {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
         return d;
     });
 }
+
 
 function getWeekOfMonth(date, targetDayOfWeek) {
     let count = 0;
