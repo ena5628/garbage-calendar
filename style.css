@@ -713,8 +713,8 @@ body.dark-mode .explain {
   }
 
   .page-title-img {
-    width: 130%;        /* 通常より大きくはみ出す */
-    max-width: 520px;   /* 拡大時の上限（460px → 520px） */
+    width: 120%;        /* 通常より大きくはみ出す */
+    max-width: 490px;   /* 拡大時の上限（460px → 520px） */
   }
 
 
