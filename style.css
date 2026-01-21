@@ -62,42 +62,53 @@ body {
 
 /* スマホ画面用（900px以下） */
 @media (max-width: 900px) {
-
   .header-logo {
-    height: 52px;          /* 基準サイズ */
+    height: 46px;   /* 52px → 46px */
   }
 
   .header-logo-link {
-    top: 8px;              /* 10px → 8px（ロゴ比率に合わせる） */
-    left: 10px;            /* 12px → 10px */
+    top: 6px;       /* 8px → 6px */
+    left: 8px;      /* 10px → 8px */
   }
 
   .header-logo-link::after {
-    font-size: 9px;        /* ロゴ52pxに対して適正 */
-    padding: 3px 6px;      /* 余白も比例縮小 */
-    bottom: -14px;         /* ロゴに近づける */
-    border-radius: 5px;
+    font-size: 8px; /* 9px → 8px */
+    padding: 2px 6px;
+    bottom: -12px;
   }
 }
+
 
 @media (max-width: 600px) {
-
   .header-logo {
-    height: 40px;          /* 46px → 40px */
+    height: 34px;   /* 40px → 34px */
   }
 
   .header-logo-link {
-    top: 5px;              /* 7px → 5px */
-    left: 4px;             /* 6px → 4px */
+    top: 4px;       /* 5px → 4px */
+    left: 4px;      /* 4px → 4px（維持） */
   }
 
   .header-logo-link::after {
-    font-size: 6px;        /* 7px → 6px */
-    padding: 1px 4px;      /* 2x5 → 1x4 */
-    bottom: -10px;         /* -12px → -10px */
-    border-radius: 3px;    /* 4px → 3px */
+    font-size: 5px; /* 6px → 5px */
+    padding: 1px 3px;
+    bottom: -8px;
+    border-radius: 3px;
   }
 }
+
+@media (max-width: 400px) {
+  .header-logo {
+    height: 30px;
+  }
+
+  .header-logo-link::after {
+    font-size: 4.5px;
+    padding: 1px 3px;
+    bottom: -7px;
+  }
+}
+
 
 
 @media (max-width: 768px) {
