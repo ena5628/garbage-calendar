@@ -60,55 +60,6 @@ body {
   transform: translateX(-50%) translateY(4px);
 }
 
-/* スマホ画面用（900px以下） */
-@media (max-width: 900px) {
-  .header-logo {
-    height: 38px;   /* 52px → 46px */
-  }
-
-  .header-logo-link {
-    top: 6px;       /* 8px → 6px */
-    left: 8px;      /* 10px → 8px */
-  }
-
-  .header-logo-link::after {
-    font-size: 8px; /* 9px → 8px */
-    padding: 2px 6px;
-    bottom: -12px;
-  }
-}
-
-
-@media (max-width: 600px) {
-  .header-logo {
-    height: 26px;   /* 40px → 34px */
-  }
-
-  .header-logo-link {
-    top: 4px;       /* 5px → 4px */
-    left: 4px;      /* 4px → 4px（維持） */
-  }
-
-  .header-logo-link::after {
-    font-size: 5px; /* 6px → 5px */
-    padding: 1px 3px;
-    bottom: -8px;
-    border-radius: 3px;
-  }
-}
-
-@media (max-width: 400px) {
-  .header-logo {
-    height: 22px;
-  }
-
-  .header-logo-link::after {
-    font-size: 4.5px;
-    padding: 1px 3px;
-    bottom: -7px;
-  }
-}
-
 
 
 @media (max-width: 768px) {
@@ -1452,4 +1403,54 @@ body.dark-mode .explain {
     margin-top: 8px;
     line-height: 1.35;
   } 
+}
+
+
+/* スマホ画面用（900px以下） */
+@media (max-width: 900px) {
+  .header-logo {
+    height: 38px;   /* 52px → 46px */
+  }
+
+  .header-logo-link {
+    top: 6px;       /* 8px → 6px */
+    left: 8px;      /* 10px → 8px */
+  }
+
+  .header-logo-link::after {
+    font-size: 8px; /* 9px → 8px */
+    padding: 2px 6px;
+    bottom: -12px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .header-logo {
+    height: 26px;   /* 40px → 34px */
+  }
+
+  .header-logo-link {
+    top: 4px;       /* 5px → 4px */
+    left: 4px;      /* 4px → 4px（維持） */
+  }
+
+  .header-logo-link::after {
+    font-size: 5px; /* 6px → 5px */
+    padding: 1px 3px;
+    bottom: -8px;
+    border-radius: 3px;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-logo {
+    height: 22px;
+  }
+
+  .header-logo-link::after {
+    font-size: 4.5px;
+    padding: 1px 3px;
+    bottom: -7px;
+  }
 }
