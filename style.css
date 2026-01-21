@@ -474,20 +474,54 @@ body.dark-mode #darkModeToggle:hover {
   justify-content: space-between;
 }
 
-/* ＋ボタン */
+/* カレンダーボタン */
 .plus-btn {
-  font-size: 20px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: none;
-  background: #4CAF50;
-  color: #fff;
+  display: inline-flex;          /* 画像を中央に配置しやすくする */
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  width: 34px;                   /* ボタン幅 */
+  height: 34px;                  /* ボタン高さ */
+  padding: 0;                     /* 内側余白は画像に合わせる */
+  border: none;                  /* 枠線なし */
+  background-color: #75c9de;     /* 好きな背景色 */
+  border-radius: 50%;            /* 丸いボタンにする場合 */
   cursor: pointer;
+
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
 }
-.plus-btn:hover {
-  opacity: 0.8;
+
+/* ボタン内の画像 */
+.plus-btn .calendar-icon-img {
+  width: 15px;                  /* 画像サイズ */
+  height: 15px;
+  object-fit: contain;          /* 画像がはみ出さないように */
 }
+
+.plus-btn:hover { transform: translateY(-2px); }
+
+@media (min-width: 1440px) {
+  .plus-btn {
+    width: 50px;               /* 大画面ではボタンを大きく */
+    height: 50px;
+    margin-top: 24px;          /* 上余白も少し大きめ */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* 影も少し強め */
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .plus-btn .calendar-icon-img {
+    width: 24px;               /* 画像サイズも大きめ */
+    height: 24px;
+  }
+
+  /* ホバー時の演出（任意） */
+  .plus-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+}
+
 
 /* ===== モーダル ===== */
 #weekModalTitle {
