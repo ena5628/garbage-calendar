@@ -129,22 +129,6 @@ body {
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
 }
 
-@media (min-width: 1440px) {
-  .header-logo {
-    height: 96px;
-  }
-
-  .header-logo-link {
-    top: 24px;
-    left: 24px;
-  }
-
-  .header-logo-link::after {
-    font-size: 13px;          /* 11px → 13px */
-    bottom: -22px;            /* 大きくした分、少し下へ */
-    padding: 8px 14px;
-  }
-}
 
 
 #pageTitle {
@@ -261,15 +245,6 @@ body.dark-mode #darkModeToggle:hover {
 }
 
 
-@media (min-width: 1440px) {
-  .loading-indicator {
-    top: 14px;
-    right: 16px;
-    font-size: 13px;
-    padding: 6px 10px;
-    border-radius: 8px;
-  }
-}
 
 
 /* ダークモード対応 */
@@ -503,26 +478,7 @@ body.dark-mode #darkModeToggle:hover {
 
 .plus-btn:hover { transform: translateY(-2px); }
 
-@media (min-width: 1440px) {
-  .plus-btn {
-    width: 50px;               /* 大画面ではボタンを大きく */
-    height: 50px;
-    margin-top: 24px;          /* 上余白も少し大きめ */
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* 影も少し強め */
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
 
-  .plus-btn .calendar-icon-img {
-    width: 24px;               /* 画像サイズも大きめ */
-    height: 24px;
-  }
-
-  /* ホバー時の演出（任意） */
-  .plus-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  }
-}
 
 
 /* ===== モーダル ===== */
@@ -545,6 +501,22 @@ body.dark-mode #darkModeToggle:hover {
   color: #ff6f61;
   font-family: "Baloo 2", "Noto Sans JP", "Helvetica", sans-serif;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+
+
+@media (max-width: 600px) {
+  #weekModalTitle span {
+    font-size: 16px;
+    font-weight: 500; /* 少し軽くして詰まり感防止 */
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.08);
+  }
+}
+
+@media (max-width: 400px) {
+  #weekModalTitle span {
+    font-size: 15px;
+  }
 }
 
 
@@ -704,6 +676,10 @@ body.dark-mode #darkModeToggle:hover {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #d0d0d0;        /* 薄いグレーの枠線 */
     box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ふんわり影 */
+    transition: box-shadow 0.2s ease;
+}
+.month-day:hover {
+    box-shadow: 0 5px 12px rgba(0,0,0,0.18);
 }
 
 body.dark-mode .month-day {
@@ -806,16 +782,6 @@ body.dark-mode .plus-btn .calendar-icon-img {
 }
 
 /* =================== レスポンシブ =================== */
-@media (max-width: 1440px) {
-  .month-calendar {
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-  }
-  .month-weekdays {
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-  }
-}
 
 @media (max-width: 1024px) {
   .month-calendar {
@@ -1089,14 +1055,6 @@ body.dark-mode .plus-btn .calendar-icon-img {
 }
 
 
-/* ===== 大画面（1440px以上） ===== */
-@media (min-width: 1440px) {
-  .disclaimer {
-    font-size: 14px;   /* 少しだけ大きく */
-    margin: 28px 0 16px;
-  }
-}
-
 /* ===== スマホ（768px以下） ===== */
 @media (max-width: 768px) {
   .disclaimer {
@@ -1333,7 +1291,78 @@ body.dark-mode .explain {
     max-width: 490px;   /* 拡大時の上限（460px → 520px） */
   }
 
+  @media (min-width: 1440px) {
+    .loading-indicator {
+      top: 14px;
+      right: 16px;
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+  }
 
+  @media (min-width: 1440px) {
+    .plus-btn {
+      width: 50px;               /* 大画面ではボタンを大きく */
+      height: 50px;
+      margin-top: 24px;          /* 上余白も少し大きめ */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* 影も少し強め */
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .plus-btn .calendar-icon-img {
+      width: 24px;               /* 画像サイズも大きめ */
+      height: 24px;
+    }
+
+    /* ホバー時の演出（任意） */
+    .plus-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+  }
+
+  @media (min-width: 1440px) {
+    #weekModalTitle span {
+      font-size: 22px;
+      letter-spacing: 0.03em; /* 広い画面で少し余裕 */
+    }
+  }
+
+  @media (max-width: 1440px) {
+    .month-calendar {
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .month-weekdays {
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .header-logo {
+      height: 96px;
+    }
+
+    .header-logo-link {
+      top: 24px;
+      left: 24px;
+    }
+
+    .header-logo-link::after {
+      font-size: 13px;          /* 11px → 13px */
+      bottom: -22px;            /* 大きくした分、少し下へ */
+      padding: 8px 14px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .disclaimer {
+      font-size: 14px;   /* 少しだけ大きく */
+      margin: 28px 0 16px;
+    }
+  }
 
 
   #darkModeToggle {
