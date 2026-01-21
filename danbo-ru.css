@@ -303,6 +303,45 @@ body.dark-mode #darkModeToggle:hover {
   border-bottom: 1px dashed #afafaf;
 }
 
+
+/* 戸建て集合住宅（複数用の実線） */
+.targetBlock {
+  padding: 8px 0;          /* 上下に余白 */
+}
+
+/* 2つ目以降の targetBlock に上線を表示 */
+.targetBlock + .targetBlock {
+  border-top: 5px solid #ccc;
+  margin-top: 48px;         /* 線と前のブロックの間隔 */
+  padding-top: 32px;        /* 線の上側余白 */
+}
+
+/* 1440px以上 */
+@media (min-width: 1440px) {
+  /* 戸建て・集合住宅の対象地域ブロック（共通） */
+  .targetBlock {
+    padding: 8px 0;
+  }
+
+  /* 2つ目以降の targetBlock に上線を表示 */
+  .targetBlock + .targetBlock {
+    border-top: 5px solid #ccc;
+    margin-top: 48px;   /* 線と前のブロックの間隔 */
+    padding-top: 32px;  /* 線の上側余白 */
+  }
+}
+
+
+/* 600px以下（スマホサイズ） */
+@media (max-width: 600px) {
+  .targetBlock + .targetBlock {
+    border-top: 3px solid #ccc;
+    margin-top: 24px;
+    padding-top: 20px;
+  }
+}
+
+
 /* =========================
    検索結果スクロールボックス
 ========================= */
@@ -316,6 +355,7 @@ body.dark-mode #darkModeToggle:hover {
   max-height: none;
   overflow: visible;
 }
+
 
 
 /* =========================

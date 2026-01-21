@@ -187,19 +187,24 @@ function normalizeRows(rows) {
 // 検索処理
 // ================================
 function runSearch() {
-  const townKey = normalize(townSelect.value);
-  const chome = chomeSelect.value;
+  const selectedTown  = townSelect.value.trim();
+  const selectedChome = chomeSelect.value.trim(); // "" の場合は「すべての丁」
   resultContainer.innerHTML = "";
 
-  if (!townKey) {
+  if (!selectedTown) {
     showMessage("地域を選択してください。");
     return;
   }
 
-  let results = structuredData.filter(d => d.key.includes(townKey));
+  let results = structuredData.filter(d => {
+    // データの town 列と、選択された町＋丁目を比較
+    const fullKey = selectedChome ? `${selectedTown} ${selectedChome}` : selectedTown;
+    return d.town === fullKey;
+  });
 
-  if (chome) {
-    results = results.filter(d => JSON.stringify(d).includes(chome));
+  // 丁目が「すべての丁」の場合は町名だけで絞り込む
+  if (!selectedChome) {
+    results = structuredData.filter(d => d.town.startsWith(selectedTown));
   }
 
   if (!results.length) {
@@ -211,6 +216,7 @@ function runSearch() {
   currentPage = 1;
   renderPage();
 }
+
 
 // ================================
 // ページ描画
@@ -228,15 +234,61 @@ function renderPage() {
 
     if (Object.keys(item.normal).length) {
       html += `<div class="houseSection"><h4>戸建て</h4>`;
-      TITLE_ORDER.forEach(t => item.normal[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`));
-      html += `</div>`;
+
+      // normal を「対象地域ごと」にまとめる
+      const targetRegions = item.normal["対象地域"] || [];
+      targetRegions.forEach((region, index) => {
+        // 2つ目以降は上に線を引く
+        const borderStyle = index > 0 ? "border-top:1px solid #ccc; padding-top:8px;" : "";
+        html += `<div class="targetBlock">`;
+        
+        // 対象地域
+        html += `<p><strong>対象地域：</strong>${region}</p>`;
+
+        // 他の列も同じインデックスで表示
+        TITLE_ORDER.forEach(title => {
+          if (title === "対象地域") return; // もう出してるのでスキップ
+          const col = item.normal[title];
+          if (col && col[index]) {
+            html += `<p><strong>${title}：</strong>${col[index]}</p>`;
+          }
+        });
+
+        html += `</div>`; // targetBlock終了
+      });
+
+      html += `</div>`; // houseSection終了
     }
 
-    Object.entries(item.group).forEach(([name, data]) => {
-      html += `<div class="apartmentSection"><h4>${name}</h4>`;
-      TITLE_ORDER.forEach(t => data[t]?.forEach(c => html += `<p><strong>${t}：</strong>${c}</p>`));
-      html += `</div>`;
+
+    Object.entries(item.group).forEach(([groupName, data]) => {
+      html += `<div class="apartmentSection"><h4>${groupName}</h4>`;
+
+      // 対象地域ごとのループ
+      const targetRegions = data["対象地域"] || [];
+      targetRegions.forEach((region, index) => {
+        // 2つ目以降は上に線を引く
+        const borderStyle = index > 0 ? "border-top:1px solid #ccc; padding-top:8px;" : "";
+        html += `<div class="targetBlock">`;
+
+        // 対象地域
+        html += `<p><strong>対象地域：</strong>${region}</p>`;
+
+        // 他の列も同じインデックスで表示
+        TITLE_ORDER.forEach(title => {
+          if (title === "対象地域") return; // もう出しているのでスキップ
+          const col = data[title];
+          if (col && col[index]) {
+            html += `<p><strong>${title}：</strong>${col[index]}</p>`;
+          }
+        });
+
+        html += `</div>`; // targetBlock終了
+      });
+
+      html += `</div>`; // apartmentSection終了
     });
+
 
     block.innerHTML = html;
     resultContainer.appendChild(block);
