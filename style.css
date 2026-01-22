@@ -1409,7 +1409,7 @@ body.dark-mode .explain {
 /* スマホ画面用（900px以下） */
 @media (max-width: 900px) {
   .header-logo {
-    height: 38px;   /* 52px → 46px */
+    height: 56px;   /* 52px → 46px */
   }
 
   .header-logo-link {
@@ -1427,7 +1427,7 @@ body.dark-mode .explain {
 
 @media (max-width: 600px) {
   .header-logo {
-    height: 26px;   /* 40px → 34px */
+    height: 48px;   /* 40px → 34px */
   }
 
   .header-logo-link {
@@ -1445,7 +1445,7 @@ body.dark-mode .explain {
 
 @media (max-width: 400px) {
   .header-logo {
-    height: 22px;
+    height: 44px;
   }
 
   .header-logo-link::after {
