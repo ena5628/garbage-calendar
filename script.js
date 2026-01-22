@@ -558,7 +558,7 @@ function updateAllGarbageItems() {
 function handleSearchButton() {
     const query = searchBox.value;
     const results = searchGarbage(query);
-    renderGarbageSearchResults(results);
+    renderGarbageSearchResults(results, query);
 }
 
 // 実際の検索処理
@@ -589,10 +589,10 @@ function searchGarbage(query) {
 
 
 // 検索結果表示
-function renderGarbageSearchResults(results) {
+function renderGarbageSearchResults(results, query) {
     garbageSearchResult.innerHTML = ""; // まずは空にする
 
-    if (!results || results.length === 0) {
+    if (!results || results.length === 0 || query.length <= 1) {
         garbageSearchResult.textContent = "該当する品目はありません";
 
         // 検索ボックスにエラークラスを追加
@@ -603,12 +603,13 @@ function renderGarbageSearchResults(results) {
     // 検索結果がある場合はエラー表示を消す
     searchBox.classList.remove("error");
 
-    // 結果を文字列にまとめる
-    const text = results
-        .map(itemObj => `${itemObj.name}は${itemObj.type}コーナーにあります。`)
-        .join("\n");
+    // 1件だけ表示して、件数が複数なら末尾に "..." を追加
+    let text = `${results[0].name}は${results[0].type}コーナーにあります。`;
 
-    // プレーンテキストで表示
+    if (results.length > 1) {
+        text += " ...";
+    }
+
     garbageSearchResult.textContent = text;
 }
 
