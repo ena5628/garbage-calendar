@@ -8,6 +8,286 @@ const kitanoList = ["1丁目","2丁目","3丁目","4丁目"];
 const nunobikiList = ["1丁目","2丁目","3丁目","4丁目"];
 const kotonoList = ["1丁目","2丁目","3丁目","4丁目","5丁目"];
 
+// 漢字 → 読み仮名
+const KanjiToInitial = {
+  湯: "ゆ",
+  除: "じょ",
+  電: "で",
+  金: "きん",
+  紙: "かみ",
+  衣: "い",
+  植: "しょく",
+  水: "みず",
+  石: "いし",
+  乾: "かん",
+  鉛: "えん",
+  木: "もく",
+  缶: "かん",
+  瓶: "びん",
+  卓上調理器: "たく",
+  衣類乾燥機: "いるいかんそうき",
+  腕時計: "うでどけい",
+  編: "あ",
+  懐中電灯: "かいちゅうでんとう",
+  延長: "えんちょう",
+  時計: "とけい",
+  機器: "きき",
+  温水洗浄機付便座: "おんしょうせんじょうきつきべんざ",
+  温度計:"おんどけい",
+  加湿器: "かしつき",
+  加熱式: "かねつき",
+  換気扇: "かんきせん",
+  楽器: "がっき",
+  空気清浄機: "くうきせいじょうき",
+  蛍光灯・蛍光管: "けいこうとう",
+  携帯型扇風機: "けいたいがたせんぷうき",
+  携帯型: "けいたがた",
+  携帯電話: "けいたいでんわ",
+  血圧計: "けつあつけい",
+  天板: "てんばん",
+  布団: "ふとん",
+  機: "き",
+  自動: "じどう",
+  充電式掃除機: "じゅうでんそうじき",
+  充電式電池: "じゅうでんしきでんち",
+  浄水器: "じょうすいき",
+  照明器具: "しょうめいきぐ",
+  除湿機: "じょしつき",
+  乾燥機: "かんそうき",
+  炊飯器: "すいはんき",
+  洗濯機: "せんたくき",
+  扇風機: "せんぷうき",
+  掃除機: "そうじき",
+  体温計: "たいおんけい",
+  端末: "たんまつ",
+  電気: "でんき",
+  電気: "でんき",
+  電子辞書: "でんしじしょ",
+  電卓: "でんたく",
+  電動歯: "でんどうは",
+  電動工具: "でんどうこうぐ",
+  電話機: "でんわき",
+  用: "よう",
+  指定袋: "していぶくろ",
+  型: "かた",
+  目覚: "めざ",
+  餅: "もち",
+  湯沸: "ゆわ",
+  冷蔵庫: "れいぞうこ",
+  冷凍庫: "れいとうこ",
+  冷風機: "れいふうき",
+  庫: "こ",
+  木製: "もくせい",
+  金属製: "きんぞくせい",
+  電池: "でんち",
+  台: "だい",
+  輸液: "けつゆ",
+  在宅医療用品: "ざいたくいりょうひん",
+  製品: "せいひん",
+  板: "いた",
+  魔法瓶: "まほうびん",
+  虫: "むし",
+  眼鏡: "めがね",
+  物干: "ものほ",
+  灰皿: "はいざら",
+  小型充電式電池: "こがたじゅうでんしきでんち",
+  自動車: "じどうしゃ",
+  電動自転車: "でんどうじてんしゃよう",
+  発電機: "はつでんき",
+  発泡: "はっぽう",
+  花: "はな",
+  花火: "はなび",
+  針: "はり",
+  針金: "はりがね",
+  木製: "もくせい",
+  屏風: "びょうぶ",
+  肥料: "ひりょう",
+  封筒: "ふうとう",
+  陶器製: "とうきせい",
+  乾燥機: "かんそうき",
+  布団干: "ふとんほ",
+  健康器: "けんこうき",
+  下: "さ",
+  金属製以外: "きんぞくせいいがい",
+  家庭用: "かていよう",
+  容器: "ようき",
+  含: "ふく",
+  古着: "ふるぎ",
+  衣服: "いふく",
+  古布: "こふ",
+  風呂: "ふろ",
+  文鎮: "ぶんちん",
+  指定袋: "していぶくろ",
+  専用砂: "せんようすな",
+  缶: "かん",
+  飲料: "いんりょう",
+  体重計: "たいじゅうけい",
+  弁当: "べんとう",
+  紙製: "かみせい",
+  捨: "す",
+  金属製: "きんぞくせい",
+  防球: "ぼうきゅう",
+  防鳥: "ぼうちょう",
+  芳香剤: "ほうこうざい",
+  帽子: "ぼうし",
+  包装: "ほうそう",
+  包帯: "ほうたい",
+  在宅医療用品: "ざいたくいりょうようひん",
+  防虫剤: "ぼうちゅうざい",
+  包丁: "ほうちょう",
+  球: "たま",
+  電源: "でんげん",
+  歩行器: "ほこうき",
+  乳瓶: "にゅうびん",
+  袋: "ぶくろ",
+  保冷剤: "ほれいざい",
+  保冷枕: "ほれいまくら",
+  本: "ほん",
+  本棚: "ほんだな",
+  納豆: "なっとう",
+  鍋: "なべ",
+  電池: "でんち",
+  水素: "すいそ",
+  野菜: "やさい",
+  果物: "くだもの",
+  紙粘土: "かみねんど",
+  小麦粘土: "こむぎねんど",
+  石粉製: "せきふんせい",
+  農薬: "のうやく",
+  粘土: "ねんど",
+  農薬: "のうやく",
+  海苔: "のり",
+  佃煮: "つくだに",
+  台: "だい",
+  指定袋: "していぶくろ",
+  以下: "いか",
+  金属製: "きんぞくせい",
+  石: "いし",
+  少量: "しょうりょう",
+  一輪車: "いちりんしゃ",
+  運搬用: "うんぱんよう",
+  犬小屋: "いぬごや",
+  入: "い",
+  歯: "は",
+  金属部品: "きんぞくぶひん",
+  缶: "かん",
+  大: "おお",
+  時計: "とけい",
+  柱時計: "はしらどけい",
+  機器: "きき",
+  単車: "たんしゃ",
+  斧: "おの",
+  用: "よう",
+  在宅医療用品: "ざいたくいりょうようひん",
+  乾電池: "かんでんち",
+  楽器: "がっき",
+  吸引用: "きゅういんよう",
+  草刈: "くさか",
+  機: "き",
+  蛍光灯: "けいこうとう",
+  蛍光管: "けいこうかん",
+  環型: "かんがた",
+  直管型: "ちょっかんがた",
+  電球型: "でんきゅうがた",
+  型: "がた",
+  珪藻土: "けいそうど",
+  劇薬: "げきやく",
+  塩酸: "えんさん",
+  苛性: "かせい",
+  血圧計: "けつあつけい",
+  水銀: "すいぎん",
+  原動機付自転車: "げんどうきつきじてんしゃ",
+  電池: "でんち",
+  三輪車: "さんりんしゃ",
+  磁石: "じしゃく",
+  自転車: "じてんしゃ",
+  消火器: "しょうかき",
+  人工芝: "じんこうしば",
+  類: "るい",
+  水槽: "すいそう",
+  製: "せい",
+  袋: "ぶくろ",
+  整髪: "せいはつ",
+  体温計: "たいおんけい",
+  耐火金庫: "たいかきんこ",
+  台車: "だいしゃ",
+  車: "くるま",
+  卓上: "たくじょう",
+  畳: "たたみ",
+  脱酸素剤: "だつさんそざい",
+  食品: "しょくひん",
+  鮮度保持剤: "せんどほじざい",
+  脱臭剤: "だっしゅうざい",
+  容器: "ようき",
+  食品保存容器: "しょくひんほぞんようき",
+  建具: "たてぐ",
+  障子: "しょうじ",
+  網戸: "あみど",
+  吸殻: "すいがら",
+  卵: "たまご",
+  殻: "から",
+  金属製: "きんぞくせい",
+  金属製以外: "きんぞくせいいがい",
+  炭酸: "たんさん",
+  段: "だん",
+  茶殻: "ちゃがら",
+  茶: "ちゃ",
+  茶碗: "ちゃわん",
+  注射針: "ちゅうしゃしん",
+  類: "るい",
+  彫刻刀: "ちょうこくとう",
+  調味料: "ちょうみりょう",
+  調理台: "ちょうりだい",
+  使: "つか",
+  捨: "す",
+  机: "つくえ",
+  土: "つち",
+  鉢植: "はちう",
+  出: "で",
+  少量: "しょうりょう",
+  棒: "ぼう",
+  爪切: "つめき",
+  釣: "つ",
+  竿: "さお",
+  木製: "もくせい",
+  手提: "てさ",
+  金庫: "きんこ",
+  鉄板: "てっぱん",
+  用: "よう",
+  手袋: "てぶくろ",
+  液晶式: "えきしょうしき",
+  有機: "ゆうき",
+  式: "しき",
+  管式: "かんしき",
+  台: "だい",
+  電気: "でんき",
+  電気毛布: "でんきもうふ",
+  電球: "でんきゅう",
+  電子: "でんし",
+  電池: "でんち",
+  小型充電式電池: "こがたじゅんでんしきでんち",
+  電動: "でんどう",
+  自転車: "じてんしゃ",
+  電動車: "でんどうくるま",
+  天: "てん",
+  油: "あぶら",
+  電話台: "でんわだい",
+  電話帳: "でんわちょう",
+  陶磁器類: "とうじきるい",
+  籐製家具: "とうせいかぐ",
+  籐製品: "とうせいひん",
+  豆腐: "とうふ",
+  灯油: "とうゆ",
+  時計: "とけい",
+  置: "お",
+  掛: "か",
+  戸棚: "とだな",
+  鳥: "とり",
+  塗料: "とりょう",
+
+};
+
+
 // ================================
 // 段ボール回収除外ルール（町・丁目限定）
 // ================================
@@ -34,6 +314,10 @@ const cardboardBox = document.getElementById("cardboardScheduleBox");
 let schedules = [];
 let cardboardSchedules = [];
 
+// 家電ゴミ＆特殊ごみのデータ
+let kadenItems = new Set();     // 家電ゴミ品目
+let specialItems = new Set();  // 特殊ごみ品目
+
 // ================================
 // 初期化
 // ================================
@@ -56,7 +340,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 選択可能にする
     townSelect.disabled = false;
     chomeSelect.disabled = false;
+    await loadKadenAndSpecialGarbage();
     loadTips();
+
 
     if (loadingIndicator) loadingIndicator.style.display = "none";
 
@@ -92,6 +378,265 @@ document.addEventListener("DOMContentLoaded", async () => {
 }
 
 });
+
+
+// 家電＆特殊ごみデータ取得
+async function loadKadenAndSpecialGarbage() {
+    const kadenCSV =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcgcKTLcJOUEmZQ4VYFueERLuygVMLE38lJBCnIRAezueNu2PmlXeYhGzd0lxeBvFvwRVEvtiYGTxt/pub?output=csv";
+    const specialCSV =
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQs1Zbj7FUpACpnArctI5kRf70CvsB89lpds2A3FxaDPDLdVCt2Kl5QZ8TRWaQqg3ff9SL1kOZd18zo/pub?output=csv";
+
+    const [kadenText, specialText] = await Promise.all([
+        fetch(kadenCSV).then(res => res.text()),
+        fetch(specialCSV).then(res => res.text())
+    ]);
+
+    const kadenRows = Papa.parse(kadenText, { header: true, skipEmptyLines: true }).data;
+    const specialRows = Papa.parse(specialText, { header: true, skipEmptyLines: true }).data;
+
+    // ▼ 品目名と種類をオブジェクトで保持
+    kadenItems = kadenRows.map(r => ({
+        name: r["Garbage_title"].trim(),
+        type: "家電ゴミ"
+    }));
+
+    specialItems = specialRows.map(r => ({
+        name: r["Garbage_title"].trim(),
+        type: "特殊ゴミ"
+    }));
+
+    console.log("家電ゴミ件数:", kadenItems.length);
+    console.log("特殊ごみ件数:", specialItems.length);
+
+    updateAllGarbageItems(); // 検索対象配列を更新
+}
+
+
+// ==================== 正規化関数 ====================
+
+function romanToHiragana(input) {
+  if (!input) return "";
+
+  let str = input.toLowerCase();
+
+  const table = {
+    kya:"きゃ", kyu:"きゅ", kyo:"きょ",
+    sha:"しゃ", shu:"しゅ", sho:"しょ",
+    cha:"ちゃ", chu:"ちゅ", cho:"ちょ",
+    nya:"にゃ", nyu:"にゅ", nyo:"にょ",
+    hya:"ひゃ", hyu:"ひゅ", hyo:"ひょ",
+    mya:"みゃ", myu:"みゅ", myo:"みょ",
+    rya:"りゃ", ryu:"りゅ", ryo:"りょ",
+    gya:"ぎゃ", gyu:"ぎゅ", gyo:"ぎょ",
+    bya:"びゃ", byu:"びゅ", byo:"びょ",
+    pya:"ぴゃ", pyu:"ぴゅ", pyo:"ぴょ",
+    ja:"じゃ", ju:"じゅ", jo:"じょ"
+  };
+
+  // 3文字ローマ字
+  for (const k in table) {
+    str = str.replace(new RegExp(k, "g"), table[k]);
+  }
+
+  const table2 = {
+    a:"あ", i:"い", u:"う", e:"え", o:"お",
+    ka:"か", ki:"き", ku:"く", ke:"け", ko:"こ",
+    sa:"さ", shi:"し", su:"す", se:"せ", so:"そ",
+    ta:"た", chi:"ち", tsu:"つ", te:"て", to:"と",
+    na:"な", ni:"に", nu:"ぬ", ne:"ね", no:"の",
+    ha:"は", hi:"ひ", fu:"ふ", he:"へ", ho:"ほ",
+    ma:"ま", mi:"み", mu:"む", me:"め", mo:"も",
+    ya:"や", yu:"ゆ", yo:"よ",
+    ra:"ら", ri:"り", ru:"る", re:"れ", ro:"ろ",
+    wa:"わ", wo:"を", n:"ん",
+    ga:"が", gi:"ぎ", gu:"ぐ", ge:"げ", go:"ご",
+    za:"ざ", ji:"じ", zu:"ず", ze:"ぜ", zo:"ぞ",
+    da:"だ", di:"ぢ", du:"づ", de:"で", do:"ど",
+    ba:"ば", bi:"び", bu:"ぶ", be:"べ", bo:"ぼ",
+    pa:"ぱ", pi:"ぴ", pu:"ぷ", pe:"ぺ", po:"ぽ"
+  };
+
+  // 2文字 → 1文字
+  for (const k in table2) {
+    str = str.replace(new RegExp(k, "g"), table2[k]);
+  }
+
+  return str;
+}
+
+function hiraganaToRoman(input) {
+  if (!input) return "";
+
+  const table = {
+    あ:"a", い:"i", う:"u", え:"e", お:"o",
+    か:"ka", き:"ki", く:"ku", け:"ke", こ:"ko",
+    さ:"sa", し:"shi", す:"su", せ:"se", そ:"so",
+    た:"ta", ち:"chi", つ:"tsu", て:"te", と:"to",
+    な:"na", に:"ni", ぬ:"nu", ね:"ne", の:"no",
+    は:"ha", ひ:"hi", ふ:"fu", へ:"he", ほ:"ho",
+    ま:"ma", み:"mi", む:"mu", め:"me", も:"mo",
+    や:"ya", ゆ:"yu", よ:"yo",
+    ら:"ra", り:"ri", る:"ru", れ:"re", ろ:"ro",
+    わ:"wa", を:"wo", ん:"n",
+
+    が:"ga", ぎ:"gi", ぐ:"gu", げ:"ge", ご:"go",
+    ざ:"za", じ:"ji", ず:"zu", ぜ:"ze", ぞ:"zo",
+    だ:"da", ぢ:"ji", づ:"zu", で:"de", ど:"do",
+    ば:"ba", び:"bi", ぶ:"bu", べ:"be", ぼ:"bo",
+    ぱ:"pa", ぴ:"pi", ぷ:"pu", ぺ:"pe", ぽ:"po",
+
+    きゃ:"kya", きゅ:"kyu", きょ:"kyo",
+    しゃ:"sha", しゅ:"shu", しょ:"sho",
+    ちゃ:"cha", ちゅ:"chu", ちょ:"cho",
+    にゃ:"nya", にゅ:"nyu", にょ:"nyo",
+    ひゃ:"hya", ひゅ:"hyu", ひょ:"hyo",
+    みゃ:"mya", みゅ:"myu", みょ:"myo",
+    りゃ:"rya", りゅ:"ryu", りょ:"ryo",
+    ぎゃ:"gya", ぎゅ:"gyu", ぎょ:"gyo",
+    じゃ:"ja", じゅ:"ju", じょ:"jo"
+  };
+
+  let str = input;
+
+  // 拗音（2文字）を先に処理
+  Object.keys(table)
+    .filter(k => k.length === 2)
+    .forEach(k => {
+      str = str.replace(new RegExp(k, "g"), table[k]);
+    });
+
+  // 1文字ずつ変換
+  return str.replace(/./g, ch => table[ch] || ch);
+}
+
+function normalizeText(text) {
+  if (!text) return "";
+
+  // 1. 全角→半角
+  text = text.normalize("NFKC");
+
+  // 2. カタカナ → ひらがな
+  text = text.replace(/[\u30A1-\u30F6]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) - 0x60)
+  );
+
+  // 3. 濁点除去
+  text = text.normalize("NFKD").replace(/[\u3099\u309A]/g, "");
+
+  // 長音・記号・空白を除去
+  text = text.replace(/[ー－‐-–—~〜\s]/g, "");
+
+  // 4. 小文字化
+  return text.toLowerCase();
+}
+
+
+function stripLeadingAlphabet(text) {
+  if (!text) return "";
+
+  // 全角→半角に正規化
+  text = text.normalize("NFKC");
+
+  // 先頭の英字を除去
+  return text.replace(/^[a-zA-Z]+/, "");
+}
+
+
+// 検索ボックスと結果領域
+const searchBox = document.getElementById("searchBox");
+const garbageSearchResult = document.getElementById("garbageSearchResult");
+
+// すべての検索対象を配列にまとめる
+let allGarbageItems = []; // kadenItems + specialItems
+
+function updateAllGarbageItems() {
+    allGarbageItems = [...kadenItems, ...specialItems];
+}
+
+// 検索ボタン用（右の虫眼鏡ボタン）
+function handleSearchButton() {
+    const query = searchBox.value;
+    const results = searchGarbage(query);
+    renderGarbageSearchResults(results);
+}
+
+// 実際の検索処理
+function searchGarbage(query) {
+    if (!query) return [];
+
+    query = normalizeText(query); // 入力を正規化
+
+    const results = allGarbageItems.filter(itemObj => {
+        let normalizedItem = normalizeText(itemObj.name);
+
+        // 漢字→読み仮名変換（KanjiToInitial があれば）
+        if (typeof KanjiToInitial !== "undefined") {
+            Object.keys(KanjiToInitial)
+                .sort((a, b) => b.length - a.length)
+                .forEach(k => {
+                    normalizedItem = normalizedItem.replaceAll(k, KanjiToInitial[k]);
+                });
+        }
+
+        normalizedItem = normalizeText(normalizedItem);
+
+        return normalizedItem.includes(query);
+    });
+
+    return results;
+}
+
+
+// 検索結果表示
+function renderGarbageSearchResults(results) {
+    garbageSearchResult.innerHTML = ""; // まずは空にする
+
+    if (!results || results.length === 0) {
+        garbageSearchResult.textContent = "該当する品目はありません";
+
+        // 検索ボックスにエラークラスを追加
+        searchBox.classList.add("error");
+        return;
+    }
+
+    // 検索結果がある場合はエラー表示を消す
+    searchBox.classList.remove("error");
+
+    // 結果を文字列にまとめる
+    const text = results
+        .map(itemObj => `${itemObj.name}は${itemObj.type}コーナーにあります。`)
+        .join("\n");
+
+    // プレーンテキストで表示
+    garbageSearchResult.textContent = text;
+}
+
+
+
+// DOMContentLoaded 時に検索対象を初期化
+document.addEventListener("DOMContentLoaded", () => {
+    updateAllGarbageItems();
+});
+
+// 入力時にチェックしてエラー表示を解除
+searchBox.addEventListener("input", () => {
+    if (searchBox.value.length === 0) {
+        searchBox.classList.remove("error");
+        garbageSearchResult.textContent = ""; // 結果もクリア
+    }
+});
+
+// Enterキーで検索を実行
+searchBox.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // フォーム送信などを防ぐ
+        handleSearchButton();   // ボタンと同じ処理を実行
+    }
+});
+
+
+
 
 // ================================
 // 選択変更共通処理
@@ -723,7 +1268,7 @@ darkToggleBtn.addEventListener('click', () => {
     // 選択状態を localStorage に保存
     localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
 
-        // ★ ここが追加：即再描画
+        // 即再描画
     updateCalendar();
     renderCardboardScheduleLabel();
 });

@@ -152,7 +152,7 @@ body.dark-mode #darkModeToggle:hover {
 
 /* 検索BOX */
 #searchBox {
-    flex: 1;              /* ← ここが重要 */
+    flex: 1;
     padding: 10px;
     font-size: 1em;
     border: 1px solid #999;
@@ -160,7 +160,7 @@ body.dark-mode #darkModeToggle:hover {
 }
 
 .search-wrapper {
-  position: relative;   /* ★ これを追加 */
+  position: relative;
 }
 
 #searchBox.error {
@@ -170,12 +170,12 @@ body.dark-mode #darkModeToggle:hover {
 
 /* エラーメッセージ */
 .search-error {
-  position: absolute;   /* ★ 追加 */
-  top: 100%;            /* ★ 検索BOX下端を開始地点に */
+  position: absolute;
+  top: 100%;
   left: 0;
   width: 100%;
 
-  margin-top: 6px;      /* ← そのまま使える */
+  margin-top: 6px;
   font-size: 12px;
   color: #e53935;
   display: none;
@@ -363,8 +363,6 @@ body.dark-mode .search-history div:hover {
     background-color: #f9f9f9;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     
-    /* ★修正点: min-heightを削除し、高さが内容量に依存するようにする */
-    /* min-height: 100px; */ 
     
     text-align: left; 
 }
@@ -389,11 +387,6 @@ body.dark-mode .search-history div:hover {
 /* 説明文のスタイル */
 .itemCard p {
     margin: 4px 0;
-    /* ★修正点: 行数制限のCSSを削除し、データが長くなっても全て表示されるようにする */
-    /* display: -webkit-box; */
-    /* -webkit-line-clamp: 3; */ 
-    /* -webkit-box-orient: vertical; */
-    /* overflow: hidden; */
 }
 
 /* イニシャルラベル */
@@ -429,7 +422,6 @@ body.dark-mode .search-history div:hover {
     color: #999;
 }
 
-/* --- CSSに追加 --- */
 
 .initialButton.backButton {
     background-color: #6c757d; /* 灰色 */

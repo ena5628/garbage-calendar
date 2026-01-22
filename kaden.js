@@ -527,7 +527,7 @@ function renderItems() {
       <p>種類: ${item.kind}</p>
     `;
 
-    // ★ 説明がある場合のみ追加
+    //  説明がある場合のみ追加
     if (item.content) {
       const desc = document.createElement("p");
       desc.innerHTML = `説明<br>${convertTextToHtml(item.content)}`;
@@ -650,7 +650,7 @@ function normalizeText(text) {
   // 3. 濁点除去
   text = text.normalize("NFKD").replace(/[\u3099\u309A]/g, "");
 
-  //  追加：長音・記号・空白を除去
+  // 長音・記号・空白を除去
   text = text.replace(/[ー－‐-–—~〜\s]/g, "");
 
   // 4. 小文字化
@@ -699,7 +699,6 @@ function searchItems() {
 
   isSearching = true;
 
-  // ★ ここが最大のポイント
   const queryNorm = normalizeForSearch(raw);
 
   searchResults = allItems.filter(item => {
@@ -775,7 +774,7 @@ function renderSearchResults() {
       <p>種類: ${item.kind}</p>
     `;
 
-    // ★ 説明がある場合のみ追加
+    //  説明がある場合のみ追加
     if (item.content) {
       const desc = document.createElement("p");
       desc.innerHTML = `説明<br>${convertTextToHtml(item.content)}`;
@@ -886,7 +885,7 @@ function handleSearchButton() {
   const value = searchBox.value.trim();
   if (!value) return;
 
-  saveSearchHistory(value);  // ★ ボタン押下時のみ保存
+  saveSearchHistory(value);  //  ボタン押下時のみ保存
   searchItems();
 }
 
@@ -911,8 +910,8 @@ window.onload = function() {
 
   let isEnterSearch = false;
 
-  // Enterキーでの検索（従来どおり）
-  // ✅ keydown（確実に動く）
+  // Enterキーでの検索
+  //  keydown
   searchBox.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -920,9 +919,9 @@ window.onload = function() {
       const value = searchBox.value.trim();
       if (!value) return;
 
-      isEnterSearch = true;        // ★ Enter検索開始
-      saveSearchHistory(value);   // ★ 履歴保存
-      searchItems();              // ★ 検索実行
+      isEnterSearch = true;        //  Enter検索開始
+      saveSearchHistory(value);   //  履歴保存
+      searchItems();              //  検索実行
 
       // inputイベントとの二重発火防止
       setTimeout(() => {
@@ -945,7 +944,7 @@ window.onload = function() {
 
   // 入力時に自動検索
   searchBox.addEventListener("input", function() {
-    if (isEnterSearch) return; // ★ これがないとEnter2回問題が出る
+    if (isEnterSearch) return; // これがないとEnter2回問題が出る
     const query = searchBox.value.trim();
     if (query) {
       searchItems();  // 入力値に応じてリアルタイム検索

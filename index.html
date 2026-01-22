@@ -20,7 +20,6 @@
     <img src="Image/eK BE.png" alt="eKOBE ゴミカレンダー" class="page-title-img">
   </h1>
 </div>
-<!-- ページタイトル横などに配置 -->
 <div style="text-align:center; margin-bottom:1rem;">
     <button id="darkModeToggle" class="dark-mode-btn">ダークモード</button>
 </div>
@@ -73,6 +72,21 @@
     <!-- 右パネル -->
     <div class="right-panel">
       <h3 class="section-header">ゴミ捨て方法</h3>
+      <!-- ゴミ分類 全件検索 -->
+      <div class="search-wrapper">
+        <label for="searchBox" class="search-label">品目検索</label>
+          <div class="search-input-row">
+            <input
+              type="text"
+              id="searchBox"
+              placeholder="捨てたい物を入力（例：電子レンジ）"
+            />
+            <button onclick="handleSearchButton()" class="searchIcon">🔍</button>
+        </div>
+        <div id="garbageSearchResult" class="search-result">
+          ここに結果が表示されます
+        </div>
+      </div>
       <div class="disposal-method-icons">
         <div class="icon-wrapper">
           <a href="kaden.html" class="icon-button-link">
@@ -111,7 +125,6 @@
     <!-- /右パネル -->
 
   </div>
-  <!-- /dashboard-container -->
 </div>
 <!-- 注意書き -->
 <div class="disclaimer">
@@ -121,7 +134,7 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="script.js"></script>
 </body>
-<!-- 週間スケジュール モーダル -->
+<!-- 週間スケジュール モーダル画面 -->
 <div id="weekModal" class="modal-overlay">
   <div class="modal-content">
     <h2 id="weekModalTitle"></h2>

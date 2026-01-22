@@ -14,7 +14,7 @@ body {
 
 /* ダークモード時の背景を最優先にする */
 body.dark-mode {
-    background: #2c2c2c !important; /* グラデーションではなく単色にすると隙間が出にくい */
+    background: #2c2c2c !important;
     color: #e0e0e0;
 }
 
@@ -490,12 +490,12 @@ body.dark-mode #backButton:active {
 ========================= */
 @media (min-width: 1400px) {
   html {
-    font-size: 18px; /* 標準16px → 少し大きく */
+    font-size: 18px; 
   }
 
   #searchArea,
   #resultArea {
-    max-width: 1400px; /* 1000px → 広げる */
+    max-width: 1400px; 
   }
 
   #searchPanel,

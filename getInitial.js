@@ -1,4 +1,4 @@
-// ★★★ 漢字対応 getInitial ★★★
+//  漢字対応 getInitial 
 function getInitial(charOrString) {
     if (!charOrString) return null;
 
